@@ -8,7 +8,7 @@ let gameState = "quiz"; // "quiz" 또는 "success"
 function preload() {
   img = loadImage("assets/모스부호.jpg");
 }
-
+//실험
 function setup() {
   createCanvas(windowWidth, windowHeight);
   imageMode(CENTER);
@@ -30,7 +30,7 @@ function setup() {
 }
 
 function draw() {
-  background(105, 159, 169);
+  background(105, 158, 169);
 
   if (gameState === "quiz") {
     // 퀴즈 화면
