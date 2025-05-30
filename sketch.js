@@ -1,7 +1,495 @@
+let myFont;
+let imgManual, imgResearcher, imgCompany, imgCode;
+
+let stage = 0;
+let buttonX, buttonY, buttonW, buttonH;
+
+let part = 0;
+let linePart = 0;
+let letterCount = 0;
+
+let lastTime = 0;
+let typingSpeed = 120;
+let waitTime = 1200;
+let isWaiting = false;
+let finishText = false;
+
+let showManual = false;
+
+let nameInput, inputCode;
+
+function preload() {
+  myFont = loadFont('assets/DungGeunMo.ttf');
+  imgManual = loadImage("assets/매뉴얼.png");
+  imgResearcher = loadImage("assets/연구원.png");
+  imgCompany = loadImage("assets/우리 회사다! 반짝.png");
+  activeFileIcon = loadImage("assets/파일 아이콘.png");
+  inactiveFileIcon = loadImage("assets/파일 아이콘 비활성화.png");
+  activeDocIcon = loadImage("assets/문서 아이콘.png");
+  inactiveDocIcon = loadImage("assets/문서 아이콘 비활성화.png");
+  activeSatIcon = loadImage("assets/위성 아이콘.png");
+  inactiveSatIcon = loadImage("assets/위성 아이콘 비활성화.png");
+  imgCode = loadImage("assets/모스부호.jpg");
+}
+
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(windowWidth, windowHeight);
+  textFont(myFont);
+  textSize(35);
+  textAlign(CENTER, CENTER);
+
+  setupInputs();
+}
+
+function setupInputs() {
+  const nameInputW = 320;
+  const nameInputH = 50;
+  const gap = 20;
+  const totalWidth = nameInputW + gap + 80;
+  const startX = width / 2 - totalWidth / 2;
+
+  nameInput = createInput();
+  nameInput.size(nameInputW, nameInputH);
+  nameInput.position(startX, height / 2);
+  styleInput(nameInput, '이름을 입력해주세요', '30px', 'red');
+
+  buttonW = 80;
+  buttonH = 53;
+  buttonX = startX + nameInputW + gap;
+  buttonY = height / 2 + nameInputH / 2 - 53 / 2;
+
+  codeInput = createInput();
+  codeInput.size(500, 60);
+  codeInput.position(width / 2 - 310, height - 80);
+  styleInput(codeInput, '정답을 입력하세요', '30px', 'red');
+  codeInput.hide();
+
+  const css = `input::placeholder { color: white !important; opacity: 1; }`;
+  const style = createElement('style', css);
+  document.head.appendChild(style.elt);
+}
+
+function styleInput(input, placeholder, fontSize, bg = 'black') {
+  input.style('font-family', 'DungGeunMo');
+  input.style('font-size', fontSize);
+  input.style('background', bg);
+  input.style('border', 'none');
+  input.style('color', 'white');
+  input.style('text-align', 'center');
+  input.attribute('placeholder', placeholder);
 }
 
 function draw() {
-  background(220);
+  background(0);
+  cursor(ARROW);
+
+  drawManual();
+
+  if (stage === 0) {
+  nameInput.show();
+  codeInput.hide();
+  } else if (stage === 9) {
+  nameInput.hide();
+  codeInput.show();
+  } else {
+  nameInput.hide();
+  codeInput.hide();
+  }
+
+
+  switch (stage) {
+    case 0: 
+      fill(255);
+      textSize(120);
+      text('MANUAL', width / 2, height / 2 - 100);
+
+      let isHovering =
+        mouseX >= buttonX &&
+        mouseX <= buttonX + buttonW &&
+        mouseY >= buttonY &&
+        mouseY <= buttonY + buttonH;
+
+      if (isHovering) {
+        fill(255, 80, 80); // 연한 빨강
+        cursor(HAND); // 커서 손 모양으로
+      } else {
+        fill(255, 0, 0); // 기본 빨강
+        cursor(ARROW); // 기본 커서
+      }
+      
+      rectMode(CORNER);
+      rect(buttonX, buttonY + 1.5, 80, 53);
+      
+      fill(255);
+      textSize(30);
+      textAlign(CENTER, CENTER);
+      text('확인', buttonX + buttonW / 2, buttonY + buttonH / 2);
+      break;
+  
+    case 1:
+      // 회사 배경 비율 유지하면서 표시
+      let companyW = 1000;
+      let companyH = imgCompany.height * (companyW / imgCompany.width);
+      image(imgCompany, (width - companyW) / 2, 0, companyW, companyH);
+      
+      // 화면 아래 회색 박스
+      fill(120);
+      rect(0, height - height / 4, width, height / 4);
+      
+      fill(0);
+      typeText([
+        ["프로젝트 [dlsRKsdPsjwl-444]."],
+        /*["내가 다니는 회사에서 진행하고 있는 기밀 프로젝트이자,", "오늘부터 참여하게 된 프로젝트이다."], 
+        ["모든 게 기밀이라는 이 프로젝트."], 
+        ["몇 번이고 ‘절대로 매뉴얼을 따라야 한다’는", "안내가 이루어졌다는 점이 마음에 걸리지만"], 
+        ["기밀이고, 중요한 프로젝트인만큼 규칙도 철저한 것이라 믿는다."], 
+        ["높은 초봉에 사무직.. 이런 조건은 어디에도 없을 기회다."],*/
+        ["Click to continue ···"]
+      ]);
+      break;
+
+    case 2:
+      drawResearcher();
+
+      // 화면 아래 회색 박스
+      fill(120);
+      rect(0, height - height / 4, width, height / 4);
+
+      fill(0);
+      typeText([
+        [nameInput.value() + " 씨 맞으신가요?"],
+        /*["저는 연구 부서의 김철수 연구원이라고 합니다."],
+        ["해야 할 업무를 설명해 드리겠습니다."],
+        ["이전에 안내드린 바와 같이, 업무는 간단합니다."],
+        ["컴퓨터 화면에 그날 해야 할 업무 리스트가 제시되어 있을 겁니다."],
+        ["순서대로 업무를 수행해주시면 됩니다."],
+        ["따라주셔야 할 매뉴얼을 드리겠습니다."],*/
+        ["매뉴얼을 따르지 않아 발생하는 문제는 회사에서 책임지지 않으므로,", "업무를 수행하면서 이를 반드시 지켜주시기 바랍니다."]
+      ]);
+
+      if (finishText) {
+        stage ++; // stage 증가
+        resetTyping(); // 텍스트 초기화
+      }
+
+      break;
+
+    case 3:
+      drawResearcher();
+      // 화면 아래 회색 박스
+      fill(120);
+      rect(0, height - height / 4, width, height / 4);
+      
+      fill(255, 0, 0);
+      typeText([
+        ["[시스템 메시지: 이제부터 m 키를 눌러 매뉴얼을 확인할 수 있습니다.]"]
+      ]);
+
+      if (finishText) {
+        stage ++;
+        resetTyping();
+      }
+
+      break;
+    
+    case 4:
+      drawResearcher();
+      // 화면 아래 회색 박스
+      fill(120);
+      rect(0, height - height / 4, width, height / 4);
+
+      fill(0);
+      textStyle(BOLD);
+      typeText([
+        [".. 반드시 매뉴얼을 따라주셔야 합니다."],
+        ["Click to continue ···"]
+      ]);
+      
+      break;
+
+    case 5:
+      fill(255);
+      textSize(70)
+      text("Day 1", width / 2, height / 2 - 50);
+      textSize(30);
+      text("Click to continue ···", width / 2, height / 2 + 50);
+      finishText = true;
+      
+      break;
+
+      case 6:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+
+        drawIcons();
+
+        break;
+
+      case 7:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+
+        strokeWeight(3);
+        line(width - 350, 130, width - 150, 130);
+
+        drawIcons();
+
+        break;
+
+      case 8:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        textSize(30);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+        
+        strokeWeight(3);
+        line(width - 350, 130, width - 150, 130);
+        line(width - 400, 170, width - 100, 170);
+        
+        drawIcons();
+
+        break;
+
+      case 9:
+        imageMode(CENTER);
+        rectMode(CENTER);
+
+        image(imgCode, width / 2, height / 2  + 50, imgCode.width / 5, imgCode.height / 5);
+        
+        fill(255);
+        strokeWeight(1);
+        rect(width / 2, height * 0.05, width * 0.75, height * 0.08);
+
+        fill(0);
+        textSize(windowWidth * 0.03);
+        text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
+        fill(255);
+        text("--. . ...- ...- ... .--. .... -", width / 2, height * 0.15);
+
+        fill(255, 0, 0);
+        noStroke();
+        rect(width / 2 + 250, height - 50, 80, 62);
+
+        fill(255);
+        textSize(30);
+        text("확인", width / 2 + 250, height - 52);
+
+        break;
+  }
+}
+
+function mouseClicked() {
+  if (stage === 0) {
+    if (
+      mouseX >= buttonX &&
+      mouseX <= buttonX + buttonW &&
+      mouseY >= buttonY &&
+      mouseY <= buttonY + buttonH
+    ) {
+      stage ++;
+      myInput.hide();
+    }
+  } else if (stage == 1 || stage == 4) {
+    if (finishText) {
+      stage ++;
+      resetTyping();
+    }
+  } else if (stage == 5) {
+    stage ++;
+  } else if (stage >= 6 && stage <= 8) {
+  let layout = getIconLayout();
+  let activeKey = getActiveIconName();
+  let icon = layout[activeKey];
+  let y = layout.y;
+  let iconH = layout.iconH;
+
+  if (
+    mouseX >= icon.x && mouseX <= icon.x + icon.w &&
+    mouseY >= y && mouseY <= y + iconH
+  ) {
+    stage++;
+    }
+  }
+}
+
+
+function typeText(texts) {
+
+  let lines = texts[part];
+
+  let boxTop = height - height / 4;
+  let lineHeight = 45;
+  let totalTextHeight = lines.length * lineHeight;
+  let startY = boxTop + (height / 4 - totalTextHeight) / 2 + 15;
+
+  // 줄별 출력: 이전 줄은 전체, 현재 줄은 일부, 다음 줄은 빈 문자열
+  for (let i = 0; i < lines.length; i++) {
+    let txtToShow;
+    if (i < linePart) {
+      txtToShow = lines[i];  // 이미 타자 완료한 줄
+    } else if (i === linePart) {
+      txtToShow = lines[i].substring(0, letterCount);  // 타자 진행 중인 줄
+    } else {
+      txtToShow = "";  // 아직 타자 시작 안 한 줄
+    }
+    text(txtToShow, width / 2, startY + i * lineHeight);
+  }
+
+  if (!isWaiting && millis() - lastTime > typingSpeed) {
+    if (letterCount < lines[linePart].length) {
+      letterCount++;
+      lastTime = millis();
+    } else {
+      // 현재 줄 타자 끝 → 다음 줄로
+      linePart++;
+      letterCount = 0;
+      lastTime = millis();
+
+      if (linePart >= lines.length) {
+        // 모든 줄 타자 끝 → 대기 시작
+        isWaiting = true;
+      }
+    }
+  }
+
+  // 문장 전체 출력 후 잠시 기다렸다 다음 파트로 이동
+  if (isWaiting && millis() - lastTime > waitTime) {
+    if (part < texts.length - 1) {
+      part++;
+      linePart = 0;
+      letterCount = 0;
+      isWaiting = false;
+      lastTime = millis();
+      } else {
+        finishText = true;
+    }
+  }
+}
+
+function resetTyping() {
+  part = 0;
+  linePart = 0;
+  letterCount = 0;
+  isWaiting = false;
+  finishText = false;
+  lastTime = millis();
+}
+
+function drawResearcher() {
+  // 연구원 이미지 비율 유지하면서 표시
+  let researcherW = 500;
+  let researcherH = imgResearcher.height * (researcherW / imgResearcher.width);
+  let imgX = 80;
+  let imgY = height - height / 4 - researcherH + 200;
+  image(imgResearcher, imgX, imgY, researcherW, researcherH);
+}
+
+function drawManual() {
+  if (!showManual) return;
+  let manualW = 560;
+  let manualH = imgManual.height * (manualW / imgManual.width);
+  let manualX = width - manualW - 40;
+  let manualY = height - height / 4 - manualH + 70;
+  image(imgManual, manualX, manualY, manualW, manualH);
+}
+
+function keyPressed() {
+  if (stage >= 3 && key === 'm') {
+    showManual = !showManual;
+  }
+}
+
+function getIconLayout() {
+  let iconH = 300;
+  let gap = 100;
+
+  let fileW = activeFileIcon.width * (iconH / activeFileIcon.height);
+  let docW = activeDocIcon.width * (iconH / activeDocIcon.height);
+  let satW = activeSatIcon.width * (iconH / activeSatIcon.height);
+
+  let totalW = fileW + docW + satW + gap * 2;
+  let startX = (width - totalW) / 2;
+  let y = height - 450;
+
+  return {
+    iconH,
+    gap,
+    file: { x: startX, w: fileW },
+    doc: { x: startX + fileW + gap, w: docW },
+    sat: { x: startX + fileW + gap + docW + gap, w: satW },
+    y
+  };
+}
+
+function getActiveIconName() {
+  if (stage === 6) return "file";
+  if (stage === 7) return "doc";
+  if (stage === 8) return "sat";
+  return null;
+}
+
+function drawIcons() {
+  let layout = getIconLayout();
+  let { iconH, file, doc, sat, y } = layout;
+
+  // 각 아이콘에 대한 정보 정리
+  let icons = [
+    {
+      key: "file",
+      active: activeFileIcon,
+      inactive: inactiveFileIcon,
+      layout: file
+    },
+    {
+      key: "doc",
+      active: activeDocIcon,
+      inactive: inactiveDocIcon,
+      layout: doc
+    },
+    {
+      key: "sat",
+      active: activeSatIcon,
+      inactive: inactiveSatIcon,
+      layout: sat
+    }
+  ];
+
+  let activeKey = getActiveIconName();
+
+  for (let icon of icons) {
+    let isHovering =
+      mouseX >= icon.layout.x &&
+      mouseX <= icon.layout.x + icon.layout.w &&
+      mouseY >= y &&
+      mouseY <= y + iconH;
+
+    let img;
+
+    if (icon.key === activeKey) {
+      img = icon.active;
+    } else {
+      img = icon.inactive;
+    }
+
+
+    image(img, icon.layout.x, y, icon.layout.w, iconH);
+
+    if (icon.key === activeKey && isHovering) {
+      cursor(HAND);
+    }
+  }
 }
