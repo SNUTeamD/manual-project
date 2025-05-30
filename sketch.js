@@ -197,7 +197,20 @@ function draw() {
       
       break;
 
-    case 5:
+        case 5:
+      drawResearcher();
+      // 화면 아래 회색 박스
+      fill(120);
+      rect(0, height - height / 4, width, height / 4);
+
+      fill(30);
+      typeText([
+        ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
+      ]);
+      
+        break;
+
+      case 6:
       fill(255);
       textSize(70)
       text("Day 1", width / 2, height / 2 - 50);
@@ -205,9 +218,9 @@ function draw() {
       text("Click to continue ···", width / 2, height / 2 + 50);
       finishText = true;
       
-      break;
+        break;
 
-      case 6:
+      case 7:
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -220,7 +233,7 @@ function draw() {
 
         break;
 
-      case 7:
+      case 8:
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -236,7 +249,7 @@ function draw() {
 
         break;
 
-      case 8:
+      case 9:
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -254,7 +267,7 @@ function draw() {
 
         break;
 
-      case 9:
+      case 10:
         imageMode(CENTER);
         rectMode(CENTER);
 
@@ -391,15 +404,15 @@ function drawResearcher() {
 
 function drawManual() {
   if (!showManual) return;
-  let manualW = 560;
-  let manualH = imgManual.height * (manualW / imgManual.width);
-  let manualX = width - manualW - 40;
-  let manualY = height - height / 4 - manualH + 70;
+  manualH = height * 0.7;
+  manualW = manualH * (imgManual.width / imgManual.height);
+  manualX = width / 2 - manualW / 2;
+  manualY = height * 0.1;
   image(imgManual, manualX, manualY, manualW, manualH);
 }
 
 function keyPressed() {
-  if (stage >= 3 && key === 'm') {
+  if (stage >= 0 && key === 'm') {
     showManual = !showManual;
   }
 }
