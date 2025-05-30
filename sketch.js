@@ -278,7 +278,7 @@ function draw() {
         textSize(windowWidth * 0.03);
         text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
         fill(255);
-        text("--. . ...- ...- ... .--. .... -", width / 2, height * 0.15);
+        text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
 
         fill(255, 0, 0);
         noStroke();
@@ -287,6 +287,7 @@ function draw() {
         fill(255);
         textSize(30);
         text("확인", width / 2 + 250, height - 52);
+        //바이러스
 
         break;
   }
