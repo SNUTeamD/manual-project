@@ -171,9 +171,9 @@ function draw() {
       fill(120);
       rect(0, height - height / 4, width, height / 4);
       
-      fill(255, 0, 0);
+      fill(30);
       typeText([
-        ["[시스템 메시지: 이제부터 m 키를 눌러 매뉴얼을 확인할 수 있습니다.]"]
+        ["[이제부터 m 키를 눌러 매뉴얼을 확인할 수 있습니다.]"]
       ]);
 
       if (finishText) {
@@ -189,11 +189,10 @@ function draw() {
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
-      fill(0);
+      fill(255,0,0);
       textStyle(BOLD);
       typeText([
-        [".. 반드시 매뉴얼을 따라주셔야 합니다."],
-        ["Click to continue ···"]
+        [".. 반드시 매뉴얼을 따라주셔야 합니다."]
       ]);
       
       break;
