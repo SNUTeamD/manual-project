@@ -2,7 +2,6 @@ let myFont;
 let imgManual, imgResearcher, imgCompany, imgCode;
 
 let stage = 0;
-let buttonX, buttonY, buttonW, buttonH;
 
 let part = 0;
 let linePart = 0;
