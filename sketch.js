@@ -109,12 +109,12 @@ function draw() {
       }
       
       rectMode(CORNER);
-      rect(buttonX, buttonY + 1.5, 80, 53);
+      rect(width / 2 + 130, height / 2, 80, 53);
       
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text('확인', buttonX + buttonW / 2, buttonY + buttonH / 2);
+      text('확인', width / 2 + 170, height / 2 + 22);
       break;
   
     case 1:
@@ -299,10 +299,10 @@ function draw() {
 function mouseClicked() {
   if (stage === 0) {
     if (
-      mouseX >= buttonX &&
-      mouseX <= buttonX + buttonW &&
-      mouseY >= buttonY &&
-      mouseY <= buttonY + buttonH
+      mouseX >= width / 2 + 130 &&
+      mouseX <= width / 2 + 210 &&
+      mouseY >= height / 2 - 1.5 &&
+      mouseY <= height / 2 + 51.5
     ) {
       stage ++;
       myInput.hide();
