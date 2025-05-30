@@ -16,7 +16,7 @@ let finishText = false;
 
 let showManual = false;
 
-let nameInput, inputCode;
+let nameInput, codeInput;
 
 function preload() {
   myFont = loadFont('assets/DungGeunMo.ttf');
@@ -42,21 +42,10 @@ function setup() {
 }
 
 function setupInputs() {
-  const nameInputW = 320;
-  const nameInputH = 50;
-  const gap = 20;
-  const totalWidth = nameInputW + gap + 80;
-  const startX = width / 2 - totalWidth / 2;
-
   nameInput = createInput();
-  nameInput.size(nameInputW, nameInputH);
-  nameInput.position(startX, height / 2);
+  nameInput.size(320, 50);
+  nameInput.position(width / 2 - 210, height / 2);
   styleInput(nameInput, '이름을 입력해주세요', '30px', 'red');
-
-  buttonW = 80;
-  buttonH = 53;
-  buttonX = startX + nameInputW + gap;
-  buttonY = height / 2 + nameInputH / 2 - 53 / 2;
 
   codeInput = createInput();
   codeInput.size(500, 60);
@@ -103,11 +92,14 @@ function draw() {
       textSize(120);
       text('MANUAL', width / 2, height / 2 - 100);
 
+      fill(255, 0, 0);
+      rect(width / 2 + 130, height / 2 - 1.5, 80, 53);
+
       let isHovering =
-        mouseX >= buttonX &&
-        mouseX <= buttonX + buttonW &&
-        mouseY >= buttonY &&
-        mouseY <= buttonY + buttonH;
+        mouseX >= width / 2 + 130 &&
+        mouseX <= width / 2 + 210 &&
+        mouseY >= height / 2 - 1.5 &&
+        mouseY <= height / 2 + 51.5;
 
       if (isHovering) {
         fill(255, 80, 80); // 연한 빨강
