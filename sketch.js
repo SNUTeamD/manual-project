@@ -1,7 +1,7 @@
 let myFont;
 let imgManual, imgResearcher, imgCompany, imgCode;
 
-let stage = 0;
+let stage = 3;
 
 let part = 0;
 let linePart = 0;
@@ -163,26 +163,8 @@ function draw() {
       }
 
       break;
-
-    case 3:
-      drawResearcher();
-      // 화면 아래 회색 박스
-      fill(120);
-      rect(0, height - height / 4, width, height / 4);
-      
-      fill(30);
-      typeText([
-        ["[이제부터 m 키를 눌러 매뉴얼을 확인할 수 있습니다.]"]
-      ]);
-
-      if (finishText) {
-        stage ++;
-        resetTyping();
-      }
-
-      break;
     
-    case 4:
+    case 3:
       drawResearcher();
       // 화면 아래 회색 박스
       fill(120);
@@ -196,7 +178,7 @@ function draw() {
       
       break;
 
-        case 5:
+        case 4:
       drawResearcher();
       // 화면 아래 회색 박스
       fill(120);
@@ -209,7 +191,7 @@ function draw() {
       
         break;
 
-      case 6:
+      case 5:
       fill(255);
       textSize(70)
       text("Day 1", width / 2, height / 2 - 50);
@@ -219,7 +201,7 @@ function draw() {
       
         break;
 
-      case 7:
+      case 6:
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -232,7 +214,7 @@ function draw() {
 
         break;
 
-      case 8:
+      case 7:
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -248,7 +230,7 @@ function draw() {
 
         break;
 
-      case 9:
+      case 8:
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -266,7 +248,7 @@ function draw() {
 
         break;
 
-      case 10:
+      case 9:
         imageMode(CENTER);
         rectMode(CENTER);
 
@@ -306,12 +288,12 @@ function mouseClicked() {
       stage ++;
       myInput.hide();
     }
-  } else if (stage == 1 || stage == 4) {
+  } else if (stage == 1 || stage == 3) {
     if (finishText) {
       stage ++;
       resetTyping();
     }
-  } else if (stage == 5) {
+  } else if (stage == 4 || stage == 5) {
     stage ++;
   } else if (stage >= 6 && stage <= 8) {
   let layout = getIconLayout();
@@ -403,10 +385,10 @@ function drawResearcher() {
 
 function drawManual() {
   if (!showManual) return;
-  manualH = height * 0.7;
+  manualH = height * 0.8;
   manualW = manualH * (imgManual.width / imgManual.height);
   manualX = width / 2 - manualW / 2;
-  manualY = height * 0.1;
+  manualY = height * 0.05;
   image(imgManual, manualX, manualY, manualW, manualH);
 }
 
