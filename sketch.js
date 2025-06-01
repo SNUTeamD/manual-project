@@ -1,7 +1,7 @@
 let myFont;
 let imgManual, imgResearcher, imgCompany, imgCode;
 
-let stage = 8;
+let stage = 0;
 
 let part = 0;
 let linePart = 0;
