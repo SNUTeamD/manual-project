@@ -1,7 +1,7 @@
 let myFont;
 let imgManual, imgResearcher, imgCompany, imgCode;
 
-let stage = 3;
+let stage = 8;
 
 let part = 0;
 let linePart = 0;
@@ -16,6 +16,7 @@ let finishText = false;
 let showManual = false;
 
 let nameInput, codeInput;
+
 
 function preload() {
   myFont = loadFont('assets/DungGeunMo.ttf');
@@ -66,6 +67,18 @@ function styleInput(input, placeholder, fontSize, bg = 'black') {
   input.style('text-align', 'center');
   input.attribute('placeholder', placeholder);
 }
+//모스 정답 함수
+function checkMorseAnswer() {
+  const codeCheck = codeInput.value().trim();
+  if (stage ===9 && codeCheck === "제약") {
+    stage++;
+    console.log("정답!");
+    codeInput.hide();
+  } else {
+    resultMessage = "틀렸습니다. 다시 시도하세요.";
+    console.log("실패");
+  }
+}
 
 function draw() {
   background(0);
@@ -83,7 +96,6 @@ function draw() {
   nameInput.hide();
   codeInput.hide();
   }
-
 
   switch (stage) {
     case 0: 
@@ -262,7 +274,7 @@ function draw() {
         textSize(windowWidth * 0.03);
         text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
         fill(255);
-        text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
+        text(".--. -.-- -.- .. .-..", width / 2, height * 0.15);
 
         fill(255, 0, 0);
         noStroke();
@@ -271,7 +283,7 @@ function draw() {
         fill(255);
         textSize(30);
         text("확인", width / 2 + 250, height - 52);
-        //바이러스
+        //정답 : 제약
 
         break;
   }
@@ -307,6 +319,16 @@ function mouseClicked() {
     mouseY >= y && mouseY <= y + iconH
   ) {
     stage++;
+    }
+  
+  }else  if(stage === 9){
+    if (
+      mouseX >= width / 2 + 210 &&
+      mouseX <= width / 2 + 290 &&
+      mouseY >= height - 81 &&
+      mouseY <= height - 19 
+    ){
+      checkMorseAnswer()
     }
   }
 }
@@ -454,6 +476,8 @@ function drawIcons() {
   ];
 
   let activeKey = getActiveIconName();
+
+
 
   for (let icon of icons) {
     let isHovering =
