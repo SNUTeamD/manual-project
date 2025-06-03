@@ -49,13 +49,13 @@ noStroke();
 let boxWidth = this.w * 1;
 
 // 30초 이전 텍스트가 길어서 충분히 크게 잡음
-let fontSize = this.h * 0.09;      // 글자 크기
+let fontSize = this.h * 0.07;      // 글자 크기
 let lineCount = 8;                 // 예상 최대 줄 수
 let lineSpacing = 1.3;             // 줄 간격 배수
 let boxHeight = fontSize * lineCount * lineSpacing;
 
 let boxX = this.x + this.w * 0.05;
-let boxY = this.y + this.h * 0.16;
+let boxY = this.y + this.h * 0.2;
 
 fill(elapsed > 20000 ? 'red' : 0);  // 20초 이후엔 빨간색, 아니면 검정색
 textAlign(LEFT, TOP);
