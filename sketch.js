@@ -1,7 +1,7 @@
 let myFont;
 let imgManual, imgResearcher, imgCompany, imgCode;
 
-let stage = 5;
+let stage = 200;
 
 let part = 0;
 let linePart = 0;
@@ -36,6 +36,7 @@ function preload() {
   inactiveSatIcon = loadImage("assets/위성 아이콘 비활성화.png");
   imgCode = loadImage("assets/모스부호.jpg");
   imgError = loadImage('assets/에러창.png');
+  errorImg = loadImage('assets/에러창2.png');
 }
 
 function setup() {
@@ -229,39 +230,14 @@ function draw() {
         break;
 
       case 5:
-      // case 0 전용 변수들
-      if (typeof draw.errorIndex === 'undefined') {
-        draw.errorIndex = 0;
-        draw.lastErrorTime = millis();
-        draw.interval = 200;
-        draw.errorTexts = [
-          "7. 도망쳐.",
-          "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
-          "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
-          "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
-          "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
-          "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
-          "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
-        ];
-      }
-
-      if (draw.errorIndex < NUM_ERRORS && millis() - draw.lastErrorTime > draw.interval) {
-        let relW = 0.4;
-        let relH = relW * (errorImg.height / errorImg.width);
-        let relX = random(0, 1 - relW);
-        let relY = random(0, 1 - relH);
-
-        let msg = draw.errorTexts[draw.errorIndex];
-        errors.push(new ErrorWindow(errorImg, relX, relY, relW, msg));
-
-        draw.errorIndex++;
-        draw.lastErrorTime = millis();
-      }
-
-      for (let e of errors) {
-        e.display();
-      }
-      break;
+      fill(255);
+      textSize(70)
+      text("Day 1", width / 2, height / 2 - 50);
+      textSize(30);
+      text("Click to continue ···", width / 2, height / 2 + 50);
+      finishText = true;
+      
+        break;
 
       case 6:
         fill(150, 150, 255);
@@ -419,7 +395,6 @@ function draw() {
         error3.display();
 
         break;
-
       case 202:
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
@@ -433,10 +408,44 @@ function draw() {
         line(width - 350, 130, width - 150, 130);
 
         drawIcons();
-
         break;
 
       case 203:
+        // case 0 전용 변수들
+       if (typeof draw.errorIndex === 'undefined') {
+        draw.errorIndex = 0;
+        draw.lastErrorTime = millis();
+        draw.interval = 200;
+        draw.errorTexts = [
+          "7. 도망쳐.",
+          "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
+          "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
+          "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
+          "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
+          "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
+          "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
+        ];
+       }
+
+        if (draw.errorIndex < NUM_ERRORS && millis() - draw.lastErrorTime > draw.interval) {
+        let relW = 0.4;
+        let relH = relW * (errorImg.height / errorImg.width);
+        let relX = random(0, 1 - relW);
+        let relY = random(0, 1 - relH);
+
+        let msg = draw.errorTexts[draw.errorIndex];
+        errors.push(new ErrorWindow(errorImg, relX, relY, relW, msg));
+
+        draw.errorIndex++;
+        draw.lastErrorTime = millis();
+       }
+
+        for (let e of errors) {
+        e.display();
+       }
+        break;
+
+      case 204:
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -461,6 +470,20 @@ function mouseClicked() {
     stage = 500;
     return;
   }
+    // 뒤에서부터 검사해서 삭제 시 인덱스 밀림 방지
+  for (let i = errors.length - 1; i >= 0; i--) {
+    if (errors[i].isXBtnClicked(mouseX, mouseY)) {
+      errors.splice(i, 1);
+
+      // 모든 창 닫혔는지 확인
+      if (errors.length === 0) {
+        stage = 204;  // 원하는 다음 스테이지 번호로 바꾸세요
+      }
+
+      return;  // 한 번에 하나만 닫기
+    }
+
+  }
   if (stage === 0) {
     if (
       mouseX >= width / 2 + 130 &&
@@ -478,21 +501,22 @@ function mouseClicked() {
     }
   } else if (stage == 4 || stage == 5|| stage==100 || stage ==200) {
     stage ++;
-  } else if (stage >= 6 && stage <= 8 || stage>=101&&stage<=103 || stage>=201&&stage<=203) {
+  } else if (stage >= 6 && stage <= 8 || stage>=101&&stage<=103 || stage===201 ||stage===202 || stage === 204) {
   let layout = getIconLayout();
   let activeKey = getActiveIconName();
   let icon = layout[activeKey];
   let y = layout.y;
   let iconH = layout.iconH;
-
-    if (
+    
+   if (
     mouseX >= icon.x && mouseX <= icon.x + icon.w &&
     mouseY >= y && mouseY <= y + iconH
-  ) {
+   ) {
     stage++;
     }
   
-  }else  if(stage === 9){
+    }
+  else  if(stage === 9){
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -616,7 +640,7 @@ function getIconLayout() {
 function getActiveIconName() {
   if (stage === 6 | stage ===101 | stage === 201 ) return "file";
   if (stage === 7 | stage ===102 | stage === 202 ) return "doc";
-  if (stage === 8 | stage ===103 | stage === 203 ) return "sat";
+  if (stage === 8 | stage ===103 | stage === 204 ) return "sat";
   return null;
 }
 
