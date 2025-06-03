@@ -20,6 +20,8 @@ let nameInput, codeInput;
 let error1;
 let imgError;//에러1유형 이미지
 let errorImg;//에러2번 이미지
+let errors = [];
+const NUM_ERRORS = 7;
 
 function preload() {
   myFont = loadFont('assets/DungGeunMo.ttf');
@@ -47,7 +49,7 @@ function setup() {
 // 에러1 유형의의 텍스트 지정
   error1 = new Error1(
     imgError,
-    "From: 구조언어부 백업담당 T\n To: 감정조정실 S외 2명\nSubject: 그거 진짜 지운 애 있음ㅋㅋ\n진짜로 그거 날려버린 직원 나왔어요.\n마지막에 충격받은 표정이 꽤 웃겨서 추천함.\n자기 눈으로 세상 본 줄 아는 표정 아시죠? (...)",  // 30초 이전에 표시할 텍스트
+    "From: 구조언어부 백업담당 T\n To: 수거조정실 S외 2명\nSubject: 그거 진짜 지운 애 있음ㅋㅋ\n진짜로 그거 날린 직원 나왔어요. 영상도 첨부함!\n마지막에 충격받은 표정이 꽤 웃겨서 추천함.\n자기 눈으로 세상 본 줄 아는 표정 아시죠? (...)",  // 30초 이전에 표시할 텍스트
     "이렇게무시하다간정말필요한것도놓칠걸?\n"  // 30초 이후에 표시할 텍스트
   );
 
@@ -227,14 +229,39 @@ function draw() {
         break;
 
       case 5:
-      fill(255);
-      textSize(70)
-      text("Day 1", width / 2, height / 2 - 50);
-      textSize(30);
-      text("Click to continue ···", width / 2, height / 2 + 50);
-      finishText = true;
-      
-        break;
+      // case 0 전용 변수들
+      if (typeof draw.errorIndex === 'undefined') {
+        draw.errorIndex = 0;
+        draw.lastErrorTime = millis();
+        draw.interval = 200;
+        draw.errorTexts = [
+          "7. 도망쳐.",
+          "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
+          "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
+          "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
+          "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
+          "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
+          "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
+        ];
+      }
+
+      if (draw.errorIndex < NUM_ERRORS && millis() - draw.lastErrorTime > draw.interval) {
+        let relW = 0.4;
+        let relH = relW * (errorImg.height / errorImg.width);
+        let relX = random(0, 1 - relW);
+        let relY = random(0, 1 - relH);
+
+        let msg = draw.errorTexts[draw.errorIndex];
+        errors.push(new ErrorWindow(errorImg, relX, relY, relW, msg));
+
+        draw.errorIndex++;
+        draw.lastErrorTime = millis();
+      }
+
+      for (let e of errors) {
+        e.display();
+      }
+      break;
 
       case 6:
         fill(150, 150, 255);
@@ -430,6 +457,10 @@ function draw() {
 }
 
 function mouseClicked() {
+  if (error1 && error1.isClicked(mouseX, mouseY)) {
+    stage = 500;
+    return;
+  }
   if (stage === 0) {
     if (
       mouseX >= width / 2 + 130 &&
