@@ -1,7 +1,7 @@
 let myFont;
 let imgManual, imgResearcher, imgCompany, imgCode;
 
-let stage = 0;
+let stage = 100;
 
 let part = 0;
 let linePart = 0;
@@ -17,6 +17,9 @@ let showManual = false;
 
 let nameInput, codeInput;
 
+let error1;
+let imgError;//에러1유형 이미지
+let errorImg;//에러2번 이미지
 
 function preload() {
   myFont = loadFont('assets/DungGeunMo.ttf');
@@ -30,6 +33,7 @@ function preload() {
   activeSatIcon = loadImage("assets/위성 아이콘.png");
   inactiveSatIcon = loadImage("assets/위성 아이콘 비활성화.png");
   imgCode = loadImage("assets/모스부호.jpg");
+  imgError = loadImage('assets/에러창.png');
 }
 
 function setup() {
@@ -286,6 +290,119 @@ function draw() {
         //정답 : 제약
 
         break;
+      case 100:
+      fill(255);
+      textSize(70)
+      text("Day 2", width / 2, height / 2 - 50);
+      textSize(30);
+      text("Click to continue ···", width / 2, height / 2 + 50);
+      finishText = true;
+      
+        break;
+
+      case 101:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+
+        drawIcons();
+
+        break;
+
+      case 102:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+
+        strokeWeight(3);
+        line(width - 350, 130, width - 150, 130);
+
+        drawIcons();
+
+        break;
+
+      case 103:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        textSize(30);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+        
+        strokeWeight(3);
+        line(width - 350, 130, width - 150, 130);
+        line(width - 400, 170, width - 100, 170);
+        
+        drawIcons();
+
+        break;
+
+      case 200:
+      fill(255);
+      textSize(70)
+      text("Day 3", width / 2, height / 2 - 50);
+      textSize(30);
+      text("Click to continue ···", width / 2, height / 2 + 50);
+      finishText = true;
+      
+        break;
+
+      case 201:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+
+        drawIcons();
+
+        break;
+
+      case 202:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+
+        strokeWeight(3);
+        line(width - 350, 130, width - 150, 130);
+
+        drawIcons();
+
+        break;
+
+      case 203:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        textSize(30);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+        
+        strokeWeight(3);
+        line(width - 350, 130, width - 150, 130);
+        line(width - 400, 170, width - 100, 170);
+        
+        drawIcons();
+
+        break;
   }
 }
 
@@ -305,16 +422,16 @@ function mouseClicked() {
       stage ++;
       resetTyping();
     }
-  } else if (stage == 4 || stage == 5) {
+  } else if (stage == 4 || stage == 5|| stage==100 || stage ==200) {
     stage ++;
-  } else if (stage >= 6 && stage <= 8) {
+  } else if (stage >= 6 && stage <= 8 || stage>=101&&stage<=103 || stage>=201&&stage<=203) {
   let layout = getIconLayout();
   let activeKey = getActiveIconName();
   let icon = layout[activeKey];
   let y = layout.y;
   let iconH = layout.iconH;
 
-  if (
+    if (
     mouseX >= icon.x && mouseX <= icon.x + icon.w &&
     mouseY >= y && mouseY <= y + iconH
   ) {
@@ -443,9 +560,9 @@ function getIconLayout() {
 }
 
 function getActiveIconName() {
-  if (stage === 6) return "file";
-  if (stage === 7) return "doc";
-  if (stage === 8) return "sat";
+  if (stage === 6 | stage ===101 | stage === 201 ) return "file";
+  if (stage === 7 | stage ===102 | stage === 202 ) return "doc";
+  if (stage === 8 | stage ===103 | stage === 203 ) return "sat";
   return null;
 }
 
