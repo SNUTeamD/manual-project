@@ -1,7 +1,7 @@
 let myFont;
 let imgManual, imgResearcher, imgCompany, imgCode;
 
-let stage = 200;
+let stage = 600;
 
 let part = 0;
 let linePart = 0;
@@ -23,6 +23,9 @@ let errorImg;//에러2번 이미지
 let errors = [];
 const NUM_ERRORS = 7;
 
+
+let endingC;//엔딩 C
+
 function preload() {
   myFont = loadFont('assets/DungGeunMo.ttf');
   imgManual = loadImage("assets/매뉴얼.png");
@@ -37,6 +40,8 @@ function preload() {
   imgCode = loadImage("assets/모스부호.jpg");
   imgError = loadImage('assets/에러창.png');
   errorImg = loadImage('assets/에러창2.png');
+  endingC = new EndingC();
+  endingC.preload();
 }
 
 function setup() {
@@ -47,7 +52,7 @@ function setup() {
 
   setupInputs();
   
-// 에러1 유형의의 텍스트 지정
+// 에러1 유형의 텍스트 지정
   error1 = new Error1(
     imgError,
     "From: 구조언어부 백업담당 T\n To: 수거조정실 S외 2명\nSubject: 그거 진짜 지운 애 있음ㅋㅋ\n진짜로 그거 날린 직원 나왔어요. 영상도 첨부함!\n마지막에 충격받은 표정이 꽤 웃겨서 추천함.\n자기 눈으로 세상 본 줄 아는 표정 아시죠? (...)",  // 30초 이전에 표시할 텍스트
@@ -65,6 +70,8 @@ function setup() {
     "From: 실감부 U\nTo: 정제실 3층 협의라인\nSubject: 점심 감각세트 예약했어요\n'향수 + 미열 + 저항감' 패키지로 해놨어요.\n그나저나 027이 자꾸 같은 이름을 떠올린대요.\n이전 루프에선 그런 거 없었는데. 그만 소각(...)", // 30초 이전에 표시할 텍스트
     "아 잘못보냈다ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\n"  // 30초 이후에 표시할 텍스트
   );
+  //엔딩 C 초기화
+  endingC.start();
 }
 
 function setupInputs() {
@@ -462,7 +469,19 @@ function draw() {
         drawIcons();
 
         break;
-  }
+
+        case 600:
+          // 엔딩 C
+          endingC.update();
+        break;
+
+          
+
+    }
+}
+
+function mousePressed() {
+  endingC.mousePressed();
 }
 
 function mouseClicked() {
