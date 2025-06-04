@@ -6,6 +6,7 @@ let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
+// 시작 스테이지 설정정
 let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
@@ -23,6 +24,7 @@ let showManual = false; // 매뉴얼 보여줄지 여부
 // 사용자 입력용 인풋창
 let nameInput, codeInput;
 
+// 업무 2 관련 변수수
 let sentenceObjs = [];
 let isDragging = false;
 let dragStartX, dragStartY, dragEndX, dragEndY;
@@ -182,7 +184,7 @@ function draw() {
       break;
 
     case 1:
-      // 회사 배경과 첫 소개 타자 출력
+      // 회사 배경과 함께 도입 문구 출력
       let companyW = 1000;
       let companyH = imgCompany.height * (companyW / imgCompany.width);
       image(imgCompany, (width - companyW) / 2, 0, companyW, companyH);
@@ -369,9 +371,9 @@ function draw() {
         textSize(30);
         textAlign(CENTER, CENTER);
         if (resultMessage.includes("성공")) {
-          fill(0, 100, 255); // 파랑
+          fill(0, 100, 255);
         } else {
-          fill(255, 0, 0);   // 빨강
+          fill(255, 50, 50);
         }
         text(resultMessage, width - 150, height - 100);
       }
