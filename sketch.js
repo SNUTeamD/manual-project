@@ -62,6 +62,7 @@ function preload() {
   imgError_2 = loadImage('assets/에러창2.png');
   endingB = new EndingB();
   endingC = new EndingC();
+  endingB.preload();
   endingC.preload();
 }
 
@@ -535,9 +536,8 @@ function draw() {
       /*case 400:
           //엔딩 A
           ending
-        break;*/
-
-      case 500:
+        break;
+        case 500:
           drawResearcher();
           endingB.update();
           break;//엔딩 B

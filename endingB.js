@@ -5,9 +5,11 @@ class EndingB {
     this.blinkAlpha = 0;
 
     this.texts = [
-        {speaker: "PLAYER", text:"(잠깐 졸았나..?)"},
-        {speaker: "도재인", text:"첫 날부터 주무시는 거에요? 이제 일하셔야죠."}
+        {speaker: "PLAYER", text:"...헉. 잠깐 졸았나..?"},
+        {speaker: "도재인", text:"첫 날부터 주무시는 거예요? 이제 일하셔야죠."},
+        {speaker: "PLAYER", text:"아, 네... 죄송합니다."},
     ];
+    
 
     this.currentTextIndex = 0;
     this.fullText = "";
@@ -22,8 +24,10 @@ class EndingB {
     this.noiseDuration = 800;
     this.isNoising = false;
   }
+
   preload(){
-     this.endingAImg = loadImage('assets/연구원.png');
+    this.imgResearcher = loadImage('assets/연구원.png');
+    this.backgroundImg = loadImage('assets/내 사무실 자리.png');
   }
 
   update() {
@@ -50,10 +54,11 @@ class EndingB {
   }
 
   drawBlink() {
-    background(0);
+    background(250);
     this.blinkAlpha = random(120, 255);
     fill(255, 0, 0, this.blinkAlpha);
     textSize(80);
+    //textfont('Courier New');
     text("매뉴얼을 지키라고 했잖아", width / 2, height / 2);
   }
 
@@ -70,7 +75,9 @@ class EndingB {
   }
 
   drawTextbox() {
-    background(0);
+    let speaker = this.texts[this.currentTextIndex].speaker;
+    image(this.backgroundImg, 0, 0, width, height);
+    this.drawResearcher();
     let boxW = width * 0.9;
     let boxH = 160;
     let boxX = width / 2 - boxW / 2;
@@ -80,11 +87,21 @@ class EndingB {
     // 민서님처럼 텍스트 박스 수정
     fill(120);
     rect(0, height - height / 4, width, height / 4);
+    
+    //도재인 판별
+    if (speaker === "도재인") {
+      fill(40);
+      rect(boxX + 20, boxY - 40, 200, 50, 10);
+      fill(255);
+      textSize(30);
+      textAlign(CENTER, CENTER);
+      text("도재인", boxX + 120, boxY-20);
+    }
 
     // 대사 텍스트
     fill(255);
     textAlign(LEFT, TOP);
-    textSize(28);
+    textSize(30);
     text(this.displayedText, boxX + 30, boxY + 30);
   }
 
@@ -102,7 +119,7 @@ class EndingB {
   }
 
   loadNextText() {
-    this.fullText = this.texts[this.currentTextIndex];
+    this.fullText = this.texts[this.currentTextIndex].text;
     this.displayedText = "";
     this.charIndex = 0;
     this.isTyping = true;
@@ -126,5 +143,14 @@ class EndingB {
         noLoop();
       }
     }
+  }
+  
+  drawResearcher() {
+  // 연구원 이미지 비율 유지하면서 표시
+  this.researcherW = 500;
+  this.researcherH = this.imgResearcher.height * (this.researcherW / this.imgResearcher.width);
+  this.imgX = 80;
+  this.imgY = height - height / 4 - this.researcherH + 200;
+  image(this.imgResearcher, this.imgX, this.imgY, this.researcherW, this.researcherH);
   }
 }
