@@ -6,15 +6,12 @@ let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
-<<<<<<< Updated upstream
-// 시작 스테이지 설정정
-=======
 // 폴더에 문서 넣는 업무(Day1 업무1) 관련 변수들
 let doctaskDay1;
 let folderIcon, folderDoc;
 
->>>>>>> Stashed changes
-let stage = 0;
+// 시작 스테이지 설정
+let stage = 8;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -120,13 +117,8 @@ function setup() {
   doctaskDay1 = new Day1Task1();
   doctaskDay1.start();
   //엔딩 초기화
-<<<<<<< Updated upstream
-  /*endingA.setup();
-  endingC.start();*/
-=======
   endingA.start();
   endingC.start();
->>>>>>> Stashed changes
 }
 
 
@@ -200,6 +192,7 @@ function draw() {
       textSize(30);
       textAlign(CENTER, CENTER);
       text('확인', width / 2 + 170, height / 2 + 24);
+
       break;
 
     case 1:
@@ -208,6 +201,7 @@ function draw() {
       let companyH = imgCompany.height * (companyW / imgCompany.width);
       image(imgCompany, (width - companyW) / 2, 0, companyW, companyH);
 
+      // 화면 아래 회색 박스
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
@@ -220,11 +214,14 @@ function draw() {
         ["후... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을거다."],*/
         ["Click to continue ···"]
       ]);
+  
       break;
 
     case 2:
       // 연구원 등장, 이름 기반 환영 멘트
       drawResearcher();
+
+      // 화면 아래 회색 박스
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
@@ -249,27 +246,38 @@ function draw() {
     
     case 3:
       drawResearcher();
-      fill(120);
-      rect(0, height - height / 4, width, height / 4);
 
-      fill(255, 0, 0);
-      textStyle(BOLD);
-      typeText([
-        [".. 반드시 매뉴얼을 따라주셔야 합니다."]
-      ]);
-      break;
-
-    case 4:
-      drawResearcher();
       // 화면 아래 회색 박스
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
-      fill(30);
+      fill(45);
       typeText([
         ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
       ]);
-    
+
+      if (finishText) {
+        stage++;
+        resetTyping();
+      }
+
+      break;
+
+    case 4:
+      drawResearcher();
+      fill(120);
+      rect(0, height - height / 4, width, height / 4);
+
+      fill(255, 0, 0);
+      typeText([
+        [".. 반드시 매뉴얼을 따라주셔야 합니다."]
+      ]);
+
+      if (finishText) {
+        stage++;
+        resetTyping();
+      }
+      
       break;
 
     case 5:
@@ -295,14 +303,13 @@ function draw() {
       drawIcons();
       break;
     
-    // 파일 정리 업무는 여기에 넣어주세요!!
-    case 20:
+    case 7:
       // 파일 정리 업무
       doctaskDay1.update();
       break;
 
     
-    case 7:
+    case 8:
       // 바탕화면 2
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
@@ -319,7 +326,8 @@ function draw() {
       drawIcons();
       break;
 
-    case 8:
+    case 9:
+      // Day 1 - 업무 2: 정크 데이터 처리
       background(0);
       if (sentenceObjs.length === 0) { 
         let rawLines = [
@@ -404,7 +412,7 @@ function draw() {
 
       break;
 
-    case 9:
+    case 10:
       // 바탕화면 3
       noStroke();
       textAlign(CENTER, CENTER);
@@ -429,7 +437,7 @@ function draw() {
       drawIcons();
       break;
 
-    case 10:
+    case 11:
       // Day 1 - 업무 3: 코드 해석
       image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
 
@@ -512,114 +520,112 @@ function draw() {
 
         break;
 
-      case 200:
-      fill(255);
-      textSize(70)
-      text("Day 3", width / 2, height / 2 - 50);
+    case 200:
+    fill(255);
+    textSize(70)
+    text("Day 3", width / 2, height / 2 - 50);
+    textSize(30);
+    text("Click to continue ···", width / 2, height / 2 + 50);
+    finishText = true;
+    
+      break;
+
+    case 201:
+      fill(150, 150, 255);
+      rect(width - 450, 50, 400, 200);
+      fill(0);
+      text("오늘의 할 일", width - 250, 85);
+      text("1. 파일 정리", width - 250, 125);
+      text("2. 정크 데이터 처리", width - 250, 165);
+      text("3. 코드 해석", width - 250, 205);
+
+      drawIcons();
+      error3.display();
+
+      break;
+
+    case 202:
+      fill(150, 150, 255);
+      rect(width - 450, 50, 400, 200);
+      fill(0);
+      text("오늘의 할 일", width - 250, 85);
+      text("1. 파일 정리", width - 250, 125);
+      text("2. 정크 데이터 처리", width - 250, 165);
+      text("3. 코드 해석", width - 250, 205);
+
+      strokeWeight(3);
+      line(width - 350, 130, width - 150, 130);
+
+      drawIcons();
+      break;
+
+    case 203:
+      // case 0 전용 변수들
+      if (typeof draw.errorIndex === 'undefined') {
+      draw.errorIndex = 0;
+      draw.lastErrorTime = millis();
+      draw.interval = 200;
+      draw.errorTexts = [
+        "7. 도망쳐.",
+        "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
+        "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
+        "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
+        "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
+        "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
+        "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
+      ];
+      }
+
+      if (draw.errorIndex < NUM_ERRORS && millis() - draw.lastErrorTime > draw.interval) {
+      let relW = 0.4;
+      let relH = relW * (imgError_2.height / imgError_2.width);
+      let relX = random(0, 1 - relW);
+      let relY = random(0, 1 - relH);
+
+      let msg = draw.errorTexts[draw.errorIndex];
+      errors.push(new ErrorWindow(imgError_2, relX, relY, relW, msg));
+
+      draw.errorIndex++;
+      draw.lastErrorTime = millis();
+      }
+
+      for (let e of errors) {
+      e.display();
+      }
+      break;
+
+    case 204:
+      fill(150, 150, 255);
+      rect(width - 450, 50, 400, 200);
+      fill(0);
       textSize(30);
-      text("Click to continue ···", width / 2, height / 2 + 50);
-      finishText = true;
+      text("오늘의 할 일", width - 250, 85);
+      text("1. 파일 정리", width - 250, 125);
+      text("2. 정크 데이터 처리", width - 250, 165);
+      text("3. 코드 해석", width - 250, 205);
       
-        break;
-
-      case 201:
-        fill(150, 150, 255);
-        rect(width - 450, 50, 400, 200);
-        fill(0);
-        text("오늘의 할 일", width - 250, 85);
-        text("1. 파일 정리", width - 250, 125);
-        text("2. 정크 데이터 처리", width - 250, 165);
-        text("3. 코드 해석", width - 250, 205);
-
-        drawIcons();
-        error3.display();
-
-        break;
-      case 202:
-        fill(150, 150, 255);
-        rect(width - 450, 50, 400, 200);
-        fill(0);
-        text("오늘의 할 일", width - 250, 85);
-        text("1. 파일 정리", width - 250, 125);
-        text("2. 정크 데이터 처리", width - 250, 165);
-        text("3. 코드 해석", width - 250, 205);
-
-        strokeWeight(3);
-        line(width - 350, 130, width - 150, 130);
-
-        drawIcons();
-        break;
-
-      case 203:
-        // case 0 전용 변수들
-       if (typeof draw.errorIndex === 'undefined') {
-        draw.errorIndex = 0;
-        draw.lastErrorTime = millis();
-        draw.interval = 200;
-        draw.errorTexts = [
-          "7. 도망쳐.",
-          "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
-          "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
-          "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
-          "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
-          "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
-          "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
-        ];
-       }
-
-        if (draw.errorIndex < NUM_ERRORS && millis() - draw.lastErrorTime > draw.interval) {
-        let relW = 0.4;
-        let relH = relW * (imgError_2.height / imgError_2.width);
-        let relX = random(0, 1 - relW);
-        let relY = random(0, 1 - relH);
-
-        let msg = draw.errorTexts[draw.errorIndex];
-        errors.push(new ErrorWindow(imgError_2, relX, relY, relW, msg));
-
-        draw.errorIndex++;
-        draw.lastErrorTime = millis();
-       }
-
-        for (let e of errors) {
-        e.display();
-       }
-        break;
-
-      case 204:
-        fill(150, 150, 255);
-        rect(width - 450, 50, 400, 200);
-        fill(0);
-        textSize(30);
-        text("오늘의 할 일", width - 250, 85);
-        text("1. 파일 정리", width - 250, 125);
-        text("2. 정크 데이터 처리", width - 250, 165);
-        text("3. 코드 해석", width - 250, 205);
-        
-        strokeWeight(3);
-        line(width - 350, 130, width - 150, 130);
-        line(width - 400, 170, width - 100, 170);
-        
-        drawIcons();
-
-        break;
-
-      case 400:
-          /*//엔딩 A
-          endingA.update();
-        break;
+      strokeWeight(3);
+      line(width - 350, 130, width - 150, 130);
+      line(width - 400, 170, width - 100, 170);
       
-      case 500:
-          //엔딩 B
-          endingB.update();
-        break;
+      drawIcons();
 
-      case 600:
-          // 엔딩 C
-          endingC.update();
-        break;*/
+      break;
 
-          
+    case 400:
+        /*//엔딩 A
+        endingA.update();
+      break;
+    
+    case 500:
+        //엔딩 B
+        endingB.update();
+      break;
 
+    case 600:
+        // 엔딩 C
+        endingC.update();
+      break;*/
     }
   }
 
@@ -654,14 +660,14 @@ function mouseClicked() {
       stage++;
       nameInput.hide();
     }
-  } else if (stage == 1 || stage == 3) {
+  } else if (stage === 1 || stage === 3) {
     if (finishText) {
       stage++;
       resetTyping();
     }
-  } else if (stage == 4 || stage == 5|| stage==100 || stage ==200) {
+  } else if (stage === 5 || stage === 100 || stage === 200) {
     stage ++;
-  } else if (stage == 6 || stage == 7 || stage == 9 || stage>=101&&stage<=103 || stage===201 || stage===202 || stage === 204) {
+  } else if (stage === 6 || stage === 8 || stage === 10 || stage>=101&&stage<=103 || stage===201 || stage===202 || stage === 204) {
   let layout = getIconLayout();
   let activeKey = getActiveIconName();
   let icon = layout[activeKey];
@@ -676,7 +682,7 @@ function mouseClicked() {
     }
   
     }
-  else  if(stage === 10){
+  else  if(stage === 11){
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -703,13 +709,14 @@ function checkButton(x, y, w, h) {
 }
 
 function mousePressed() {
-  if (stage === 8) {
+  if (stage === 7){
+    doctaskDay1.mousePressed();
+  }
+
+  if (stage === 9) {
     dragStartX = mouseX;
     dragStartY = mouseY;
     isDragging = true;
-  }
-  if (stage === 20){
-    doctaskDay1.mousePressed();
   }
   
   if (stage === 500) {
@@ -720,13 +727,13 @@ function mousePressed() {
 }
 
 function mouseDragged() {
-  if (stage === 20){
+  if (stage === 7){
     doctaskDay1.mouseDragged();
   }
 }
 
 function mouseReleased() {
-  if (stage === 8) {
+  if (stage === 9) {
     dragEndX = mouseX;
     dragEndY = mouseY;
     isDragging = false;
@@ -776,7 +783,8 @@ function mouseReleased() {
       resultMessage = "실패 .. 다시 시도하세요.";
     }
   }
-  if (stage === 20){
+
+  if (stage === 7){
     doctaskDay1.mouseReleased();
   }
 }
@@ -863,7 +871,7 @@ function drawManual() {
 }
 
 function keyPressed() {
-  if (stage >= 4  && key === 'm') {
+  if (stage >= 3  && key === 'm') {
     showManual = !showManual;
   }
 }
@@ -892,8 +900,8 @@ function getIconLayout() {
 
 function getActiveIconName() {
   if (stage === 6 | stage ===101 | stage === 201 ) return "file";
-  if (stage === 7 | stage ===102 | stage === 202 ) return "doc";
-  if (stage === 9 | stage ===103 | stage === 204 ) return "sat";
+  if (stage === 8 | stage ===102 | stage === 202 ) return "doc";
+  if (stage === 10 | stage ===103 | stage === 204 ) return "sat";
   return null;
 }
 
@@ -962,9 +970,4 @@ function checkMorseAnswer() {
     resultMessage = "틀렸습니다. 다시 시도하세요.";
     console.log("실패");
   }
-<<<<<<< Updated upstream
 }
-
-=======
-}
->>>>>>> Stashed changes
