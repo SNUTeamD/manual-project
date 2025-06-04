@@ -24,6 +24,9 @@ let showManual = false; // 매뉴얼 보여줄지 여부
 let nameInput, codeInput;
 
 let sentenceObjs = [];
+let isDragging = false;
+let dragStartX, dragStartY, dragEndX, dragEndY;
+let resultMessage = "";
 let lineHeight = 45;
 
 // 에러 관련 변수
@@ -283,36 +286,37 @@ function draw() {
       break;
 
     case 8:
+      background(0);
+
       if (sentenceObjs.length === 0) {
-      let texts = [
-        { text: "오늘은 팀 전체 회의가 있다.", isWrong: false },
-        { text: "회의 때는 항상 고양이 춤을 춘다.", isWrong: true },
-        { text: "회의 후에는 정리 보고서를 작성한다.", isWrong: false }
-      ];
-      sentenceObjs = texts.map((t, i) => ({
-        ...t,
-        x: width / 2 - 200,
-        y: 200 + i * 50,
-        state: "default"
-      }));
+        let texts = [
+          { text: "이번 프로젝트는 인공지능을 활용한 예측 모델을 개발하는 것이 목표이다.", isWrong: false },
+          { text: "팀원 간의 협업을 위해 매주 정기적인 회의를 진행하고 있다.", isWrong: false },
+          { text: "고양이는 간식을 매우 좋아한다. 특히 참치맛을 선호한다.", isWrong: true },
+          { text: "데이터는 외부 기관으로부터 수집되며, 개인정보는 익명화 처리된다.", isWrong: false },
+          { text: "향후에는 사용자 피드백 기반 개선도 고려할 예정이다.", isWrong: false }
+        ];
+
+        sentenceObjs = texts.map((t, i) => ({
+          ...t,
+          x: width / 2 - 400,
+          y: 150 + i * lineHeight,
+          state: "default"
+        }));
       }
 
       error1.display();
 
-      // 문장 출력
       textSize(24);
+      textAlign(LEFT, TOP);
       for (let s of sentenceObjs) {
-        if (s.state === "correct") {
-          fill(0, 100, 255);
-        } else if (s.state === "wrong") {
-          fill(255, 50, 50);
-        } else {
-          fill(255);
-        }
+        if (s.state === "correct") fill(0, 100, 255);
+        else if (s.state === "wrong") fill(255, 50, 50);
+        else fill(255);
+
         text(s.text, s.x, s.y);
       }
 
-      // 드래그 시 영역
       if (isDragging) {
         noFill();
         stroke(200);
@@ -320,12 +324,21 @@ function draw() {
         rect(dragStartX, dragStartY, mouseX, mouseY);
       }
 
-      break;
+      if (resultMessage) {
+        fill(255, 0, 0);
+        textSize(30);
+        textAlign(CENTER, CENTER);
+        text(resultMessage, width / 2, height - 100);
+      }
 
+      break;
 
     case 9:
       // 바탕화면 3
-      textSize(35);
+      textAlign(CENTER, CENTER);
+      noStroke();
+      rectMode(CORNER);
+      textSize(30);
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -335,9 +348,11 @@ function draw() {
       text("3. 코드 해석", width - 250, 205);
 
       // 밑줄: 업무 1, 2 완료 표시
+      stroke(0);
       strokeWeight(3);
       line(width - 350, 130, width - 150, 130);    // 1번 줄 완료
       line(width - 400, 170, width - 100, 170);    // 2번 줄 완료
+      noStroke();
 
       // 아이콘 표시: 위성 아이콘만 활성화
       drawIcons();
@@ -622,8 +637,8 @@ function mousePressed() {
     dragStartY = mouseY;
     isDragging = true;
   }
-  endingC.mousePressed();
-  endingB.handleClick(); // 클릭 처리
+  /*endingC.mousePressed();
+  endingB.handleClick();*/ // 클릭 처리
 }
 
 function mouseReleased() {
@@ -637,7 +652,7 @@ function mouseReleased() {
     let x2 = max(dragStartX, dragEndX);
     let y2 = max(dragStartY, dragEndY);
 
-    let allCorrect = true;
+    let selected = [];
 
     for (let s of sentenceObjs) {
       let tw = textWidth(s.text);
@@ -648,22 +663,28 @@ function mouseReleased() {
         s.y < y2 &&
         s.y + th > y1
       ) {
-        if (s.isWrong) {
-          s.state = "correct";
-        } else {
-          s.state = "wrong";
-          allCorrect = false;
-        }
+        selected.push(s);
       }
     }
 
-    // 정답만 골랐다면 다음 스테이지로
+    let allCorrect = selected.length === 1 && selected[0].isWrong;
+
+    for (let s of sentenceObjs) {
+      if (selected.includes(s)) {
+        s.state = allCorrect ? "correct" : "wrong";
+      }
+    }
+
     if (allCorrect) {
-      stage++;
+      resultMessage = "";
+      setTimeout(() => {
+        stage++; // 다음 스테이지로
+      }, 800);
+    } else {
+      resultMessage = "실패! 다시 시도하세요.";
     }
   }
 }
-
 
 function typeText(texts) {
 
