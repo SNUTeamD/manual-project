@@ -336,11 +336,11 @@ function draw() {
 
     case 9:
       // 바탕화면 3
-      textAlign(CENTER, CENTER);
       noStroke();
-      rectMode(CORNER);
+      textAlign(CENTER, CENTER);
       textSize(30);
       fill(150, 150, 255);
+      rectMode(CORNER);
       rect(width - 450, 50, 400, 200);
       fill(0);
       text("오늘의 할 일", width - 250, 85);
@@ -545,7 +545,7 @@ function draw() {
       case 600:
           // 엔딩 C
           endingC.update();
-        break;
+        break;*/
 
           
 
