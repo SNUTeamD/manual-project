@@ -24,7 +24,7 @@ let showManual = false; // 매뉴얼 보여줄지 여부
 // 사용자 입력용 인풋창
 let nameInput, codeInput;
 
-// 업무 2 관련 변수수
+// 업무 2 관련 변수
 let sentenceObjs = [];
 let isDragging = false;
 let dragStartX, dragStartY, dragEndX, dragEndY;
