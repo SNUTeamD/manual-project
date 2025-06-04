@@ -6,7 +6,14 @@ let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
+<<<<<<< Updated upstream
 // 시작 스테이지 설정정
+=======
+// 폴더에 문서 넣는 업무(Day1 업무1) 관련 변수들
+let doctaskDay1;
+let folderIcon, folderDoc;
+
+>>>>>>> Stashed changes
 let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
@@ -53,6 +60,8 @@ function preload() {
   imgResearcher = loadImage("assets/연구원.png");
   imgCompany = loadImage("assets/우리 회사다! 반짝.png");
   imgCode = loadImage("assets/모스부호.jpg");
+  folderIcon = loadImage('assets/folderIcon.png');
+  folderDoc = loadImage('assets/folderDoc.png');
 
   // 아이콘들 (활성/비활성) 불러오기
   activeFileIcon = loadImage("assets/파일 아이콘.png");
@@ -67,10 +76,13 @@ function preload() {
   imgError_2 = loadImage('assets/에러창2.png');
   
   // 엔딩 객체 불러오기
+  // 엔딩 A
   endingA = new EndingA();
+  // 엔딩 B
   endingB = new EndingB();
-  endingC = new EndingC();
   endingB.preload();
+  // 엔딩 C
+  endingC = new EndingC();
   endingC.preload();
 }
 
@@ -104,10 +116,17 @@ function setup() {
     "From: 실감부 U\nTo: 정제실 3층 협의라인\nSubject: 점심 감각세트 예약했어요\n'향수 + 미열 + 저항감' 패키지로 해놨어요.\n그나저나 027이 자꾸 같은 이름을 떠올린대요.\n이전 루프에선 그런 거 없었는데. 그만 소각(...)", // 30초 이전에 표시할 텍스트
     "아 잘못보냈다ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\n"  // 30초 이후에 표시할 텍스트
   );
-
+  // Day1 업무1
+  doctaskDay1 = new Day1Task1();
+  doctaskDay1.start();
   //엔딩 초기화
+<<<<<<< Updated upstream
   /*endingA.setup();
   endingC.start();*/
+=======
+  endingA.start();
+  endingC.start();
+>>>>>>> Stashed changes
 }
 
 
@@ -277,6 +296,11 @@ function draw() {
       break;
     
     // 파일 정리 업무는 여기에 넣어주세요!!
+    case 20:
+      // 파일 정리 업무
+      doctaskDay1.update();
+      break;
+
     
     case 7:
       // 바탕화면 2
@@ -582,7 +606,6 @@ function draw() {
       case 400:
           /*//엔딩 A
           endingA.update();
-          endingA.display();
         break;
       
       case 500:
@@ -685,8 +708,21 @@ function mousePressed() {
     dragStartY = mouseY;
     isDragging = true;
   }
-  /*endingC.mousePressed();
-  endingB.handleClick();*/ // 클릭 처리
+  if (stage === 20){
+    doctaskDay1.mousePressed();
+  }
+  
+  if (stage === 500) {
+    endingB.handleClick();} // 클릭 처리
+
+  if (stage === 600) {
+    endingC.mousePressed();}
+}
+
+function mouseDragged() {
+  if (stage === 20){
+    doctaskDay1.mouseDragged();
+  }
 }
 
 function mouseReleased() {
@@ -739,6 +775,9 @@ function mouseReleased() {
       fill(255, 50, 50);
       resultMessage = "실패 .. 다시 시도하세요.";
     }
+  }
+  if (stage === 20){
+    doctaskDay1.mouseReleased();
   }
 }
 
@@ -923,5 +962,9 @@ function checkMorseAnswer() {
     resultMessage = "틀렸습니다. 다시 시도하세요.";
     console.log("실패");
   }
+<<<<<<< Updated upstream
 }
 
+=======
+}
+>>>>>>> Stashed changes
