@@ -37,7 +37,7 @@ let errors = [];
 const NUM_ERRORS = 7;
 
 
-//엔딩 관련
+//엔딩 관련 변수
 let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
@@ -103,7 +103,8 @@ function setup() {
     "아 잘못보냈다ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\n"  // 30초 이후에 표시할 텍스트
   );
 
-  //엔딩 C 초기화
+  //엔딩 초기화
+  endingA.setup();
   endingC.start();
 }
 
@@ -553,7 +554,7 @@ function draw() {
       case 600:
           // 엔딩 C
           endingC.update();
-        break;*/
+        break;
 
           
 

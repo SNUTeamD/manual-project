@@ -79,7 +79,13 @@ class EndingA {
     for (let i = 0; i < this.displayedLines.length; i++) {
       text(this.displayedLines[i], this.startX, this.startY + i * this.lineHeight);
     }
+    let textMargin = 50;
+let boxX = this.startX;
+let boxY = this.startY + this.displayedLines.length * this.lineHeight;
+let boxW = width - this.startX * 2;
 
-    text(this.currentText, this.startX, this.startY + this.displayedLines.length * this.lineHeight);
+// 텍스트 박스 내부 폭에서 마진만 빼서 텍스트 줄바꿈 처리
+text(this.currentText, boxX, boxY, boxW - textMargin * 2, this.lineHeight * 3);
+
   }
 }
