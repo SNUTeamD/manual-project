@@ -6,7 +6,7 @@ let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
-let stage = 400;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -37,7 +37,7 @@ let errors = [];
 const NUM_ERRORS = 7;
 
 
-//엔딩 관련 변수
+// 엔딩 관련 변수
 let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
@@ -104,8 +104,8 @@ function setup() {
   );
 
   //엔딩 초기화
-  endingA.setup();
-  endingC.start();
+  /*endingA.setup();
+  endingC.start();*/
 }
 
 
@@ -310,7 +310,7 @@ function draw() {
           "해당 연구는 특정 약물 후보물질(Candidate Compound X)이 인지기능에 미치는 영향을 평가하기 위한 사전 실험으로, 약물 투여 후 피험자의 반응 속도, 정확성, 선택적 주의력 변화 등을 측정하였다.",
           "현재 본 팀은 운영이 일시 중단된 상태이나, 실험 결과의 과학적 의의와 향후 임상 적용 가능성을 고려하여 연구 기록 보존 및 부서 간 공유를 목적으로 본 보고서를 작성하였다.",
           "",
-          // 이상한 문장 1
+          // 흐름에 맞지 않는 내용
           "한 해를 마무리하는 특별 할인! 겨울의 마법이 시작됩니다. 따뜻한 순간을 선물하세요.",
           "크리스마스의 기적, 마음에 닿기를",
           "",
@@ -366,10 +366,14 @@ function draw() {
       }
 
       if (resultMessage) {
-        fill(255, 0, 0);
         textSize(30);
         textAlign(CENTER, CENTER);
-        text(resultMessage, width / 2, height - 100);
+        if (resultMessage.includes("성공")) {
+          fill(0, 100, 255); // 파랑
+        } else {
+          fill(255, 0, 0);   // 빨강
+        }
+        text(resultMessage, width - 150, height - 100);
       }
 
       break;
@@ -414,7 +418,7 @@ function draw() {
       let btnW10 = 80;
       let btnH10 = 62;
 
-      handleButtonHover(btnX10, btnY10, btnW10, btnH10);
+      checkButton(btnX10, btnY10, btnW10, btnH10);
       noStroke();
       rect(btnX10, btnY10, btnW10, btnH10);
 
@@ -574,7 +578,7 @@ function draw() {
         break;
 
       case 400:
-          //엔딩 A
+          /*//엔딩 A
           endingA.update();
           endingA.display();
         break;
@@ -587,7 +591,7 @@ function draw() {
       case 600:
           // 엔딩 C
           endingC.update();
-        break;
+        break;*/
 
           
 
@@ -632,7 +636,7 @@ function mouseClicked() {
     }
   } else if (stage == 4 || stage == 5|| stage==100 || stage ==200) {
     stage ++;
-  } else if (stage >= 6 && stage <= 8 || stage>=101&&stage<=103 || stage===201 || stage===202 || stage === 204) {
+  } else if (stage == 6 || stage == 7 || stage == 9 || stage>=101&&stage<=103 || stage===201 || stage===202 || stage === 204) {
   let layout = getIconLayout();
   let activeKey = getActiveIconName();
   let icon = layout[activeKey];
@@ -647,7 +651,7 @@ function mouseClicked() {
     }
   
     }
-  else  if(stage === 9){
+  else  if(stage === 10){
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -723,11 +727,14 @@ function mouseReleased() {
     }
 
     if (allCorrect) {
-      resultMessage = "";
+      fill(0, 100, 255);
+      resultMessage = "성공입니다.";
       setTimeout(() => {
-        stage++; // 다음 스테이지로
-      }, 800);
+        stage ++;
+        resultMessage = "";
+      }, 1500);
     } else {
+      fill(255, 50, 50);
       resultMessage = "실패 .. 다시 시도하세요.";
     }
   }
@@ -845,7 +852,7 @@ function getIconLayout() {
 function getActiveIconName() {
   if (stage === 6 | stage ===101 | stage === 201 ) return "file";
   if (stage === 7 | stage ===102 | stage === 202 ) return "doc";
-  if (stage === 8 | stage ===103 | stage === 204 ) return "sat";
+  if (stage === 9 | stage ===103 | stage === 204 ) return "sat";
   return null;
 }
 
