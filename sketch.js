@@ -23,7 +23,7 @@ let errorImg;//에러2번 이미지
 let errors = [];
 const NUM_ERRORS = 7;
 
-
+let endingB;//엔딩 B
 let endingC;//엔딩 C
 
 function preload() {
@@ -40,6 +40,7 @@ function preload() {
   imgCode = loadImage("assets/모스부호.jpg");
   imgError = loadImage('assets/에러창.png');
   errorImg = loadImage('assets/에러창2.png');
+  endingB = new EndingB();
   endingC = new EndingC();
   endingC.preload();
 }
@@ -470,6 +471,14 @@ function draw() {
 
         break;
 
+        case 400:
+          //엔딩 A
+          ending
+        break;
+        case 500:
+          drawResearcher();
+          endingB.update();
+          break;//엔딩 B
         case 600:
           // 엔딩 C
           endingC.update();
@@ -482,6 +491,7 @@ function draw() {
 
 function mousePressed() {
   endingC.mousePressed();
+  endingB.handleClick(); // 클릭 처리
 }
 
 function mouseClicked() {
