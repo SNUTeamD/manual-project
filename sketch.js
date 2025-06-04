@@ -1,5 +1,5 @@
 // ====== 전역 변수 설정 ======
-// 이미지, 폰트, 인풋창 등 기본 변수들 선언
+// 폰트, 이미지지 등 기본 변수들 선언
 let myFont;
 let imgManual, imgResearcher, imgCompany, imgCode;
 let activeFileIcon, inactiveFileIcon;
@@ -24,8 +24,8 @@ let showManual = false; // 매뉴얼 보여줄지 여부
 let nameInput, codeInput;
 
 let error1;
-let imgError;//에러1유형 이미지
-let errorImg;//에러2번 이미지
+let imgError; //에러 유형 1 이미지
+let errorImg; //에러 유형 2 이미지
 let errors = [];
 const NUM_ERRORS = 7;
 
@@ -33,6 +33,7 @@ let endingB;//엔딩 B
 let endingC;//엔딩 C
 
 function preload() {
+  // 폰트 불러오기
   myFont = loadFont('assets/DungGeunMo.ttf');
 
   // 각종 이미지 불러오기
@@ -48,7 +49,8 @@ function preload() {
   inactiveDocIcon = loadImage("assets/문서 아이콘 비활성화.png");
   activeSatIcon = loadImage("assets/위성 아이콘.png");
   inactiveSatIcon = loadImage("assets/위성 아이콘 비활성화.png");
-  imgCode = loadImage("assets/모스부호.jpg");
+
+  // 에러 이미지 불러오기기
   imgError = loadImage('assets/에러창.png');
   errorImg = loadImage('assets/에러창2.png');
   endingB = new EndingB();
