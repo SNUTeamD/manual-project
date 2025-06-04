@@ -336,59 +336,59 @@ function draw() {
   break;
 
 
-    case 9:
-      // 바탕화면 3
-      textSize(35);
-      fill(150, 150, 255);
-      rect(width - 450, 50, 400, 200);
-      fill(0);
-      text("오늘의 할 일", width - 250, 85);
-      text("1. 파일 정리", width - 250, 125);
-      text("2. 정크 데이터 처리", width - 250, 165);
-      text("3. 코드 해석", width - 250, 205);
+case 9:
+  // 바탕화면 3
+  textSize(35);
+  fill(150, 150, 255);
+  rect(width - 450, 50, 400, 200);
+  fill(0);
+  text("오늘의 할 일", width - 250, 85);
+  text("1. 파일 정리", width - 250, 125);
+  text("2. 정크 데이터 처리", width - 250, 165);
+  text("3. 코드 해석", width - 250, 205);
 
-      // 밑줄: 업무 1, 2 완료 표시
-      strokeWeight(3);
-      line(width - 350, 130, width - 150, 130);    // 1번 줄 완료
-      line(width - 400, 170, width - 100, 170);    // 2번 줄 완료
+  // 밑줄: 업무 1, 2 완료 표시
+  strokeWeight(3);
+  line(width - 350, 130, width - 150, 130);    // 1번 줄 완료
+  line(width - 400, 170, width - 100, 170);    // 2번 줄 완료
 
-      // 아이콘 표시: 위성 아이콘만 활성화
-      drawIcons();
-      break;
+  // 아이콘 표시: 위성 아이콘만 활성화
+  drawIcons();
+  break;
 
-    case 10:
-      // Day 1 - 업무 3: 코드 해석
-      image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
+case 10:
+  // Day 1 - 업무 3: 코드 해석
+  image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
 
-      fill(255);
-      textSize(windowWidth * 0.03);
-      text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      fill(255);
-      text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
+  fill(255);
+  textSize(windowWidth * 0.03);
+  text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
+  fill(255);
+  text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
 
-      // 확인 버튼 마우스 오버 처리
-      let mouseOver =
-        mouseX >= width / 2 + 210 &&
-        mouseX <= width / 2 + 290 &&
-        mouseY >= height - 81 &&
-        mouseY <= height - 19;
+  // 확인 버튼 마우스 오버 처리
+  let mouseOver =
+    mouseX >= width / 2 + 210 &&
+    mouseX <= width / 2 + 290 &&
+    mouseY >= height - 81 &&
+    mouseY <= height - 19;
 
-      if (mouseOver) {
-        fill(255, 80, 80);
-        cursor(HAND);
-      } else {
-        fill(255, 0, 0);
-        cursor(ARROW);
-      }
+  if (mouseOver) {
+    fill(255, 80, 80);
+    cursor(HAND);
+  } else {
+    fill(255, 0, 0);
+    cursor(ARROW);
+  }
 
-      noStroke();
-      rect(width / 2 + 210, height - 81, 80, 62);
+  noStroke();
+  rect(width / 2 + 210, height - 81, 80, 62);
 
-      fill(255);
-      textSize(30);
-      text("확인", width / 2 + 250, height - 52);
-        
-      break;
+  fill(255);
+  textSize(30);
+  text("확인", width / 2 + 250, height - 52);
+    
+  break;
 
     case 100:
       fill(255);
