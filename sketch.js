@@ -6,7 +6,7 @@ let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
-let stage = 0;
+let stage = 400;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -36,6 +36,9 @@ let imgError_2; // 에러 2 유형 이미지
 let errors = [];
 const NUM_ERRORS = 7;
 
+
+//엔딩 관련 변수
+let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
 
@@ -60,6 +63,9 @@ function preload() {
   // 에러 이미지 불러오기
   imgError_1 = loadImage('assets/에러창.png');
   imgError_2 = loadImage('assets/에러창2.png');
+  
+  // 엔딩 객체 불러오기
+  endingA = new EndingA();
   endingB = new EndingB();
   endingC = new EndingC();
   endingB.preload();
@@ -97,7 +103,8 @@ function setup() {
     "아 잘못보냈다ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\n"  // 30초 이후에 표시할 텍스트
   );
 
-  //엔딩 C 초기화
+  //엔딩 초기화
+  endingA.setup();
   endingC.start();
 }
 
@@ -566,19 +573,21 @@ function draw() {
 
         break;
 
-      /*case 400:
+      case 400:
           //엔딩 A
-          ending
+          endingA.update();
+          endingA.display();
         break;
-        case 500:
-          drawResearcher();
+      
+      case 500:
+          //엔딩 B
           endingB.update();
-          break;//엔딩 B
+        break;
 
       case 600:
           // 엔딩 C
           endingC.update();
-        break;*/
+        break;
 
           
 
