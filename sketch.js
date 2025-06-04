@@ -6,7 +6,7 @@ let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
-let stage = 600;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -22,6 +22,9 @@ let showManual = false; // 매뉴얼 보여줄지 여부
 
 // 사용자 입력용 인풋창
 let nameInput, codeInput;
+
+let sentenceObjs = [];
+let lineHeight = 45;
 
 // 에러 관련 변수
 let error1;
@@ -63,13 +66,15 @@ function preload() {
 // ====== 초기 설정 ======
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  background(0);
+
   textFont(myFont);
   textSize(35);
   textAlign(CENTER, CENTER);
 
   setupInputs();
   
-// 에러1 유형의 텍스트 지정
+// 에러 1 유형의 텍스트 지정
   error1 = new Error1(
     imgError_1,
     "From: 구조언어부 백업담당 T\n To: 수거조정실 S외 2명\nSubject: 그거 진짜 지운 애 있음ㅋㅋ\n진짜로 그거 날린 직원 나왔어요. 영상도 첨부함!\n마지막에 충격받은 표정이 꽤 웃겨서 추천함.\n자기 눈으로 세상 본 줄 아는 표정 아시죠? (...)",  // 30초 이전에 표시할 텍스트
@@ -87,6 +92,7 @@ function setup() {
     "From: 실감부 U\nTo: 정제실 3층 협의라인\nSubject: 점심 감각세트 예약했어요\n'향수 + 미열 + 저항감' 패키지로 해놨어요.\n그나저나 027이 자꾸 같은 이름을 떠올린대요.\n이전 루프에선 그런 거 없었는데. 그만 소각(...)", // 30초 이전에 표시할 텍스트
     "아 잘못보냈다ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\n"  // 30초 이후에 표시할 텍스트
   );
+
   //엔딩 C 초기화
   endingC.start();
 }
@@ -234,7 +240,7 @@ function draw() {
       ]);
       break;
 
-      case 4:
+    case 4:
       drawResearcher();
       // 화면 아래 회색 박스
       fill(120);
@@ -244,10 +250,10 @@ function draw() {
       typeText([
         ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
       ]);
-      
-        break;
+    
+      break;
 
-      case 5:
+    case 5:
       fill(255);
       textSize(70)
       text("Day 1", width / 2, height / 2 - 50);
@@ -256,19 +262,19 @@ function draw() {
       finishText = true;
       break;
 
-      case 6:
-        // 바탕화면 1
-        fill(150, 150, 255);
-        rect(width - 450, 50, 400, 200);
-        fill(0);
-        text("오늘의 할 일", width - 250, 85);
-        text("1. 파일 정리", width - 250, 125);
-        text("2. 정크 데이터 처리", width - 250, 165);
-        text("3. 코드 해석", width - 250, 205);
+    case 6:
+      // 바탕화면 1
+      fill(150, 150, 255);
+      rect(width - 450, 50, 400, 200);
+      fill(0);
+      text("오늘의 할 일", width - 250, 85);
+      text("1. 파일 정리", width - 250, 125);
+      text("2. 정크 데이터 처리", width - 250, 165);
+      text("3. 코드 해석", width - 250, 205);
 
-        // 아이콘 표시: 파일 아이콘만 활성화
-        drawIcons();
-        break;
+      // 아이콘 표시: 파일 아이콘만 활성화
+      drawIcons();
+      break;
     
     // 파일 정리 업무는 여기에 넣어주세요!!
     
@@ -289,8 +295,8 @@ function draw() {
       drawIcons();
       break;
 
-    case 8:
-  if (sentenceObjs.length === 0) {
+  case 8:
+    if (sentenceObjs.length === 0) {
     let texts = [
       { text: "오늘은 팀 전체 회의가 있다.", isWrong: false },
       { text: "회의 때는 항상 고양이 춤을 춘다.", isWrong: true },
@@ -302,9 +308,9 @@ function draw() {
       y: 200 + i * 50,
       state: "default"
     }));
-  }
+    }
 
-  error1.display();
+    error1.display();
 
   // 문장 출력
   textSize(24);
@@ -533,10 +539,10 @@ function draw() {
 
         break;
 
-      case 400:
+      /*case 400:
           //엔딩 A
           ending
-        break;
+        break;*/
 
       case 500:
           drawResearcher();
@@ -552,12 +558,6 @@ function draw() {
 
     }
   }
-
-function mousePressed() {
-  endingC.mousePressed();
-  endingB.handleClick(); // 클릭 처리
-}
-
 
 // 클릭 이벤트 처리
 function mouseClicked() {
@@ -630,6 +630,8 @@ function mousePressed() {
     dragStartY = mouseY;
     isDragging = true;
   }
+  endingC.mousePressed();
+  endingB.handleClick(); // 클릭 처리
 }
 
 function mouseReleased() {
