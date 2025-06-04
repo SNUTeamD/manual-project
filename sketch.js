@@ -1,7 +1,7 @@
 let myFont;
 let imgManual, imgResearcher, imgCompany, imgCode;
 
-let stage = 600;
+let stage = 500;
 
 let part = 0;
 let linePart = 0;
@@ -42,6 +42,7 @@ function preload() {
   errorImg = loadImage('assets/에러창2.png');
   endingB = new EndingB();
   endingC = new EndingC();
+  endingB.preload();
   endingC.preload();
 }
 
@@ -476,7 +477,6 @@ function draw() {
           ending
         break;
         case 500:
-          drawResearcher();
           endingB.update();
           break;//엔딩 B
         case 600:
