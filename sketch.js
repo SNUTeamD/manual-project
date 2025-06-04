@@ -156,31 +156,18 @@ function draw() {
       textSize(120);
       text('MANUAL', width / 2, height / 2 - 100);
 
-      fill(255, 0, 0);
-      rect(width / 2 + 130, height / 2 - 1.5, 80, 53); // 확인 버튼 배경
+      let btnX0 = width / 2 + 130;
+      let btnY0 = height / 2;
+      let btnW0 = 80;
+      let btnH0 = 53;
 
-      // 확인 버튼 마우스 오버 처리
-      let mouseCheck =
-        mouseX >= width / 2 + 130 &&
-        mouseX <= width / 2 + 210 &&
-        mouseY >= height / 2 - 1.5 &&
-        mouseY <= height / 2 + 51.5;
-
-      if (mouseCheck) {
-        fill(255, 80, 80);
-        cursor(HAND);
-      } else {
-        fill(255, 0, 0);
-        cursor(ARROW);
-      }
-
-      rectMode(CORNER);
-      rect(width / 2 + 130, height / 2, 80, 53);
+      checkButton(btnX0, btnY0, btnW0, btnH0);
+      rect(btnX0, btnY0, btnW0, btnH0);
 
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text('확인', width / 2 + 170, height / 2 + 22);
+      text('확인', width / 2 + 170, height / 2 + 24);
       break;
 
     case 1:
@@ -295,100 +282,91 @@ function draw() {
       drawIcons();
       break;
 
-  case 8:
-    if (sentenceObjs.length === 0) {
-    let texts = [
-      { text: "오늘은 팀 전체 회의가 있다.", isWrong: false },
-      { text: "회의 때는 항상 고양이 춤을 춘다.", isWrong: true },
-      { text: "회의 후에는 정리 보고서를 작성한다.", isWrong: false }
-    ];
-    sentenceObjs = texts.map((t, i) => ({
-      ...t,
-      x: width / 2 - 200,
-      y: 200 + i * 50,
-      state: "default"
-    }));
-    }
+    case 8:
+      if (sentenceObjs.length === 0) {
+      let texts = [
+        { text: "오늘은 팀 전체 회의가 있다.", isWrong: false },
+        { text: "회의 때는 항상 고양이 춤을 춘다.", isWrong: true },
+        { text: "회의 후에는 정리 보고서를 작성한다.", isWrong: false }
+      ];
+      sentenceObjs = texts.map((t, i) => ({
+        ...t,
+        x: width / 2 - 200,
+        y: 200 + i * 50,
+        state: "default"
+      }));
+      }
 
-    error1.display();
+      error1.display();
 
-  // 문장 출력
-  textSize(24);
-  for (let s of sentenceObjs) {
-    if (s.state === "correct") {
-      fill(0, 100, 255);
-    } else if (s.state === "wrong") {
-      fill(255, 50, 50);
-    } else {
+      // 문장 출력
+      textSize(24);
+      for (let s of sentenceObjs) {
+        if (s.state === "correct") {
+          fill(0, 100, 255);
+        } else if (s.state === "wrong") {
+          fill(255, 50, 50);
+        } else {
+          fill(255);
+        }
+        text(s.text, s.x, s.y);
+      }
+
+      // 드래그 시 영역
+      if (isDragging) {
+        noFill();
+        stroke(200);
+        rectMode(CORNERS);
+        rect(dragStartX, dragStartY, mouseX, mouseY);
+      }
+
+      break;
+
+
+    case 9:
+      // 바탕화면 3
+      textSize(35);
+      fill(150, 150, 255);
+      rect(width - 450, 50, 400, 200);
+      fill(0);
+      text("오늘의 할 일", width - 250, 85);
+      text("1. 파일 정리", width - 250, 125);
+      text("2. 정크 데이터 처리", width - 250, 165);
+      text("3. 코드 해석", width - 250, 205);
+
+      // 밑줄: 업무 1, 2 완료 표시
+      strokeWeight(3);
+      line(width - 350, 130, width - 150, 130);    // 1번 줄 완료
+      line(width - 400, 170, width - 100, 170);    // 2번 줄 완료
+
+      // 아이콘 표시: 위성 아이콘만 활성화
+      drawIcons();
+      break;
+
+    case 10:
+      // Day 1 - 업무 3: 코드 해석
+      image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
+
       fill(255);
-    }
-    text(s.text, s.x, s.y);
-  }
+      textSize(windowWidth * 0.03);
+      text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
+      fill(255);
+      text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
 
-  // 드래그 시 영역
-  if (isDragging) {
-    noFill();
-    stroke(200);
-    rectMode(CORNERS);
-    rect(dragStartX, dragStartY, mouseX, mouseY);
-  }
+      let btnX10 = width / 2 + 210;
+      let btnY10 = height - 81;
+      let btnW10 = 80;
+      let btnH10 = 62;
 
-  break;
+      handleButtonHover(btnX10, btnY10, btnW10, btnH10);
+      noStroke();
+      rect(btnX10, btnY10, btnW10, btnH10);
 
-
-case 9:
-  // 바탕화면 3
-  textSize(35);
-  fill(150, 150, 255);
-  rect(width - 450, 50, 400, 200);
-  fill(0);
-  text("오늘의 할 일", width - 250, 85);
-  text("1. 파일 정리", width - 250, 125);
-  text("2. 정크 데이터 처리", width - 250, 165);
-  text("3. 코드 해석", width - 250, 205);
-
-  // 밑줄: 업무 1, 2 완료 표시
-  strokeWeight(3);
-  line(width - 350, 130, width - 150, 130);    // 1번 줄 완료
-  line(width - 400, 170, width - 100, 170);    // 2번 줄 완료
-
-  // 아이콘 표시: 위성 아이콘만 활성화
-  drawIcons();
-  break;
-
-case 10:
-  // Day 1 - 업무 3: 코드 해석
-  image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
-
-  fill(255);
-  textSize(windowWidth * 0.03);
-  text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-  fill(255);
-  text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
-
-  // 확인 버튼 마우스 오버 처리
-  let mouseOver =
-    mouseX >= width / 2 + 210 &&
-    mouseX <= width / 2 + 290 &&
-    mouseY >= height - 81 &&
-    mouseY <= height - 19;
-
-  if (mouseOver) {
-    fill(255, 80, 80);
-    cursor(HAND);
-  } else {
-    fill(255, 0, 0);
-    cursor(ARROW);
-  }
-
-  noStroke();
-  rect(width / 2 + 210, height - 81, 80, 62);
-
-  fill(255);
-  textSize(30);
-  text("확인", width / 2 + 250, height - 52);
-    
-  break;
+      fill(255);
+      textSize(30);
+      text("확인", width / 2 + 250, height - 52);
+        
+      break;
 
     case 100:
       fill(255);
@@ -622,6 +600,20 @@ function mouseClicked() {
       checkMorseAnswer()
     }
   }
+}
+
+function checkButton(x, y, w, h) {
+  let isHover = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
+
+  if (isHover) {
+    fill(255, 80, 80);
+    cursor(HAND);
+  } else {
+    fill(255, 0, 0);
+    cursor(ARROW);
+  }
+
+  return isHover;
 }
 
 function mousePressed() {
