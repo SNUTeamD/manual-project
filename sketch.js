@@ -23,8 +23,12 @@ let showManual = false; // 매뉴얼 보여줄지 여부
 // 사용자 입력용 인풋창
 let nameInput, codeInput;
 
+let sentenceObjs = [];
+let dragStartX, dragStartY, dragEndX, dragEndY;
+let isDragging = false;
+let lineHeight = 40;
 
-// ====== 폰트 및 이미지 미리 불러오기 ======
+
 function preload() {
   myFont = loadFont('assets/DungGeunMo.ttf');
 
@@ -87,7 +91,6 @@ function styleInput(input, placeholder, fontSize, bg = 'black') {
   input.attribute('placeholder', placeholder);
 }
 
-
 // ====== 메인 화면 반복 그리기 ======
 function draw() {
   background(0);
@@ -99,7 +102,7 @@ function draw() {
   if (stage === 0) {
     nameInput.show();
     codeInput.hide();
-  } else if (stage === 9) {
+  } else if (stage === 10) {
     nameInput.hide();
     codeInput.show();
   } else {
@@ -107,7 +110,6 @@ function draw() {
     codeInput.hide();
   }
 
-  // 진행 단계(stage)에 따른 화면 분기 처리
   switch (stage) {
     case 0:
       // 초기 화면: MANUAL + 확인 버튼
@@ -119,13 +121,13 @@ function draw() {
       rect(width / 2 + 130, height / 2 - 1.5, 80, 53); // 확인 버튼 배경
 
       // 확인 버튼 마우스 오버 처리
-      let isHovering =
+      let mouseCheck =
         mouseX >= width / 2 + 130 &&
         mouseX <= width / 2 + 210 &&
         mouseY >= height / 2 - 1.5 &&
         mouseY <= height / 2 + 51.5;
 
-      if (isHovering) {
+      if (mouseCheck) {
         fill(255, 80, 80);
         cursor(HAND);
       } else {
@@ -153,12 +155,11 @@ function draw() {
 
       fill(0);
       typeText([
-        ["프로젝트 [dlsRKsdPsjwl-444]."],
-        ["내가 다니는 회사에서 진행하고 있는 기밀 프로젝트이자,", "오늘부터 참여하게 된 프로젝트이다."],
-        ["모든 게 기밀이라는 이 프로젝트."],
-        ["몇 번이고 ‘절대로 매뉴얼을 따라야 한다’는", "안내가 이루어졌다는 점이 마음에 걸리지만"],
-        ["기밀이고, 중요한 프로젝트인만큼 규칙도 철저한 것이라 믿는다."],
-        ["높은 초봉에 사무직.. 이런 조건은 어디에도 없을 기회다."],
+        [" 드디어 오늘이 왔다! "],
+        /*["내가 다니는 제약회사에서 진행하고 있는 프로젝트는", "인간의 감염병을 치료하는 백신을 중점적으로 연구한다고 들었다."], 
+        ["신입이니까 초반 며칠은 자잘한 서류 처리 작업을 맡겠지만", "프로젝트를 진행하다보면 중대한 업무도 맡게 되겠지."], 
+        ["질병의 치료라는 중대한 사명을 가지고 있는 만큼","'절대로 매뉴얼을 따라야 한다’는 선배의 말을 반드시 명심해야 한다."], 
+        ["후... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을거다."],*/
         ["Click to continue ···"]
       ]);
       break;
@@ -172,12 +173,12 @@ function draw() {
       fill(0);
       typeText([
         [nameInput.value() + " 씨 맞으신가요?"],
-        ["저는 연구 부서의 김철수 연구원이라고 합니다."],
+        /*["저는 연구 부서의 김철수 연구원이라고 합니다."],
         ["해야 할 업무를 설명해 드리겠습니다."],
         ["이전에 안내드린 바와 같이, 업무는 간단합니다."],
         ["컴퓨터 화면에 그날 해야 할 업무 리스트가 제시되어 있을 겁니다."],
         ["순서대로 업무를 수행해주시면 됩니다."],
-        ["따라주셔야 할 매뉴얼을 드리겠습니다."],
+        ["따라주셔야 할 매뉴얼을 드리겠습니다."], */
         ["매뉴얼을 따르지 않아 발생하는 문제는 회사에서 책임지지 않으므로,", "업무를 수행하면서 이를 반드시 지켜주시기 바랍니다."]
       ]);
 
@@ -187,27 +188,8 @@ function draw() {
       }
 
       break;
-
+    
     case 3:
-      // 매뉴얼 사용법 설명
-      drawResearcher();
-      fill(120);
-      rect(0, height - height / 4, width, height / 4);
-
-      fill(30);
-      typeText([
-        ["[이제부터 m 키를 눌러 매뉴얼을 확인할 수 있습니다.]"]
-      ]);
-
-      if (finishText) {
-        stage++;
-        resetTyping();
-      }
-
-      break;
-
-    case 4:
-      // 경고 메시지
       drawResearcher();
       fill(120);
       rect(0, height - height / 4, width, height / 4);
@@ -219,8 +201,20 @@ function draw() {
       ]);
       break;
 
-    case 5:
-      // Day 1 시작 화면
+      case 4:
+      drawResearcher();
+      // 화면 아래 회색 박스
+      fill(120);
+      rect(0, height - height / 4, width, height / 4);
+
+      fill(30);
+      typeText([
+        ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
+      ]);
+      
+        break;
+
+      case 5:
       fill(255);
       textSize(70)
       text("Day 1", width / 2, height / 2 - 50);
@@ -229,24 +223,24 @@ function draw() {
       finishText = true;
       break;
 
-    case 6:
-      // Day 1 - 업무 1: 파일 정리
-      fill(150, 150, 255);
-      rect(width - 450, 50, 400, 200);
-      fill(0);
-      text("오늘의 할 일", width - 250, 85);
-      text("1. 파일 정리", width - 250, 125);
-      text("2. 정크 데이터 처리", width - 250, 165);
-      text("3. 코드 해석", width - 250, 205);
+      case 6:
+        // 바탕화면 1
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
 
-      // 아이콘 표시: 파일 아이콘만 활성화
-      drawIcons();
-      break;
+        // 아이콘 표시: 파일 아이콘만 활성화
+        drawIcons();
+        break;
     
     // 파일 정리 업무는 여기에 넣어주세요!!
     
     case 7:
-      // Day 1 - 업무 2: 정크 데이터 처리
+      // 바탕화면 2
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -259,12 +253,58 @@ function draw() {
       strokeWeight(3);
       line(width - 350, 130, width - 150, 130);
 
-      // 아이콘 표시: 문서 아이콘만 활성화
       drawIcons();
       break;
 
     case 8:
-      // Day 1 - 업무 3: 코드 해석
+      if (sentenceObjs.length === 0) {
+        let texts = [
+          { text: "오늘은 팀 전체 회의가 있다.", isWrong: false },
+          { text: "회의 때는 항상 고양이 춤을 춘다.", isWrong: true },
+          { text: "회의 후에는 정리 보고서를 작성한다.", isWrong: false }
+        ];
+
+        let y = 300;
+        for (let i = 0; i < texts.length; i++) {
+          let s = texts[i];
+          sentenceObjs.push({
+            text: s.text,
+            x: width / 2,
+            y: y,
+            isWrong: s.isWrong,
+            state: "default"
+          });
+          y += lineHeight;
+        }
+      }
+
+      // 문장 출력
+      textSize(24);
+      for (let s of sentenceObjs) {
+        if (s.state === "correct") {
+          fill(0, 100, 255);
+        } else if (s.state === "wrong") {
+          fill(255, 50, 50);
+        } else {
+          fill(255);
+        }
+        text(s.text, s.x, s.y);
+      }
+
+      // 드래그 시 영역
+      if (isDragging) {
+        noFill();
+        stroke(200);
+        rectMode(CORNERS);
+        rect(dragStartX, dragStartY, mouseX, mouseY);
+      }
+
+    break;
+
+
+    case 9:
+      // 바탕화면 3
+      textSize(35);
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -282,36 +322,46 @@ function draw() {
       drawIcons();
       break;
 
-    case 9:
-      // 모스 부호 화면과 인풋창
-      imageMode(CENTER);
-      rectMode(CENTER);
+      case 10:
+        // Day 1 - 업무 3: 코드 해석
+        image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
 
-      image(imgCode, width / 2, height / 2 + 50, imgCode.width / 5, imgCode.height / 5);
+        fill(255);
+        textSize(windowWidth * 0.03);
+        text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
+        fill(255);
+        text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
 
-      fill(255);
-      strokeWeight(1);
-      rect(width / 2, height * 0.05, width * 0.75, height * 0.08);
+        // 확인 버튼 마우스 오버 처리
+        let mouseOver =
+          mouseX >= width / 2 + 210 &&
+          mouseX <= width / 2 + 290 &&
+          mouseY >= height - 81 &&
+          mouseY <= height - 19;
 
-      fill(0);
-      textSize(windowWidth * 0.03);
-      text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      fill(255);
-      text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
+        if (mouseOver) {
+          fill(255, 80, 80);
+          cursor(HAND);
+        } else {
+          fill(255, 0, 0);
+          cursor(ARROW);
+        }
 
-      fill(255, 0, 0);
-      noStroke();
-      rect(width / 2 + 250, height - 50, 80, 62);
+        noStroke();
+        rect(width / 2 + 210, height - 81, 80, 62);
 
-      fill(255);
-      textSize(30);
-      text("확인", width / 2 + 250, height - 52);
-      break;
+        fill(255);
+        textSize(30);
+        text("확인", width / 2 + 250, height - 52);
+        
+        // 정답 : 제약
+
+        break;
   }
 }
 
 
-// ====== 클릭 이벤트 처리 ======
+// 클릭 이벤트 처리
 function mouseClicked() {
   if (stage === 0) {
     // 확인 버튼 클릭 시 다음 stage로
@@ -324,26 +374,277 @@ function mouseClicked() {
       stage++;
       nameInput.hide();
     }
-  } else if (stage == 1 || stage == 4) {
+  } else if (stage == 1 || stage == 3) {
     if (finishText) {
       stage++;
       resetTyping();
     }
-  } else if (stage == 5) {
-    stage++;
-  } else if (stage >= 6 && stage <= 8) {
-    // 활성화된 아이콘 클릭 시 다음 stage로
-    let layout = getIconLayout();
-    let activeKey = getActiveIconName();
-    let icon = layout[activeKey];
-    let y = layout.y;
-    let iconH = layout.iconH;
+  } else if (stage == 4 || stage == 5) {
+    stage ++;
+  } else if (stage == 6 || stage == 7) {
+  let layout = getIconLayout();
+  let activeKey = getActiveIconName();
+  let icon = layout[activeKey];
+  let y = layout.y;
+  let iconH = layout.iconH;
 
+  if (
+    mouseX >= icon.x && mouseX <= icon.x + icon.w &&
+    mouseY >= y && mouseY <= y + iconH
+  ) {
+    stage++;
+    }
+
+  } else if (stage == 9) {
+  let layout = getIconLayout();
+  let activeKey = getActiveIconName();
+  let icon = layout[activeKey];
+  let y = layout.y;
+  let iconH = layout.iconH;
+
+  if (
+    mouseX >= icon.x && mouseX <= icon.x + icon.w &&
+    mouseY >= y && mouseY <= y + iconH
+  ) {
+    stage++;
+    }
+  } else if(stage === 10){
     if (
-      mouseX >= icon.x && mouseX <= icon.x + icon.w &&
-      mouseY >= y && mouseY <= y + iconH
-    ) {
+      mouseX >= width / 2 + 210 &&
+      mouseX <= width / 2 + 290 &&
+      mouseY >= height - 81 &&
+      mouseY <= height - 19 
+    ){
+      checkMorseAnswer()
+    }
+  }
+}
+
+function mousePressed() {
+  if (stage === 8) {
+    dragStartX = mouseX;
+    dragStartY = mouseY;
+    isDragging = true;
+  }
+}
+
+function mouseReleased() {
+  if (stage === 8) {
+    dragEndX = mouseX;
+    dragEndY = mouseY;
+    isDragging = false;
+
+    let x1 = min(dragStartX, dragEndX);
+    let y1 = min(dragStartY, dragEndY);
+    let x2 = max(dragStartX, dragEndX);
+    let y2 = max(dragStartY, dragEndY);
+
+    let allCorrect = true;
+
+    for (let s of sentenceObjs) {
+      let tw = textWidth(s.text);
+      let th = lineHeight;
+      if (
+        s.x < x2 &&
+        s.x + tw > x1 &&
+        s.y < y2 &&
+        s.y + th > y1
+      ) {
+        if (s.isWrong) {
+          s.state = "correct";
+        } else {
+          s.state = "wrong";
+          allCorrect = false;
+        }
+      }
+    }
+
+    // 정답만 골랐다면 다음 스테이지로
+    if (allCorrect) {
       stage++;
     }
+  }
+}
+
+
+function typeText(texts) {
+
+  let lines = texts[part];
+
+  let boxTop = height - height / 4;
+  let lineHeight = 45;
+  let totalTextHeight = lines.length * lineHeight;
+  let startY = boxTop + (height / 4 - totalTextHeight) / 2 + 15;
+
+  // 줄별 출력: 이전 줄은 전체, 현재 줄은 일부, 다음 줄은 빈 문자열
+  for (let i = 0; i < lines.length; i++) {
+    let txtToShow;
+    if (i < linePart) {
+      txtToShow = lines[i];  // 이미 타자 완료한 줄
+    } else if (i === linePart) {
+      txtToShow = lines[i].substring(0, letterCount);  // 타자 진행 중인 줄
+    } else {
+      txtToShow = "";  // 아직 타자 시작 안 한 줄
+    }
+    text(txtToShow, width / 2, startY + i * lineHeight);
+  }
+
+  if (!isWaiting && millis() - lastTime > typingSpeed) {
+    if (letterCount < lines[linePart].length) {
+      letterCount++;
+      lastTime = millis();
+    } else {
+      // 현재 줄 타자 끝 → 다음 줄로
+      linePart++;
+      letterCount = 0;
+      lastTime = millis();
+
+      if (linePart >= lines.length) {
+        // 모든 줄 타자 끝 → 대기 시작
+        isWaiting = true;
+      }
+    }
+  }
+
+  // 문장 전체 출력 후 잠시 기다렸다 다음 파트로 이동
+  if (isWaiting && millis() - lastTime > waitTime) {
+    if (part < texts.length - 1) {
+      part++;
+      linePart = 0;
+      letterCount = 0;
+      isWaiting = false;
+      lastTime = millis();
+      } else {
+        finishText = true;
+    }
+  }
+}
+
+function resetTyping() {
+  part = 0;
+  linePart = 0;
+  letterCount = 0;
+  isWaiting = false;
+  finishText = false;
+  lastTime = millis();
+}
+
+function drawResearcher() {
+  // 연구원 이미지 비율 유지하면서 표시
+  let researcherW = 500;
+  let researcherH = imgResearcher.height * (researcherW / imgResearcher.width);
+  let imgX = 80;
+  let imgY = height - height / 4 - researcherH + 200;
+  image(imgResearcher, imgX, imgY, researcherW, researcherH);
+}
+
+function drawManual() {
+  if (!showManual) return;
+  manualH = height * 0.8;
+  manualW = manualH * (imgManual.width / imgManual.height);
+  manualX = width / 2 - manualW / 2;
+  manualY = height * 0.05;
+  image(imgManual, manualX, manualY, manualW, manualH);
+}
+
+function keyPressed() {
+  if (stage >= 4  && key === 'm') {
+    showManual = !showManual;
+  }
+}
+
+function getIconLayout() {
+  let iconH = 300;
+  let gap = 100;
+
+  let fileW = activeFileIcon.width * (iconH / activeFileIcon.height);
+  let docW = activeDocIcon.width * (iconH / activeDocIcon.height);
+  let satW = activeSatIcon.width * (iconH / activeSatIcon.height);
+
+  let totalW = fileW + docW + satW + gap * 2;
+  let startX = (width - totalW) / 2;
+  let y = height - 450;
+
+  return {
+    iconH,
+    gap,
+    file: { x: startX, w: fileW },
+    doc: { x: startX + fileW + gap, w: docW },
+    sat: { x: startX + fileW + gap + docW + gap, w: satW },
+    y
+  };
+}
+
+function getActiveIconName() {
+  if (stage === 6) return "file";
+  if (stage === 7) return "doc";
+  if (stage === 8) return "sat";
+  return null;
+}
+
+function drawIcons() {
+  let layout = getIconLayout();
+  let { iconH, file, doc, sat, y } = layout;
+
+  // 각 아이콘에 대한 정보 정리
+  let icons = [
+    {
+      key: "file",
+      active: activeFileIcon,
+      inactive: inactiveFileIcon,
+      layout: file
+    },
+    {
+      key: "doc",
+      active: activeDocIcon,
+      inactive: inactiveDocIcon,
+      layout: doc
+    },
+    {
+      key: "sat",
+      active: activeSatIcon,
+      inactive: inactiveSatIcon,
+      layout: sat
+    }
+  ];
+
+  let activeKey = getActiveIconName();
+
+
+
+  for (let icon of icons) {
+    let isHovering =
+      mouseX >= icon.layout.x &&
+      mouseX <= icon.layout.x + icon.layout.w &&
+      mouseY >= y &&
+      mouseY <= y + iconH;
+
+    let img;
+
+    if (icon.key === activeKey) {
+      img = icon.active;
+    } else {
+      img = icon.inactive;
+    }
+
+
+    image(img, icon.layout.x, y, icon.layout.w, iconH);
+
+    if (icon.key === activeKey && isHovering) {
+      cursor(HAND);
+    }
+  }
+}
+
+// 모스 정답 함수
+function checkMorseAnswer() {
+  const codeCheck = codeInput.value().trim();
+  if (stage === 9 && codeCheck === "제약") {
+    stage++;
+    console.log("정답!");
+    codeInput.hide();
+  } else {
+    resultMessage = "틀렸습니다. 다시 시도하세요.";
+    console.log("실패");
   }
 }
