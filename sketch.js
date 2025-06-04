@@ -6,7 +6,7 @@ let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
-let stage = 0;  // 현재 게임의 진행 상태
+let stage = 600;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -23,11 +23,14 @@ let showManual = false; // 매뉴얼 보여줄지 여부
 // 사용자 입력용 인풋창
 let nameInput, codeInput;
 
-let sentenceObjs = [];
-let dragStartX, dragStartY, dragEndX, dragEndY;
-let isDragging = false;
-let lineHeight = 40;
+let error1;
+let imgError;//에러1유형 이미지
+let errorImg;//에러2번 이미지
+let errors = [];
+const NUM_ERRORS = 7;
 
+let endingB;//엔딩 B
+let endingC;//엔딩 C
 
 function preload() {
   myFont = loadFont('assets/DungGeunMo.ttf');
@@ -45,6 +48,12 @@ function preload() {
   inactiveDocIcon = loadImage("assets/문서 아이콘 비활성화.png");
   activeSatIcon = loadImage("assets/위성 아이콘.png");
   inactiveSatIcon = loadImage("assets/위성 아이콘 비활성화.png");
+  imgCode = loadImage("assets/모스부호.jpg");
+  imgError = loadImage('assets/에러창.png');
+  errorImg = loadImage('assets/에러창2.png');
+  endingB = new EndingB();
+  endingC = new EndingC();
+  endingC.preload();
 }
 
 
@@ -55,7 +64,28 @@ function setup() {
   textSize(35);
   textAlign(CENTER, CENTER);
 
-  setupInputs(); // 입력창 초기화
+  setupInputs();
+  
+// 에러1 유형의 텍스트 지정
+  error1 = new Error1(
+    imgError,
+    "From: 구조언어부 백업담당 T\n To: 수거조정실 S외 2명\nSubject: 그거 진짜 지운 애 있음ㅋㅋ\n진짜로 그거 날린 직원 나왔어요. 영상도 첨부함!\n마지막에 충격받은 표정이 꽤 웃겨서 추천함.\n자기 눈으로 세상 본 줄 아는 표정 아시죠? (...)",  // 30초 이전에 표시할 텍스트
+    "이렇게무시하다간정말필요한것도놓칠걸?\n"  // 30초 이후에 표시할 텍스트
+  );
+
+  error2 = new Error1(
+    imgError,
+    "From: 연구원 B(12팀)\n To: 수거조정실 전체\nSubject: 오늘 삭제 처리 후 커피?\n오늘 027 반응 참 재밌었죠.\n끝나고 A-구역 자동판매기 앞에서 모일까요?\n신상 나왔다던데, 어제 것보다 진하면 좋겠(...)", // 30초 이전에 표시할 텍스트
+    "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\n"  // 30초 이후에 표시할 텍스트
+  );
+
+  error3 = new Error1(
+    imgError,
+    "From: 실감부 U\nTo: 정제실 3층 협의라인\nSubject: 점심 감각세트 예약했어요\n'향수 + 미열 + 저항감' 패키지로 해놨어요.\n그나저나 027이 자꾸 같은 이름을 떠올린대요.\n이전 루프에선 그런 거 없었는데. 그만 소각(...)", // 30초 이전에 표시할 텍스트
+    "아 잘못보냈다ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\n"  // 30초 이후에 표시할 텍스트
+  );
+  //엔딩 C 초기화
+  endingC.start();
 }
 
 
@@ -257,49 +287,44 @@ function draw() {
       break;
 
     case 8:
-      if (sentenceObjs.length === 0) {
-        let texts = [
-          { text: "오늘은 팀 전체 회의가 있다.", isWrong: false },
-          { text: "회의 때는 항상 고양이 춤을 춘다.", isWrong: true },
-          { text: "회의 후에는 정리 보고서를 작성한다.", isWrong: false }
-        ];
+  if (sentenceObjs.length === 0) {
+    let texts = [
+      { text: "오늘은 팀 전체 회의가 있다.", isWrong: false },
+      { text: "회의 때는 항상 고양이 춤을 춘다.", isWrong: true },
+      { text: "회의 후에는 정리 보고서를 작성한다.", isWrong: false }
+    ];
+    sentenceObjs = texts.map((t, i) => ({
+      ...t,
+      x: width / 2 - 200,
+      y: 200 + i * 50,
+      state: "default"
+    }));
+  }
 
-        let y = 300;
-        for (let i = 0; i < texts.length; i++) {
-          let s = texts[i];
-          sentenceObjs.push({
-            text: s.text,
-            x: width / 2,
-            y: y,
-            isWrong: s.isWrong,
-            state: "default"
-          });
-          y += lineHeight;
-        }
-      }
+  error1.display();
 
-      // 문장 출력
-      textSize(24);
-      for (let s of sentenceObjs) {
-        if (s.state === "correct") {
-          fill(0, 100, 255);
-        } else if (s.state === "wrong") {
-          fill(255, 50, 50);
-        } else {
-          fill(255);
-        }
-        text(s.text, s.x, s.y);
-      }
+  // 문장 출력
+  textSize(24);
+  for (let s of sentenceObjs) {
+    if (s.state === "correct") {
+      fill(0, 100, 255);
+    } else if (s.state === "wrong") {
+      fill(255, 50, 50);
+    } else {
+      fill(255);
+    }
+    text(s.text, s.x, s.y);
+  }
 
-      // 드래그 시 영역
-      if (isDragging) {
-        noFill();
-        stroke(200);
-        rectMode(CORNERS);
-        rect(dragStartX, dragStartY, mouseX, mouseY);
-      }
+  // 드래그 시 영역
+  if (isDragging) {
+    noFill();
+    stroke(200);
+    rectMode(CORNERS);
+    rect(dragStartX, dragStartY, mouseX, mouseY);
+  }
 
-    break;
+  break;
 
 
     case 9:
@@ -322,47 +347,235 @@ function draw() {
       drawIcons();
       break;
 
-      case 10:
-        // Day 1 - 업무 3: 코드 해석
-        image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
+    case 10:
+      // Day 1 - 업무 3: 코드 해석
+      image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
 
-        fill(255);
-        textSize(windowWidth * 0.03);
-        text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-        fill(255);
-        text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
+      fill(255);
+      textSize(windowWidth * 0.03);
+      text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
+      fill(255);
+      text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
 
-        // 확인 버튼 마우스 오버 처리
-        let mouseOver =
-          mouseX >= width / 2 + 210 &&
-          mouseX <= width / 2 + 290 &&
-          mouseY >= height - 81 &&
-          mouseY <= height - 19;
+      // 확인 버튼 마우스 오버 처리
+      let mouseOver =
+        mouseX >= width / 2 + 210 &&
+        mouseX <= width / 2 + 290 &&
+        mouseY >= height - 81 &&
+        mouseY <= height - 19;
 
-        if (mouseOver) {
-          fill(255, 80, 80);
-          cursor(HAND);
-        } else {
-          fill(255, 0, 0);
-          cursor(ARROW);
-        }
+      if (mouseOver) {
+        fill(255, 80, 80);
+        cursor(HAND);
+      } else {
+        fill(255, 0, 0);
+        cursor(ARROW);
+      }
 
-        noStroke();
-        rect(width / 2 + 210, height - 81, 80, 62);
+      noStroke();
+      rect(width / 2 + 210, height - 81, 80, 62);
 
-        fill(255);
-        textSize(30);
-        text("확인", width / 2 + 250, height - 52);
+      fill(255);
+      textSize(30);
+      text("확인", width / 2 + 250, height - 52);
         
-        // 정답 : 제약
+      break;
+
+    case 100:
+      fill(255);
+      textSize(70)
+      text("Day 2", width / 2, height / 2 - 50);
+      textSize(30);
+      text("Click to continue ···", width / 2, height / 2 + 50);
+      finishText = true;
+      
+        break;
+
+    case 101:
+      fill(150, 150, 255);
+      rect(width - 450, 50, 400, 200);
+      fill(0);
+      text("오늘의 할 일", width - 250, 85);
+      text("1. 파일 정리", width - 250, 125);
+      text("2. 정크 데이터 처리", width - 250, 165);
+      text("3. 코드 해석", width - 250, 205);
+
+      drawIcons();
+      error2.display();
+
+      break;
+
+    case 102:
+      fill(150, 150, 255);
+      rect(width - 450, 50, 400, 200);
+      fill(0);
+      text("오늘의 할 일", width - 250, 85);
+      text("1. 파일 정리", width - 250, 125);
+      text("2. 정크 데이터 처리", width - 250, 165);
+      text("3. 코드 해석", width - 250, 205);
+
+      strokeWeight(3);
+      line(width - 350, 130, width - 150, 130);
+
+      drawIcons();
+
+      break;
+
+    case 103:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        textSize(30);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+        
+        strokeWeight(3);
+        line(width - 350, 130, width - 150, 130);
+        line(width - 400, 170, width - 100, 170);
+        
+        drawIcons();
 
         break;
+
+      case 200:
+      fill(255);
+      textSize(70)
+      text("Day 3", width / 2, height / 2 - 50);
+      textSize(30);
+      text("Click to continue ···", width / 2, height / 2 + 50);
+      finishText = true;
+      
+        break;
+
+      case 201:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+
+        drawIcons();
+        error3.display();
+
+        break;
+      case 202:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+
+        strokeWeight(3);
+        line(width - 350, 130, width - 150, 130);
+
+        drawIcons();
+        break;
+
+      case 203:
+        // case 0 전용 변수들
+       if (typeof draw.errorIndex === 'undefined') {
+        draw.errorIndex = 0;
+        draw.lastErrorTime = millis();
+        draw.interval = 200;
+        draw.errorTexts = [
+          "7. 도망쳐.",
+          "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
+          "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
+          "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
+          "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
+          "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
+          "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
+        ];
+       }
+
+        if (draw.errorIndex < NUM_ERRORS && millis() - draw.lastErrorTime > draw.interval) {
+        let relW = 0.4;
+        let relH = relW * (errorImg.height / errorImg.width);
+        let relX = random(0, 1 - relW);
+        let relY = random(0, 1 - relH);
+
+        let msg = draw.errorTexts[draw.errorIndex];
+        errors.push(new ErrorWindow(errorImg, relX, relY, relW, msg));
+
+        draw.errorIndex++;
+        draw.lastErrorTime = millis();
+       }
+
+        for (let e of errors) {
+        e.display();
+       }
+        break;
+
+      case 204:
+        fill(150, 150, 255);
+        rect(width - 450, 50, 400, 200);
+        fill(0);
+        textSize(30);
+        text("오늘의 할 일", width - 250, 85);
+        text("1. 파일 정리", width - 250, 125);
+        text("2. 정크 데이터 처리", width - 250, 165);
+        text("3. 코드 해석", width - 250, 205);
+        
+        strokeWeight(3);
+        line(width - 350, 130, width - 150, 130);
+        line(width - 400, 170, width - 100, 170);
+        
+        drawIcons();
+
+        break;
+
+      case 400:
+          //엔딩 A
+          ending
+        break;
+
+      case 500:
+          drawResearcher();
+          endingB.update();
+          break;//엔딩 B
+
+      case 600:
+          // 엔딩 C
+          endingC.update();
+        break;
+
+          
+
+    }
   }
+
+function mousePressed() {
+  endingC.mousePressed();
+  endingB.handleClick(); // 클릭 처리
 }
 
 
 // 클릭 이벤트 처리
 function mouseClicked() {
+  if (error1 && error1.isClicked(mouseX, mouseY)) {
+    stage = 500;
+    return;
+  }
+    // 뒤에서부터 검사해서 삭제 시 인덱스 밀림 방지
+  for (let i = errors.length - 1; i >= 0; i--) {
+    if (errors[i].isXBtnClicked(mouseX, mouseY)) {
+      errors.splice(i, 1);
+
+      // 모든 창 닫혔는지 확인
+      if (errors.length === 0) {
+        stage = 204;  // 원하는 다음 스테이지 번호로 바꾸세요
+      }
+
+      return;  // 한 번에 하나만 닫기
+    }
+
+  }
   if (stage === 0) {
     // 확인 버튼 클릭 시 다음 stage로
     if (
@@ -379,36 +592,24 @@ function mouseClicked() {
       stage++;
       resetTyping();
     }
-  } else if (stage == 4 || stage == 5) {
+  } else if (stage == 4 || stage == 5|| stage==100 || stage ==200) {
     stage ++;
-  } else if (stage == 6 || stage == 7) {
+  } else if (stage >= 6 && stage <= 8 || stage>=101&&stage<=103 || stage===201 ||stage===202 || stage === 204) {
   let layout = getIconLayout();
   let activeKey = getActiveIconName();
   let icon = layout[activeKey];
   let y = layout.y;
   let iconH = layout.iconH;
-
-  if (
+    
+   if (
     mouseX >= icon.x && mouseX <= icon.x + icon.w &&
     mouseY >= y && mouseY <= y + iconH
-  ) {
+   ) {
     stage++;
     }
-
-  } else if (stage == 9) {
-  let layout = getIconLayout();
-  let activeKey = getActiveIconName();
-  let icon = layout[activeKey];
-  let y = layout.y;
-  let iconH = layout.iconH;
-
-  if (
-    mouseX >= icon.x && mouseX <= icon.x + icon.w &&
-    mouseY >= y && mouseY <= y + iconH
-  ) {
-    stage++;
+  
     }
-  } else if(stage === 10){
+  else  if(stage === 9){
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -576,9 +777,9 @@ function getIconLayout() {
 }
 
 function getActiveIconName() {
-  if (stage === 6) return "file";
-  if (stage === 7) return "doc";
-  if (stage === 8) return "sat";
+  if (stage === 6 | stage ===101 | stage === 201 ) return "file";
+  if (stage === 7 | stage ===102 | stage === 202 ) return "doc";
+  if (stage === 8 | stage ===103 | stage === 204 ) return "sat";
   return null;
 }
 
