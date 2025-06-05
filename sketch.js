@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 13;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -53,6 +53,9 @@ let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
 
+//day 전환 변수
+let afterDay1;
+
 function preload() {
   // 폰트 불러오기
   myFont = loadFont('assets/DungGeunMo.ttf');
@@ -87,6 +90,9 @@ function preload() {
   // 엔딩 C
   endingC = new EndingC();
   endingC.preload();
+  //Day 1이 끝나고고
+  afterDay1 = new AfterDay1();
+  afterDay1.preload();
 }
 
 // ====== 입력창 생성 및 스타일 지정 ======
@@ -158,6 +164,8 @@ function setup() {
   // 엔딩 초기화
   endingA.start();
   endingC.start();
+
+  afterDay1.start();
 }
 
 // ====== 메인 화면 반복 그리기 ======
@@ -310,10 +318,10 @@ function draw() {
     
     case 7:
       // Day 1 -업무 1: 파일 정리 업무
-      /* doctaskDay1.update();
-      일단 흐름 파악하려고 주석 처리했어요
-      코드 연결하시고 주석 처리 해제하심 됩니다
-      */
+       //doctaskDay1.update();//
+      //일단 흐름 파악하려고 주석 처리했어요
+      //코드 연결하시고 주석 처리 해제하심 됩니다
+      
       stage ++;
       break;
 
@@ -535,10 +543,9 @@ function draw() {
       break;
       
     case 13:
-      /* 이 부분이 안 나와요 확인 부탁드립니다
+      // 이 부분이 안 나와요 확인 부탁드립니다
       // 컷 전환 + 도재인 등장
-      afterDay1.update();*/
-      stage ++;
+      afterDay1.update();
       break;
 
 
@@ -965,7 +972,10 @@ function mousePressed() {
     dragStartY = mouseY;
     isDragging = true;
   }
-  
+  if(stage===13){
+    afterDay1.mousePressed();
+  }
+
   if (stage === 500) {
     endingB.handleClick();} // 클릭 처리
 
