@@ -533,22 +533,23 @@ function draw() {
       break;
       
     case 13:
+      /* 이 부분이 안 나와요 확인 부탁드립니다
       // 컷 전환 + 도재인 등장
-      afterDay1.update();
+      afterDay1.update();*/
+      stage ++;
       break;
 
 
-    case 100:
+    case 14:
       fill(255);
-      textSize(70)
+      textSize(70);
       text("Day 2", width / 2, height / 2 - 50);
       textSize(30);
       text("Click to continue ···", width / 2, height / 2 + 50);
-      finishText = true;
       
-        break;
+      break;
 
-    case 101:
+    case 15:
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -562,7 +563,13 @@ function draw() {
 
       break;
 
-    case 102:
+    case 16:
+      // 여기에 둘째 날 업무 1 코드 넣어주세요
+      stage ++;
+
+      break;
+
+    case 17:
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -577,8 +584,14 @@ function draw() {
       drawIcons();
 
       break;
+    
+    case 18:
+      // 업무 2 정크 데이터 처리 넣기
+      stage ++;
 
-    case 103:
+      break;
+
+    case 19:
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -595,8 +608,14 @@ function draw() {
         drawIcons();
 
         break;
+    
+    case 20:
+      // 업무 3 모스부호 데이터 넣기
+      stage ++;
 
-    case 200:
+      break;
+
+    case 21:
     fill(255);
     textSize(70)
     text("Day 3", width / 2, height / 2 - 50);
@@ -741,9 +760,9 @@ function mouseClicked() {
       stage++;
       resetTyping();
     }
-  } else if (stage === 5 || stage === 100 || stage === 200) {
+  } else if (stage === 5 || stage === 14 || stage === 200) {
     stage ++;
-  } else if (stage === 6 || stage === 8 || stage === 10 || stage>=101&&stage<=103 || stage===201 || stage===202 || stage === 204) {
+  } else if (stage === 6 || stage === 8 || stage === 10 || stage === 15 || stage === 17 || stage === 19 || stage===202 || stage === 204) {
   let layout = getIconLayout();
   let activeKey = getActiveIconName();
   let icon = layout[activeKey];
@@ -985,9 +1004,9 @@ function getIconLayout() {
 
 // 배경화면 아이콘 처리 관련 함수 2
 function getActiveIconName() {
-  if (stage === 6 | stage ===101 | stage === 201 ) return "file";
-  if (stage === 8 | stage ===102 | stage === 202 ) return "doc";
-  if (stage === 10 | stage ===103 | stage === 204 ) return "sat";
+  if (stage === 6 | stage === 15 | stage === 201 ) return "file";
+  if (stage === 8 | stage === 17 | stage === 202 ) return "doc";
+  if (stage === 10 | stage === 19 | stage === 204 ) return "sat";
   return null;
 }
 
