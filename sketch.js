@@ -165,7 +165,7 @@ function draw() {
   if (stage === 0) {
     nameInput.show();
     codeInput.hide();
-  } else if (stage === 10) {
+  } else if (stage === 11) {
     nameInput.hide();
     codeInput.show();
   } else {
@@ -291,6 +291,8 @@ function draw() {
 
     case 6:
       // 바탕화면 1
+
+      // 업무 리스트
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -311,9 +313,12 @@ function draw() {
     
     case 8:
       // 바탕화면 2
+
+      // 업무 리스트
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -407,16 +412,15 @@ function draw() {
         } else {
           fill(255, 50, 50);
         }
-        text(resultMessage, width - 150, height - 100);
+        text(resultMessage, width - 250, height / 2 + 50);
       }
 
       break;
 
     case 10:
       // 바탕화면 3
-      noStroke();
-      textAlign(CENTER, CENTER);
-      textSize(30);
+      
+      // 업무 리스트
       fill(150, 150, 255);
       rectMode(CORNER);
       rect(width - 450, 50, 400, 200);
