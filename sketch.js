@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 8;
+let stage = 11;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -59,6 +59,7 @@ function preload() {
   imgCode = loadImage("assets/모스부호.jpg");
   folderIcon = loadImage('assets/folderIcon.png');
   folderDoc = loadImage('assets/folderDoc.png');
+  myDesk = loadImage('assets/내 사무실 자리.png');
 
   // 아이콘들 (활성/비활성) 불러오기
   activeFileIcon = loadImage("assets/파일 아이콘.png");
@@ -479,6 +480,31 @@ function draw() {
       text("확인", width / 2 + 250, height - 52);
         
       break;
+      
+      case 12:
+      let deskW = 1000;
+      let deskH = myDesk.height * (deskW / myDesk.width);
+      image(myDesk, (width - deskW) / 2, 0, deskW, deskH);
+
+            // 화면 아래 회색 박스
+      fill(120);
+      rect(0, height - height / 4, width, height / 4);
+
+      fill(45);
+      typeText([
+        ["휴우 어제는 힘든 하루였어..."],
+        ["고연봉이라서 지원한 프로젝트인데...이거 하지 말까?"],
+        ["아냐아냐 그래도 고생해서 온 회사인데 일 해야지..."],
+        ["음? 오늘 작업해야되는 보고서인가?"]
+      ]);
+      
+      if (finishText) {
+        stage++;
+        resetTyping();
+      }
+
+      break;
+
 
     case 100:
       fill(255);
@@ -983,7 +1009,7 @@ function drawIcons() {
 // 모스 정답 함수
 function checkMorseAnswer() {
   const codeCheck = codeInput.value().trim();
-  if (stage === 9 && codeCheck === "제약") {
+  if (stage === 11 && codeCheck === "제약") {
     stage++;
     console.log("정답!");
     codeInput.hide();
