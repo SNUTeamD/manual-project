@@ -11,7 +11,11 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
+<<<<<<< HEAD
 let stage = 8;
+=======
+let stage = 600;
+>>>>>>> bc6e04bb6b71b8ea5de8fd87cc87e3ca5d2632ae
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -506,6 +510,11 @@ function draw() {
       }
 
       break;
+      
+      case 13:
+        //컷전환+도재인 등장
+        afterDay1.update();
+        break;
 
 
     case 100:
