@@ -434,7 +434,7 @@ function draw() {
         } else {
           fill(255, 50, 50);
         }
-        text(resultMessage, width - 300, height / 2 + 50);
+        text(resultMessage, width - 355, 180);
       }
 
       break;
@@ -865,7 +865,7 @@ function mouseReleased() {
       }, 1500);
     } else {
       fill(255, 50, 50);
-      resultMessage = "실패 .. 다시 시도하세요.";
+      resultMessage = "실패입니다. 다시 시도하세요.";
     }
   }
 }
