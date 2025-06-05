@@ -38,6 +38,7 @@ let lineHeight = 25;
 // 업무 3 관련 변수
 let morseCorrect = false;
 let morseCheckTime = 0;
+let codeInitialized = false;
 
 // 에러 관련 변수
 let error1;
@@ -163,13 +164,11 @@ function setup() {
 function draw() {
   background(0);
 
-  drawManual(); // 매뉴얼 표시
-
   // 입력창 보여줄 stage 설정
   if (stage === 0) {
     nameInput.show();
     codeInput.hide();
-  } else if (stage === 11) {
+  } else if (stage === 11 || stage === 20) {
     nameInput.hide();
     codeInput.show();
   } else {
@@ -242,7 +241,7 @@ function draw() {
       ]);
 
       if (finishText) {
-        stage++;
+        stage ++;
         resetTyping();
       }
 
@@ -632,8 +631,45 @@ function draw() {
         break;
     
     case 20:
-      // 업무 3 모스부호 해석 넣기
-      stage ++;
+      // 업무 3 모스부호 해석
+      if (!codeInitialized) {
+        codeInput.value("");
+        morseCorrect = false;
+        morseCheckTime = 0;
+        codeInitialized = true;
+      }
+
+      image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
+
+      fill(255);
+      textSize(windowWidth * 0.03);
+      text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
+      text(". ... -. --. -- ...." /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
+
+      let btnX20 = width / 2 + 210;
+      let btnY20 = height - 81;
+      let btnW20 = 80;
+      let btnH20 = 62;
+
+      checkButton(btnX20, btnY20, btnW20, btnH20);
+      rect(btnX20, btnY20, btnW20, btnH20);
+
+      fill(255);
+      textSize(30);
+      text("확인", width / 2 + 250, height - 52);
+
+      if (resultMessage !== "") {
+        fill(morseCorrect ? color(0, 100, 255) : color(255, 50, 50));
+        rect(width / 2 - 250, height / 2, 500, 100);
+        fill(255);
+        text(resultMessage, width / 2, height / 2 + 48);
+      }
+
+      if (morseCorrect && millis() - morseCheckTime > 1500) {
+        stage++;
+        morseCorrect = false;
+        resultMessage = "";
+      }
 
       break;
 
@@ -761,6 +797,7 @@ function draw() {
       break;
   }
   updateCursor();
+  drawManual(); // 매뉴얼 표시
 }
 
 function updateCursor() {
@@ -775,6 +812,12 @@ function updateCursor() {
       mouseY <= height / 2 + 51.5)
     ||
     (stage === 11 &&
+      mouseX >= width / 2 + 210 &&
+      mouseX <= width / 2 + 290 &&
+      mouseY >= height - 81 &&
+      mouseY <= height - 19)
+    ||
+    (stage === 20 &&
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
       mouseY >= height - 81 &&
@@ -865,7 +908,7 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 11) {
+  if (stage === 11 || stage === 20) {
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -1078,7 +1121,17 @@ function drawManual() {
 
 // stage 3 이후에 m키 누르면 매뉴얼이 나오도록
 function keyPressed() {
-  if (stage >= 3  && key === 'm') {
+  const focusedEl = document.activeElement;
+
+  // 인풋창 포커스 시 키 무시
+  if (
+    focusedEl === nameInput.elt ||
+    focusedEl === codeInput.elt
+  ) {
+    return;
+  }
+
+  if (stage >= 3 && key === 'm') {
     showManual = !showManual;
   }
 }
@@ -1153,13 +1206,17 @@ function drawIcons() {
 // 모스 정답 함수
 function checkMorseAnswer() {
   const codeCheck = codeInput.value().trim();
-  
-  if (stage === 11 && codeCheck === "제약") {
+
+  if (
+    (stage === 11 && codeCheck === "제약") ||
+    (stage === 20 && codeCheck === "생명")
+  ) {
     resultMessage = "성공입니다.";
     morseCorrect = true;
-    morseCheckTime = millis();
+    morseCheckTime = millis(); 
   } else {
     resultMessage = "실패입니다. 다시 시도하세요.";
     morseCorrect = false;
+    morseCheckTime = 0;
   }
 }
