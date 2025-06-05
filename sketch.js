@@ -257,7 +257,7 @@ function draw() {
       ]);
 
       if (finishText) {
-        stage++;
+        stage ++;
         resetTyping();
       }
 
@@ -333,7 +333,19 @@ function draw() {
 
     case 9:
       // Day 1 - 업무 2: 정크 데이터 처리
-      background(0);
+      noStroke();
+      fill(255);
+      rect(50, 30, width - 100, height);
+      
+      fill(180);
+      rect(width - 630, 60, 550, 80);
+
+      fill(0);
+      textSize(20);
+      textAlign(LEFT, TOP);
+      text("흐름에 맞지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
+      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
+
       if (sentenceObjs.length === 0) { 
         let rawLines = [
           "Day 1 데이터 정리",
@@ -376,7 +388,7 @@ function draw() {
 
           sentenceObjs.push({
             text: line,
-            x: 50,
+            x: 70,
             y: 50 + i * lineHeight,
             isWrong: isWrong,
             state: "default"
@@ -388,10 +400,11 @@ function draw() {
 
       textSize(15);
       textAlign(LEFT, TOP);
+
       for (let s of sentenceObjs) {
         if (s.state === "correct") fill(0, 100, 255);
         else if (s.state === "wrong") fill(255, 50, 50);
-        else fill(255);
+        else fill(0);
 
         text(s.text, s.x, s.y);
       }
@@ -402,6 +415,7 @@ function draw() {
         rectMode(CORNERS);
         rect(dragStartX, dragStartY, mouseX, mouseY);
         noStroke();
+        rectMode(CORNER);
       }
 
       if (resultMessage) {
@@ -412,7 +426,7 @@ function draw() {
         } else {
           fill(255, 50, 50);
         }
-        text(resultMessage, width - 250, height / 2 + 50);
+        text(resultMessage, width - 300, height / 2 + 50);
       }
 
       break;
@@ -718,6 +732,9 @@ function mousePressed() {
   }
 
   if (stage === 9) {
+    for (let s of sentenceObjs) {
+      s.state = "default";
+    }
     dragStartX = mouseX;
     dragStartY = mouseY;
     isDragging = true;
@@ -737,6 +754,10 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
+  if (stage === 7){
+    doctaskDay1.mouseReleased();
+  }
+
   if (stage === 9) {
     dragEndX = mouseX;
     dragEndY = mouseY;
@@ -786,10 +807,6 @@ function mouseReleased() {
       fill(255, 50, 50);
       resultMessage = "실패 .. 다시 시도하세요.";
     }
-  }
-
-  if (stage === 7){
-    doctaskDay1.mouseReleased();
   }
 }
 
