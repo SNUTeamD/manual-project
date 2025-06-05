@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 6;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -56,6 +56,9 @@ let endingC; // 엔딩 C
 
 //day 전환 변수
 let afterDay1;
+//너무 빨리 넘어감 방지 코드드
+let stageHandled = 0;
+
 
 function preload() {
   // 폰트 불러오기
@@ -323,11 +326,10 @@ function draw() {
     
     case 7:
       // Day 1 -업무 1: 파일 정리 업무
-       //doctaskDay1.update(); //
+       doctaskDay1.update(); 
       // 일단 흐름 파악하려고 주석 처리했어요
       // 코드 연결하시고 주석 처리 해제하심 됩니다
       
-      stage ++;
       break;
 
     
@@ -548,8 +550,6 @@ function draw() {
       break;
       
     case 13:
-      // 이 부분이 안 나와요 확인 부탁드립니다
-      // 컷 전환 + 도재인 등장
       afterDay1.update();
       break;
 
@@ -953,6 +953,7 @@ function updateCursor() {
 }
 
 function mouseClicked() {
+  console.log("mouseClicked called, stage =", stage);
   if (stage === 0) {
     // 확인 버튼 클릭 시 다음 stage로
     if (
@@ -973,9 +974,19 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 5 || stage === 14 || stage === 22) {
+  if (stage === 5 || stage === 22) {
     stage++;
   }
+//stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
+//2번 눌러야 다음으로 진행됩니다다
+  if (stage === 14) {
+  if (stageHandled<2) {
+    stageHandled++
+}else if(stageHandled ==2){
+  stage++
+  stageHandled =0;
+  } 
+}
 
   if (
     stage === 6 ||
@@ -1046,6 +1057,7 @@ function checkButton(x, y, w, h) {
 }
 
 function mousePressed() {
+   console.log("mousePressed called, stage =", stage);
   if (stage === 7){
     doctaskDay1.mousePressed();
   }

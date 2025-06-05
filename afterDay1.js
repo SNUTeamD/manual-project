@@ -200,7 +200,8 @@ drawJane() {
         this.loadNextText();
       } else {
         this.endc1Reached = true;
-        stage++
+        stage=14;
+        return;
       }
     }
   }

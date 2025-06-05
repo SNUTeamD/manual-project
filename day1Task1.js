@@ -144,7 +144,7 @@ class Day1Task1 {
     if (this.docs.every(d => d.removed)) {
       this.missionEnded = true;
       this.missionSuccess = true;
-      stage = 7; // 성공 시 다음 스테이지로 이동
+      stage++; // 성공 시 다음 스테이지로 이동
       if (this.onEndCallback) {
       this.onEndCallback();
      }
