@@ -170,7 +170,6 @@ function setup() {
 // ====== 메인 화면 반복 그리기 ======
 function draw() {
   background(0);
-  cursor(ARROW);
 
   drawManual(); // 매뉴얼 표시
 
@@ -341,8 +340,10 @@ function draw() {
       text("3. 코드 해석", width - 250, 205);
 
       // 밑줄: 업무 1 완료 표시
+      stroke(0);
       strokeWeight(3);
       line(width - 350, 130, width - 150, 130);
+      noStroke();
 
       // 아이콘 표시: 문서 아이콘만 활성화
       drawIcons();
@@ -351,7 +352,6 @@ function draw() {
 
     case 9:
       // Day 1 - 업무 2: 정크 데이터 처리
-      noStroke();
       fill(255);
       rect(50, 30, width - 100, height);
       
@@ -483,14 +483,14 @@ function draw() {
       fill(255);
       text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
 
-      let btnX10 = width / 2 + 210;
-      let btnY10 = height - 81;
-      let btnW10 = 80;
-      let btnH10 = 62;
+      let btnX11 = width / 2 + 210;
+      let btnY11 = height - 81;
+      let btnW11 = 80;
+      let btnH11 = 62;
 
-      checkButton(btnX10, btnY10, btnW10, btnH10);
+      checkButton(btnX11, btnY11, btnW11, btnH11);
       noStroke();
-      rect(btnX10, btnY10, btnW10, btnH10);
+      rect(btnX11, btnY11, btnW11, btnH11);
 
       fill(255);
       textSize(30);
@@ -511,9 +511,9 @@ function draw() {
 
       // 정답이면 1.5초 후 다음 스테이지로
       if (morseCorrect && millis() - morseCheckTime > 1500) {
-        stage++;
+        stage ++;
         morseCorrect = false;
-        resultMessage = ""; //
+        resultMessage = "";
       }
 
       break;
@@ -589,8 +589,10 @@ function draw() {
       text("2. 정크 데이터 처리", width - 250, 165);
       text("3. 코드 해석", width - 250, 205);
 
+      stroke(0);
       strokeWeight(3);
       line(width - 350, 130, width - 150, 130);
+      noStroke();
 
       drawIcons();
 
@@ -598,7 +600,7 @@ function draw() {
     
     case 18:
       // Day 2 - 업무 2: 정크 데이터 처리
-      /*noStroke();
+      /*
       fill(255);
       rect(50, 30, width - 100, height);
       
@@ -611,6 +613,7 @@ function draw() {
       text("흐름에 맞지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
       text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);*/
       
+      console.log(sentenceObjs);
       stage ++;
 
       break;
@@ -625,10 +628,12 @@ function draw() {
         text("2. 정크 데이터 처리", width - 250, 165);
         text("3. 코드 해석", width - 250, 205);
         
+        stroke(0);
         strokeWeight(3);
         line(width - 350, 130, width - 150, 130);
         line(width - 400, 170, width - 100, 170);
-        
+        noStroke();
+
         drawIcons();
 
         break;
@@ -683,10 +688,13 @@ function draw() {
       text("2. 정크 데이터 처리", width - 250, 165);
       text("3. 코드 해석", width - 250, 205);
 
+      stroke(0);
       strokeWeight(3);
       line(width - 350, 130, width - 150, 130);
+      noStroke();
 
       drawIcons();
+      
       break;
 
     case 203:
@@ -734,10 +742,12 @@ function draw() {
       text("2. 정크 데이터 처리", width - 250, 165);
       text("3. 코드 해석", width - 250, 205);
       
+      stroke(0);
       strokeWeight(3);
       line(width - 350, 130, width - 150, 130);
       line(width - 400, 170, width - 100, 170);
-      
+      noStroke;
+
       drawIcons();
 
       break;
@@ -756,8 +766,60 @@ function draw() {
         // 엔딩 C
         endingC.update();
       break;
+  }
+  updateCursor();
+}
+
+function updateCursor() {
+  let isHand = false;
+
+  // 1. 버튼 위에 마우스 올렸는지 직접 계산
+  if (
+    (stage === 0 &&
+      mouseX >= width / 2 + 130 &&
+      mouseX <= width / 2 + 210 &&
+      mouseY >= height / 2 - 1.5 &&
+      mouseY <= height / 2 + 51.5)
+    ||
+    (stage === 11 &&
+      mouseX >= width / 2 + 210 &&
+      mouseX <= width / 2 + 290 &&
+      mouseY >= height - 81 &&
+      mouseY <= height - 19)
+  ) {
+    isHand = true;
+  }
+
+  // 2. 아이콘 hover 체크
+  let layout = getIconLayout();
+  let activeKey = getActiveIconName();
+  if (activeKey) {
+    let icon = layout[activeKey];
+    let y = layout.y;
+    let iconH = layout.iconH;
+
+    if (
+      mouseX >= icon.x &&
+      mouseX <= icon.x + icon.w &&
+      mouseY >= y &&
+      mouseY <= y + iconH
+    ) {
+      isHand = true;
     }
   }
+
+  // 3. case 1: 텍스트 다 나오고 클릭 대기 중
+  if (stage === 1 && finishText) {
+    isHand = true;
+  }
+
+  // 4. Day 전환 화면
+  if ([5, 14, 22].includes(stage)) {
+    isHand = true;
+  }
+
+  cursor(isHand ? HAND : ARROW);
+}
 
 function mouseClicked() {
   if (stage === 0) {
@@ -845,10 +907,8 @@ function checkButton(x, y, w, h) {
 
   if (isHover) {
     fill(255, 80, 80);
-    cursor(HAND);
   } else {
     fill(255, 0, 0);
-    cursor(ARROW);
   }
 
   return isHover;
@@ -1093,42 +1153,23 @@ function drawIcons() {
 
   let activeKey = getActiveIconName();
 
-
-
   for (let icon of icons) {
-    let isHovering =
-      mouseX >= icon.layout.x &&
-      mouseX <= icon.layout.x + icon.layout.w &&
-      mouseY >= y &&
-      mouseY <= y + iconH;
-
-    let img;
-
-    if (icon.key === activeKey) {
-      img = icon.active;
-    } else {
-      img = icon.inactive;
-    }
-
-
+    let img = icon.key === activeKey ? icon.active : icon.inactive;
     image(img, icon.layout.x, y, icon.layout.w, iconH);
-
-    if (icon.key === activeKey && isHovering) {
-      cursor(HAND);
-    }
   }
 }
+
 
 // 모스 정답 함수
 function checkMorseAnswer() {
   const codeCheck = codeInput.value().trim();
   
   if (stage === 11 && codeCheck === "제약") {
-    resultMessage = "정답입니다.";
+    resultMessage = "성공입니다.";
     morseCorrect = true;
     morseCheckTime = millis();
   } else {
-    resultMessage = "틀렸습니다. 다시 시도하세요.";
+    resultMessage = "실패입니다. 다시 시도하세요.";
     morseCorrect = false;
   }
 }
