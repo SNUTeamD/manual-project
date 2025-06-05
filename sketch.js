@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 13;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -319,9 +319,9 @@ function draw() {
     
     case 7:
       // Day 1 -업무 1: 파일 정리 업무
-       //doctaskDay1.update();//
-      //일단 흐름 파악하려고 주석 처리했어요
-      //코드 연결하시고 주석 처리 해제하심 됩니다
+       //doctaskDay1.update(); //
+      // 일단 흐름 파악하려고 주석 처리했어요
+      // 코드 연결하시고 주석 처리 해제하심 됩니다
       
       stage ++;
       break;
