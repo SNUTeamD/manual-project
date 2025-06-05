@@ -239,7 +239,7 @@ drawJaneMonster() {
         this.loadNextText();
       } else {
         this.endc1Reached = true;
-        stage=14;
+        stage++;
         return;
       }
     }

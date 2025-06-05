@@ -980,9 +980,9 @@ function mouseClicked() {
 //stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
 //2번 눌러야 다음으로 진행됩니다다
   if (stage === 14) {
-  if (stageHandled<2) {
+  if (stageHandled<1) {
     stageHandled++
-}else if(stageHandled ==2){
+}else if(stageHandled ==1){
   stage++
   stageHandled =0;
   } 
