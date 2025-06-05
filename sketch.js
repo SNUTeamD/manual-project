@@ -355,7 +355,7 @@ function draw() {
       text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
 
       if (sentenceObjs.length === 0) { 
-        let rawLines = [
+        let firstLines = [
           "Day 1 데이터 정리",
           "내부 연구 보고서",
           "문서번호: IR-401-1",
@@ -385,8 +385,8 @@ function draw() {
           "선정 기준: 신경학적 질환 이력 없음, 약물 복용 이력 없음, 정상 범위 내 인지능력 보유",
         ];
 
-        for (let i = 0; i < rawLines.length; i ++) {
-          let line = rawLines[i];
+        for (let i = 0; i < firstLines.length; i ++) {
+          let line = firstLines[i];
           let isWrong = false;
 
           // 이상한 문장 판별 기준
@@ -521,7 +521,7 @@ function draw() {
       typeText([
         ["휴우 어제는 힘든 하루였어 ..."],
         ["고연봉이라서 지원한 프로젝트인데 .. 이거 하지 말까?"],
-        ["아냐아냐 그래도 어떻게 입사하건데 .. 일 해야지 ..."],
+        ["아냐 아냐 그래도 어떻게 입사한건데 .. 일 해야지 ..."],
         ["음? 오늘 작업해야 하는 보고서인가?"]
       ]);
       
@@ -586,7 +586,20 @@ function draw() {
       break;
     
     case 18:
-      // 업무 2 정크 데이터 처리 넣기
+      // Day 2 - 업무 2: 정크 데이터 처리
+      noStroke();
+      fill(255);
+      rect(50, 30, width - 100, height);
+      
+      fill(180);
+      rect(width - 630, 60, 550, 80);
+
+      fill(0);
+      textSize(20);
+      textAlign(LEFT, TOP);
+      text("흐름에 맞지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
+      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
+      
       stage ++;
 
       break;
@@ -610,7 +623,7 @@ function draw() {
         break;
     
     case 20:
-      // 업무 3 모스부호 데이터 넣기
+      // 업무 3 모스부호 해석 넣기
       stage ++;
 
       break;
@@ -623,6 +636,12 @@ function draw() {
     text("Click to continue ···", width / 2, height / 2 + 50);
     finishText = true;
     
+      break;
+    
+    case 22:
+      // Day 3 가기 전 전환 파트
+      stage ++;
+
       break;
 
     case 201:
@@ -724,26 +743,7 @@ function draw() {
     }
   }
 
-// 클릭 이벤트 처리
 function mouseClicked() {
-  if (error1 && error1.isClicked(mouseX, mouseY)) {
-    stage = 500;
-    return;
-  }
-    // 뒤에서부터 검사해서 삭제 시 인덱스 밀림 방지
-  for (let i = errors.length - 1; i >= 0; i--) {
-    if (errors[i].isXBtnClicked(mouseX, mouseY)) {
-      errors.splice(i, 1);
-
-      // 모든 창 닫혔는지 확인
-      if (errors.length === 0) {
-        stage = 204;  // 원하는 다음 스테이지 번호로 바꾸세요
-      }
-
-      return;  // 한 번에 하나만 닫기
-    }
-
-  }
   if (stage === 0) {
     // 확인 버튼 클릭 시 다음 stage로
     if (
@@ -755,36 +755,71 @@ function mouseClicked() {
       stage++;
       nameInput.hide();
     }
-  } else if (stage === 1 || stage === 3) {
+  }
+
+  if (stage === 1 || stage === 3) {
     if (finishText) {
       stage++;
       resetTyping();
     }
-  } else if (stage === 5 || stage === 14 || stage === 200) {
-    stage ++;
-  } else if (stage === 6 || stage === 8 || stage === 10 || stage === 15 || stage === 17 || stage === 19 || stage===202 || stage === 204) {
-  let layout = getIconLayout();
-  let activeKey = getActiveIconName();
-  let icon = layout[activeKey];
-  let y = layout.y;
-  let iconH = layout.iconH;
-    
-   if (
-    mouseX >= icon.x && mouseX <= icon.x + icon.w &&
-    mouseY >= y && mouseY <= y + iconH
-   ) {
+  }
+
+  if (stage === 5 || stage === 14 || stage === 200) {
     stage++;
+  }
+
+  if (
+    stage === 6 ||
+    stage === 8 ||
+    stage === 10 ||
+    stage === 15 ||
+    stage === 17 ||
+    stage === 19 ||
+    stage === 202 ||
+    stage === 204
+  ) {
+    let layout = getIconLayout();
+    let activeKey = getActiveIconName();
+    let icon = layout[activeKey];
+    let y = layout.y;
+    let iconH = layout.iconH;
+
+    if (
+      mouseX >= icon.x &&
+      mouseX <= icon.x + icon.w &&
+      mouseY >= y &&
+      mouseY <= y + iconH
+    ) {
+      stage++;
     }
-  
-    }
-  else  if(stage === 11){
+  }
+
+  if (stage === 11) {
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
       mouseY >= height - 81 &&
-      mouseY <= height - 19 
-    ){
-      checkMorseAnswer()
+      mouseY <= height - 19
+    ) {
+      checkMorseAnswer();
+    }
+  }
+  
+  if (error1 && error1.isClicked(mouseX, mouseY)) {
+    stage = 500;
+    return;
+  }
+  // 뒤에서부터 검사해서 삭제 시 인덱스 밀림 방지
+  for (let i = errors.length - 1; i >= 0; i--) {
+    if (errors[i].isXBtnClicked(mouseX, mouseY)) {
+      errors.splice(i, 1);
+
+      // 모든 창 닫혔는지 확인
+      if (errors.length === 0) {
+        stage = 204; // 원하는 다음 스테이지 번호로 바꾸세요
+      }
+
+      return; // 한 번에 하나만 닫기
     }
   }
 }
