@@ -35,6 +35,10 @@ let dragStartX, dragStartY, dragEndX, dragEndY;
 let resultMessage = "";
 let lineHeight = 25;
 
+// 업무 3 관련 변수
+let morseCorrect = false;
+let morseCheckTime = 0;
+
 // 에러 관련 변수
 let error1;
 let imgError_1; // 에러 1 유형 이미지
@@ -84,6 +88,39 @@ function preload() {
   endingC.preload();
 }
 
+// ====== 입력창 생성 및 스타일 지정 ======
+function setupInputs() {
+  // 이름 입력창
+  nameInput = createInput();
+  nameInput.size(320, 50);
+  nameInput.position(width / 2 - 210, height / 2);
+  styleInput(nameInput, '이름을 입력해주세요', '30px', 'red');
+
+  // 업무 3 모스부호 정답 입력창
+  codeInput = createInput();
+  codeInput.size(500, 60);
+  codeInput.position(width / 2 - 310, height - 80);
+  styleInput(codeInput, '정답을 입력하세요', '30px', 'red');
+  codeInput.mousePressed(() => {
+  resultMessage = "";
+  });
+
+  // placeholder 색상 흰색으로 커스텀
+  const css = `input::placeholder { color: white !important; opacity: 1; }`;
+  const style = createElement('style', css);
+  document.head.appendChild(style.elt);
+}
+
+// ====== 입력창 스타일링 함수 ======
+function styleInput(input, placeholder, fontSize, bg = 'black') {
+  input.style('font-family', 'DungGeunMo');
+  input.style('font-size', fontSize);
+  input.style('background', bg);
+  input.style('border', 'none');
+  input.style('color', 'white');
+  input.style('text-align', 'center');
+  input.attribute('placeholder', placeholder);
+}
 
 // ====== 초기 설정 ======
 function setup() {
@@ -120,38 +157,6 @@ function setup() {
   // 엔딩 초기화
   endingA.start();
   endingC.start();
-}
-
-
-// ====== 입력창 생성 및 스타일 지정 ======
-function setupInputs() {
-  // 이름 입력창
-  nameInput = createInput();
-  nameInput.size(320, 50);
-  nameInput.position(width / 2 - 210, height / 2);
-  styleInput(nameInput, '이름을 입력해주세요', '30px', 'red');
-
-  // 업무 3 모스부호 정답 입력창
-  codeInput = createInput();
-  codeInput.size(500, 60);
-  codeInput.position(width / 2 - 310, height - 80);
-  styleInput(codeInput, '정답을 입력하세요', '30px', 'red');
-
-  // placeholder 색상 흰색으로 커스텀
-  const css = `input::placeholder { color: white !important; opacity: 1; }`;
-  const style = createElement('style', css);
-  document.head.appendChild(style.elt);
-}
-
-// ====== 입력창 스타일링 함수 ======
-function styleInput(input, placeholder, fontSize, bg = 'black') {
-  input.style('font-family', 'DungGeunMo');
-  input.style('font-size', fontSize);
-  input.style('background', bg);
-  input.style('border', 'none');
-  input.style('color', 'white');
-  input.style('text-align', 'center');
-  input.attribute('placeholder', placeholder);
 }
 
 // ====== 메인 화면 반복 그리기 ======
@@ -380,7 +385,7 @@ function draw() {
           "선정 기준: 신경학적 질환 이력 없음, 약물 복용 이력 없음, 정상 범위 내 인지능력 보유",
         ];
 
-        for (let i = 0; i < rawLines.length; i++) {
+        for (let i = 0; i < rawLines.length; i ++) {
           let line = rawLines[i];
           let isWrong = false;
 
@@ -480,7 +485,27 @@ function draw() {
       fill(255);
       textSize(30);
       text("확인", width / 2 + 250, height - 52);
-        
+
+      // 정답 여부 판단 후 결과 메시지 띄우기
+      if (resultMessage !== "") {
+        if (morseCorrect) {
+          fill(0, 100, 255);
+        } else {
+          fill(255, 50, 50);
+        }
+
+        rect(width / 2 - 250, height / 2, 500, 100);
+        fill(255);
+        text(resultMessage, width / 2, height / 2 + 48);
+      }
+
+      // 정답이면 1.5초 후 다음 스테이지로
+      if (morseCorrect && millis() - morseCheckTime > 1500) {
+        stage++;
+        morseCorrect = false;
+        resultMessage = ""; //
+      }
+
       break;
       
     case 12:
@@ -494,8 +519,8 @@ function draw() {
 
       fill(0);
       typeText([
-        ["휴우 어제는 힘든 하루였어..."],
-        ["고연봉이라서 지원한 프로젝트인데 ... 이거 하지 말까?"],
+        ["휴우 어제는 힘든 하루였어 ..."],
+        ["고연봉이라서 지원한 프로젝트인데 .. 이거 하지 말까?"],
         ["아냐아냐 그래도 어떻게 입사하건데 .. 일 해야지 ..."],
         ["음? 오늘 작업해야 하는 보고서인가?"]
       ]);
@@ -507,10 +532,10 @@ function draw() {
 
       break;
       
-      case 13:
-        //컷전환+도재인 등장
-        afterDay1.update();
-        break;
+    case 13:
+      //컷 전환 + 도재인 등장
+      afterDay1.update();
+      break;
 
 
     case 100:
@@ -768,6 +793,8 @@ function mousePressed() {
     for (let s of sentenceObjs) {
       s.state = "default";
     }
+    resultMessage = ""
+
     dragStartX = mouseX;
     dragStartY = mouseY;
     isDragging = true;
@@ -1022,14 +1049,13 @@ function drawIcons() {
 // 모스 정답 함수
 function checkMorseAnswer() {
   const codeCheck = codeInput.value().trim();
+  
   if (stage === 11 && codeCheck === "제약") {
-    stage++;
-    fill(0, 100, 255);
-    rect()
-    console.log("정답!");
-    codeInput.hide();
+    resultMessage = "정답입니다.";
+    morseCorrect = true;
+    morseCheckTime = millis();
   } else {
     resultMessage = "틀렸습니다. 다시 시도하세요.";
-    console.log("실패");
+    morseCorrect = false;
   }
 }
