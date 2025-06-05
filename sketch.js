@@ -34,6 +34,7 @@ let isDragging = false;
 let dragStartX, dragStartY, dragEndX, dragEndY;
 let resultMessage = "";
 let lineHeight = 25;
+let dragInitialized = false;
 
 // 업무 3 관련 변수
 let morseCorrect = false;
@@ -599,7 +600,6 @@ function draw() {
     
     case 18:
       // Day 2 - 업무 2: 정크 데이터 처리
-      /*
       fill(255);
       rect(50, 30, width - 100, height);
       
@@ -610,10 +610,94 @@ function draw() {
       textSize(20);
       textAlign(LEFT, TOP);
       text("흐름에 맞지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
-      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);*/
+      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
+
+      if (!dragInitialized) {
+        sentenceObjs = [];
+        setSentences(sentenceSet18);
+        dragInitialized = true;
+      }
       
-      console.log(sentenceObjs);
-      stage ++;
+      if (sentenceObjs.length === 0) { 
+        let secondLines = [
+          "Day 1 데이터 정리",
+          "내부 연구 보고서",
+          "문서번호: IR-401-1",
+          "작성일자: [2025-06-20]",
+          "작성부서: 인지응답실험팀 (현재 비활성화 상태)",
+          "작성자: 김철수 선임연구원",
+          "보안등급: 내부기밀 (Confidential; for Internal Use Only)",
+          "",
+          "1. 보고서 개요",
+          "본 문서는 당사 연구소 내 인지응답실험팀에서 수행한 초기 탐색적 연구 결과를 정리한 것이다.",
+          "해당 연구는 특정 약물 후보물질(Candidate Compound X)이 인지기능에 미치는 영향을 평가하기 위한 사전 실험으로, 약물 투여 후 피험자의 반응 속도, 정확성, 선택적 주의력 변화 등을 측정하였다.",
+          "현재 본 팀은 운영이 일시 중단된 상태이나, 실험 결과의 과학적 의의와 향후 임상 적용 가능성을 고려하여 연구 기록 보존 및 부서 간 공유를 목적으로 본 보고서를 작성하였다.",
+          "",
+          // 흐름에 맞지 않는 내용
+          "한 해를 마무리하는 특별 할인! 겨울의 마법이 시작됩니다. 따뜻한 순간을 선물하세요.",
+          "크리스마스의 기적, 마음에 닿기를",
+          "",
+          "2. 연구 배경 및 목적",
+          "인지 기능은 다양한 신경정신계 질환뿐만 아니라, 통증 완화, 수면 조절 등 다양한 치료영역과 밀접한 관련이 있다.",
+          "최근 개발 중인 Candidate Compound X는 중추신경계에 선택적으로 작용하는 것으로 보고되었으며, 동물모델에서 인지 능력 개선 가능성을 보인 바 있다.",
+          "이에 따라 본 연구에서는 해당 물질이 건강한 성인에게서 인지적 자극에 대한 반응성에 어떤 영향을 미치는지를 사전적으로 검토하고자 하였다.",
+          "",
+          "3. 실험 설계",
+          "3.1 실험 대상자",
+          "모집 대상: 건강한 성인 남녀, 20~35세",
+          "최종 참여자 수: 총 20명 (남성 10명, 여성 10명)",
+          "선정 기준: 신경학적 질환 이력 없음, 약물 복용 이력 없음, 정상 범위 내 인지능력 보유",
+        ];
+
+        for (let i = 0; i < secondLines.length; i ++) {
+          let line = secondLines[i];
+          let isWrong = false;
+
+          // 이상한 문장 판별 기준
+          if (line.includes("특별 할인") || line.includes("크리스마스")) {
+            isWrong = true;
+          }
+
+          sentenceObjs.push({
+            text: line,
+            x: 70,
+            y: 50 + i * lineHeight,
+            isWrong: isWrong,
+            state: "default"
+          });
+        }
+      }
+
+      textSize(15);
+      textAlign(LEFT, TOP);
+
+      for (let s of sentenceObjs) {
+        if (s.state === "correct") fill(0, 100, 255);
+        else if (s.state === "wrong") fill(255, 50, 50);
+        else fill(0);
+
+        text(s.text, s.x, s.y);
+      }
+
+      if (isDragging) {
+        noFill();
+        stroke(200);
+        rectMode(CORNERS);
+        rect(dragStartX, dragStartY, mouseX, mouseY);
+        noStroke();
+        rectMode(CORNER);
+      }
+
+      if (resultMessage) {
+        textSize(30);
+        textAlign(CENTER, CENTER);
+        if (resultMessage.includes("성공")) {
+          fill(0, 100, 255);
+        } else {
+          fill(255, 50, 50);
+        }
+        text(resultMessage, width - 355, 180);
+      }
 
       break;
 
