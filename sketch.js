@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 13;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -34,10 +34,12 @@ let isDragging = false;
 let dragStartX, dragStartY, dragEndX, dragEndY;
 let resultMessage = "";
 let lineHeight = 25;
+let dragInitialized = false;
 
 // 업무 3 관련 변수
 let morseCorrect = false;
 let morseCheckTime = 0;
+let codeInitialized = false;
 
 // 에러 관련 변수
 let error1;
@@ -172,13 +174,11 @@ function setup() {
 function draw() {
   background(0);
 
-  drawManual(); // 매뉴얼 표시
-
   // 입력창 보여줄 stage 설정
   if (stage === 0) {
     nameInput.show();
     codeInput.hide();
-  } else if (stage === 11) {
+  } else if (stage === 11 || stage === 20) {
     nameInput.hide();
     codeInput.show();
   } else {
@@ -251,7 +251,7 @@ function draw() {
       ]);
 
       if (finishText) {
-        stage++;
+        stage ++;
         resetTyping();
       }
 
@@ -323,9 +323,9 @@ function draw() {
     
     case 7:
       // Day 1 -업무 1: 파일 정리 업무
-       //doctaskDay1.update();//
-      //일단 흐름 파악하려고 주석 처리했어요
-      //코드 연결하시고 주석 처리 해제하심 됩니다
+       //doctaskDay1.update(); //
+      // 일단 흐름 파악하려고 주석 처리했어요
+      // 코드 연결하시고 주석 처리 해제하심 됩니다
       
       stage ++;
       break;
@@ -604,7 +604,6 @@ function draw() {
     
     case 18:
       // Day 2 - 업무 2: 정크 데이터 처리
-      /*
       fill(255);
       rect(50, 30, width - 100, height);
       
@@ -615,10 +614,94 @@ function draw() {
       textSize(20);
       textAlign(LEFT, TOP);
       text("흐름에 맞지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
-      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);*/
+      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
+
+      if (!dragInitialized) {
+        sentenceObjs = [];
+        setSentences(sentenceSet18);
+        dragInitialized = true;
+      }
       
-      console.log(sentenceObjs);
-      stage ++;
+      if (sentenceObjs.length === 0) { 
+        let secondLines = [
+          "Day 1 데이터 정리",
+          "내부 연구 보고서",
+          "문서번호: IR-401-1",
+          "작성일자: [2025-06-20]",
+          "작성부서: 인지응답실험팀 (현재 비활성화 상태)",
+          "작성자: 김철수 선임연구원",
+          "보안등급: 내부기밀 (Confidential; for Internal Use Only)",
+          "",
+          "1. 보고서 개요",
+          "본 문서는 당사 연구소 내 인지응답실험팀에서 수행한 초기 탐색적 연구 결과를 정리한 것이다.",
+          "해당 연구는 특정 약물 후보물질(Candidate Compound X)이 인지기능에 미치는 영향을 평가하기 위한 사전 실험으로, 약물 투여 후 피험자의 반응 속도, 정확성, 선택적 주의력 변화 등을 측정하였다.",
+          "현재 본 팀은 운영이 일시 중단된 상태이나, 실험 결과의 과학적 의의와 향후 임상 적용 가능성을 고려하여 연구 기록 보존 및 부서 간 공유를 목적으로 본 보고서를 작성하였다.",
+          "",
+          // 흐름에 맞지 않는 내용
+          "한 해를 마무리하는 특별 할인! 겨울의 마법이 시작됩니다. 따뜻한 순간을 선물하세요.",
+          "크리스마스의 기적, 마음에 닿기를",
+          "",
+          "2. 연구 배경 및 목적",
+          "인지 기능은 다양한 신경정신계 질환뿐만 아니라, 통증 완화, 수면 조절 등 다양한 치료영역과 밀접한 관련이 있다.",
+          "최근 개발 중인 Candidate Compound X는 중추신경계에 선택적으로 작용하는 것으로 보고되었으며, 동물모델에서 인지 능력 개선 가능성을 보인 바 있다.",
+          "이에 따라 본 연구에서는 해당 물질이 건강한 성인에게서 인지적 자극에 대한 반응성에 어떤 영향을 미치는지를 사전적으로 검토하고자 하였다.",
+          "",
+          "3. 실험 설계",
+          "3.1 실험 대상자",
+          "모집 대상: 건강한 성인 남녀, 20~35세",
+          "최종 참여자 수: 총 20명 (남성 10명, 여성 10명)",
+          "선정 기준: 신경학적 질환 이력 없음, 약물 복용 이력 없음, 정상 범위 내 인지능력 보유",
+        ];
+
+        for (let i = 0; i < secondLines.length; i ++) {
+          let line = secondLines[i];
+          let isWrong = false;
+
+          // 이상한 문장 판별 기준
+          if (line.includes("특별 할인") || line.includes("크리스마스")) {
+            isWrong = true;
+          }
+
+          sentenceObjs.push({
+            text: line,
+            x: 70,
+            y: 50 + i * lineHeight,
+            isWrong: isWrong,
+            state: "default"
+          });
+        }
+      }
+
+      textSize(15);
+      textAlign(LEFT, TOP);
+
+      for (let s of sentenceObjs) {
+        if (s.state === "correct") fill(0, 100, 255);
+        else if (s.state === "wrong") fill(255, 50, 50);
+        else fill(0);
+
+        text(s.text, s.x, s.y);
+      }
+
+      if (isDragging) {
+        noFill();
+        stroke(200);
+        rectMode(CORNERS);
+        rect(dragStartX, dragStartY, mouseX, mouseY);
+        noStroke();
+        rectMode(CORNER);
+      }
+
+      if (resultMessage) {
+        textSize(30);
+        textAlign(CENTER, CENTER);
+        if (resultMessage.includes("성공")) {
+          fill(0, 100, 255);
+        } else {
+          fill(255, 50, 50);
+        }
+        text(resultMessage, width - 355, 180);
+      }
 
       break;
 
@@ -643,8 +726,45 @@ function draw() {
         break;
     
     case 20:
-      // 업무 3 모스부호 해석 넣기
-      stage ++;
+      // 업무 3 모스부호 해석
+      if (!codeInitialized) {
+        codeInput.value("");
+        morseCorrect = false;
+        morseCheckTime = 0;
+        codeInitialized = true;
+      }
+
+      image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
+
+      fill(255);
+      textSize(windowWidth * 0.03);
+      text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
+      text(". ... -. --. -- ...." /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
+
+      let btnX20 = width / 2 + 210;
+      let btnY20 = height - 81;
+      let btnW20 = 80;
+      let btnH20 = 62;
+
+      checkButton(btnX20, btnY20, btnW20, btnH20);
+      rect(btnX20, btnY20, btnW20, btnH20);
+
+      fill(255);
+      textSize(30);
+      text("확인", width / 2 + 250, height - 52);
+
+      if (resultMessage !== "") {
+        fill(morseCorrect ? color(0, 100, 255) : color(255, 50, 50));
+        rect(width / 2 - 250, height / 2, 500, 100);
+        fill(255);
+        text(resultMessage, width / 2, height / 2 + 48);
+      }
+
+      if (morseCorrect && millis() - morseCheckTime > 1500) {
+        stage++;
+        morseCorrect = false;
+        resultMessage = "";
+      }
 
       break;
 
@@ -772,6 +892,7 @@ function draw() {
       break;
   }
   updateCursor();
+  drawManual(); // 매뉴얼 표시
 }
 
 function updateCursor() {
@@ -786,6 +907,12 @@ function updateCursor() {
       mouseY <= height / 2 + 51.5)
     ||
     (stage === 11 &&
+      mouseX >= width / 2 + 210 &&
+      mouseX <= width / 2 + 290 &&
+      mouseY >= height - 81 &&
+      mouseY <= height - 19)
+    ||
+    (stage === 20 &&
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
       mouseY >= height - 81 &&
@@ -876,7 +1003,7 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 11) {
+  if (stage === 11 || stage === 20) {
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -1092,7 +1219,17 @@ function drawManual() {
 
 // stage 3 이후에 m키 누르면 매뉴얼이 나오도록
 function keyPressed() {
-  if (stage >= 3  && key === 'm') {
+  const focusedEl = document.activeElement;
+
+  // 인풋창 포커스 시 키 무시
+  if (
+    focusedEl === nameInput.elt ||
+    focusedEl === codeInput.elt
+  ) {
+    return;
+  }
+
+  if (stage >= 3 && key === 'm') {
     showManual = !showManual;
   }
 }
@@ -1167,13 +1304,17 @@ function drawIcons() {
 // 모스 정답 함수
 function checkMorseAnswer() {
   const codeCheck = codeInput.value().trim();
-  
-  if (stage === 11 && codeCheck === "제약") {
+
+  if (
+    (stage === 11 && codeCheck === "제약") ||
+    (stage === 20 && codeCheck === "생명")
+  ) {
     resultMessage = "성공입니다.";
     morseCorrect = true;
-    morseCheckTime = millis();
+    morseCheckTime = millis(); 
   } else {
     resultMessage = "실패입니다. 다시 시도하세요.";
     morseCorrect = false;
+    morseCheckTime = 0;
   }
 }
