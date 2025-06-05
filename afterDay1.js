@@ -55,7 +55,7 @@ class AfterDay1 {
 
     this.drawTyping();
 
-    if (this.currentTextIndex >= 2 && this.currentTextIndex <= 4) {
+    if (this.currentTextIndex >= 1 && this.currentTextIndex <= 3) {
       let scale = 0.5; // 이미지 80% 크기로 줄이기
 
   let imgW = this.afterDay1.width * scale;
@@ -66,7 +66,7 @@ class AfterDay1 {
   image(this.afterDay1, width / 2, height / 2, imgW, imgH);
   imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
 
-    }else if(this.currentTextIndex >4){
+    }else if(this.currentTextIndex >3 && this.currentTextIndex <=10 ){
       this.drawJane();
     }
 
@@ -200,6 +200,7 @@ drawJane() {
         this.loadNextText();
       } else {
         this.endc1Reached = true;
+        stage++
       }
     }
   }

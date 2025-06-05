@@ -67,6 +67,7 @@ function preload() {
   folderIcon = loadImage('assets/folderIcon.png');
   folderDoc = loadImage('assets/folderDoc.png');
   myDesk = loadImage('assets/내 사무실 자리.png');
+  thisIsManual = loadImage('assets/이것은 매뉴얼.png');
 
   // 아이콘들 (활성/비활성) 불러오기
   activeFileIcon = loadImage("assets/파일 아이콘.png");
@@ -276,7 +277,10 @@ function draw() {
       break;
 
     case 4:
-      drawResearcher();
+     let manualW = 1000;
+      let manualH = thisIsManual.height * (manualW / thisIsManual.width);
+      image(thisIsManual, (width - manualW) / 2, 0, manualW, manualH);
+
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
