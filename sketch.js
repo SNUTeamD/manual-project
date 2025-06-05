@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 11;
+let stage = 8;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -96,7 +96,7 @@ function setup() {
 
   setupInputs();
   
-// 에러 1 유형의 텍스트 지정
+  // 에러 1 유형의 텍스트 지정
   error1 = new Error1(
     imgError_1,
     "From: 구조언어부 백업담당 T\n To: 수거조정실 S외 2명\nSubject: 그거 진짜 지운 애 있음ㅋㅋ\n진짜로 그거 날린 직원 나왔어요. 영상도 첨부함!\n마지막에 충격받은 표정이 꽤 웃겨서 추천함.\n자기 눈으로 세상 본 줄 아는 표정 아시죠? (...)",  // 30초 이전에 표시할 텍스트
@@ -117,7 +117,7 @@ function setup() {
   // Day1 업무1
   doctaskDay1 = new Day1Task1();
   doctaskDay1.start();
-  //엔딩 초기화
+  // 엔딩 초기화
   endingA.start();
   endingC.start();
 }
@@ -131,12 +131,11 @@ function setupInputs() {
   nameInput.position(width / 2 - 210, height / 2);
   styleInput(nameInput, '이름을 입력해주세요', '30px', 'red');
 
-  // 모스부호 정답 입력창
+  // 업무 3 모스부호 정답 입력창
   codeInput = createInput();
   codeInput.size(500, 60);
   codeInput.position(width / 2 - 310, height - 80);
   styleInput(codeInput, '정답을 입력하세요', '30px', 'red');
-  codeInput.hide(); // 처음엔 숨김
 
   // placeholder 색상 흰색으로 커스텀
   const css = `input::placeholder { color: white !important; opacity: 1; }`;
@@ -290,8 +289,7 @@ function draw() {
       finishText = true;
       break;
 
-    case 6:
-      // 바탕화면 1
+    case 6: // 바탕화면 1
 
       // 업무 리스트
       fill(150, 150, 255);
@@ -308,7 +306,11 @@ function draw() {
     
     case 7:
       // 파일 정리 업무
-      doctaskDay1.update();
+      /* doctaskDay1.update();
+      일단 흐름 파악하려고 주석 처리했어요
+      코드 연결하시고 주석 처리 해제하심 됩니다
+      */
+      stage ++;
       break;
 
     
@@ -481,21 +483,21 @@ function draw() {
         
       break;
       
-      case 12:
+    case 12:
       let deskW = 1000;
       let deskH = myDesk.height * (deskW / myDesk.width);
       image(myDesk, (width - deskW) / 2, 0, deskW, deskH);
 
-            // 화면 아래 회색 박스
+      // 화면 아래 회색 박스
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
-      fill(45);
+      fill(0);
       typeText([
         ["휴우 어제는 힘든 하루였어..."],
-        ["고연봉이라서 지원한 프로젝트인데...이거 하지 말까?"],
-        ["아냐아냐 그래도 고생해서 온 회사인데 일 해야지..."],
-        ["음? 오늘 작업해야되는 보고서인가?"]
+        ["고연봉이라서 지원한 프로젝트인데 ... 이거 하지 말까?"],
+        ["아냐아냐 그래도 어떻게 입사하건데 .. 일 해야지 ..."],
+        ["음? 오늘 작업해야 하는 보고서인가?"]
       ]);
       
       if (finishText) {
@@ -657,7 +659,7 @@ function draw() {
       break;
 
     case 400:
-        /*//엔딩 A
+        //엔딩 A
         endingA.update();
       break;
     
@@ -669,7 +671,7 @@ function draw() {
     case 600:
         // 엔딩 C
         endingC.update();
-      break;*/
+      break;
     }
   }
 
@@ -836,7 +838,7 @@ function mouseReleased() {
   }
 }
 
-
+// 텍스트 타자 효과 함수
 function typeText(texts) {
 
   let lines = texts[part];
@@ -890,6 +892,7 @@ function typeText(texts) {
   }
 }
 
+// 텍스트 타자 효과 초기화 함수
 function resetTyping() {
   part = 0;
   linePart = 0;
@@ -899,8 +902,8 @@ function resetTyping() {
   lastTime = millis();
 }
 
+// 연구원 이미지 비율 유지하면서 표시하는 함수
 function drawResearcher() {
-  // 연구원 이미지 비율 유지하면서 표시
   let researcherW = 500;
   let researcherH = imgResearcher.height * (researcherW / imgResearcher.width);
   let imgX = 80;
@@ -908,6 +911,7 @@ function drawResearcher() {
   image(imgResearcher, imgX, imgY, researcherW, researcherH);
 }
 
+// 매뉴얼 띄우는 함수
 function drawManual() {
   if (!showManual) return;
   manualH = height * 0.8;
@@ -917,12 +921,14 @@ function drawManual() {
   image(imgManual, manualX, manualY, manualW, manualH);
 }
 
+// stage 3 이후에 m키 누르면 매뉴얼이 나오도록
 function keyPressed() {
   if (stage >= 3  && key === 'm') {
     showManual = !showManual;
   }
 }
 
+// 배경화면 아이콘 처리 관련 함수 1
 function getIconLayout() {
   let iconH = 300;
   let gap = 100;
@@ -945,6 +951,7 @@ function getIconLayout() {
   };
 }
 
+// 배경화면 아이콘 처리 관련 함수 2
 function getActiveIconName() {
   if (stage === 6 | stage ===101 | stage === 201 ) return "file";
   if (stage === 8 | stage ===102 | stage === 202 ) return "doc";
@@ -952,6 +959,7 @@ function getActiveIconName() {
   return null;
 }
 
+// 배경화면 아이콘 처리 관련 함수 3
 function drawIcons() {
   let layout = getIconLayout();
   let { iconH, file, doc, sat, y } = layout;
@@ -1011,6 +1019,8 @@ function checkMorseAnswer() {
   const codeCheck = codeInput.value().trim();
   if (stage === 11 && codeCheck === "제약") {
     stage++;
+    fill(0, 100, 255);
+    rect()
     console.log("정답!");
     codeInput.hide();
   } else {
