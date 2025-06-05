@@ -16,6 +16,9 @@ class AfterDay1 {
   { speaker: "도재인", text: "제가 작업해야 되는 보고서인데, 실수로 이쪽으로 넘겨졌나봐요." },
   { speaker: "도재인", text: "오늘은 데이터 처리를 안하셔도 됩니다."},
   { speaker: "도재인", text: "좋은 하루 되세요." },
+  { speaker: "PLAYER", text: "갑자기 나타났더니 그냥 사라졌다" },
+  { speaker: "PLAYER", text: "이거 하지 말까 하는 생각이 다시 들기 시작했다." },
+  { speaker: "PLAYER", text: "뭐 그래도 보고서가 하루 줄었으니" }
 ];
 
     this.currentTextIndex = 0;
@@ -27,17 +30,16 @@ class AfterDay1 {
     this.isTyping = true;
     this.clickReady = false;
 
-    this.noiseStartTime = null;
-    this.noiseDuration = 30000;
-    this.isNoising = false;
 
     this.endc1Reached = false;
 
-    this.endingC1Img = null;
+    this.afterDay1 = null;
   }
 
   preload() {
-    this.endingC1Img = loadImage('assets/ending c-1.png');
+    this.afterDay1 = loadImage('assets/Day1이 끝나고.png');
+    this.janeCommon = loadImage('assets/도재인(생기있음).png');
+    this.janeMonster = loadImage('assets/도재인 괴인.png');
   }
 
   start() {
@@ -46,34 +48,26 @@ class AfterDay1 {
   }
 
   update() {
-    if (this.endc1Reached) {
-      background(0);
-      fill(255);
-      textSize(36);
-      textAlign(CENTER, CENTER);
-      textFont("Courier New");
-      text("#End C: Fusion Ending", width / 2, height / 2);
-      return;
-    }
 
     this.fadeAlpha = constrain((millis() - this.phaseStartTime) / 2000 * 255, 0, 255);
     tint(255, this.fadeAlpha);
-    image(this.endingC1Img, 0, 0, width, height);
     noTint();
 
     this.drawTyping();
 
-    if (this.currentTextIndex >= 11) {
-      if (!this.isNoising) {
-        this.noiseStartTime = millis();
-        this.isNoising = true;
-      }
-      let elapsed = millis() - this.noiseStartTime;
-      let progress = constrain(elapsed / this.noiseDuration, 0, 1);
-      if (elapsed < this.noiseDuration) {
-      this.drawNoise(progress);
-      } else { background(255); // ← 완전한 흰 화면
-      }
+    if (this.currentTextIndex >= 2 && this.currentTextIndex <= 4) {
+      let scale = 0.5; // 이미지 80% 크기로 줄이기
+
+  let imgW = this.afterDay1.width * scale;
+  let imgH = this.afterDay1.height * scale;
+
+  tint(255, this.fadeAlpha);
+  imageMode(CENTER);
+  image(this.afterDay1, width / 2, height / 2, imgW, imgH);
+  imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
+
+    }else if(this.currentTextIndex >4){
+      this.drawJane();
     }
 
     this.drawTextbox();
@@ -132,6 +126,14 @@ class AfterDay1 {
     
     text(this.displayedText, boxX + textMargin, boxY + textMargin, boxW - textMargin * 2, boxH - textMargin * 2);
   }
+// 연구원 이미지 비율 유지하면서 표시하는 함수
+drawJane() {
+  let janeW = 500;
+  let janeH = this.janeCommon.height * (janeW / this.janeCommon.width);
+  let imgX = 80;
+  let imgY = height - height / 4 -janeH + 200;
+  image(this.janeCommon, imgX, imgY, janeW, janeH);
+}
 
   drawTyping() {
     if (this.isTyping && this.charIndex < this.fullText.length) {
