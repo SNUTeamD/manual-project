@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 11;
+let stage = 600;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -495,7 +495,7 @@ function draw() {
         ["휴우 어제는 힘든 하루였어..."],
         ["고연봉이라서 지원한 프로젝트인데...이거 하지 말까?"],
         ["아냐아냐 그래도 고생해서 온 회사인데 일 해야지..."],
-        ["음? 오늘 작업해야되는 보고서인가?"]
+        ["음? 오늘 작업해야되는 보고서인가?"],
       ]);
       
       if (finishText) {
@@ -504,6 +504,11 @@ function draw() {
       }
 
       break;
+      
+      case 13:
+        //컷전환+도재인 등장
+        afterDay1.update();
+        break;
 
 
     case 100:
