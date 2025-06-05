@@ -180,7 +180,7 @@ function draw() {
 
   switch (stage) {
     case 0:
-      // 초기 화면: MANUAL + 확인 버튼
+      // 초기 화면: 이름 입력창 + 확인 버튼
       fill(255);
       textSize(120);
       text('MANUAL', width / 2, height / 2 - 100);
@@ -311,7 +311,7 @@ function draw() {
       break;
     
     case 7:
-      // 파일 정리 업무
+      // Day 1 -업무 1: 파일 정리 업무
       /* doctaskDay1.update();
       일단 흐름 파악하려고 주석 처리했어요
       코드 연결하시고 주석 처리 해제하심 됩니다
@@ -336,7 +336,9 @@ function draw() {
       strokeWeight(3);
       line(width - 350, 130, width - 150, 130);
 
+      // 아이콘 표시: 문서 아이콘만 활성화
       drawIcons();
+
       break;
 
     case 9:
@@ -460,6 +462,7 @@ function draw() {
 
       // 아이콘 표시: 위성 아이콘만 활성화
       drawIcons();
+
       break;
 
     case 11:
@@ -507,7 +510,7 @@ function draw() {
 
       break;
       
-    case 12:
+    case 12: // Day 1 마무리 파트
       finishText = false;
       let deskW = 1000;
       let deskH = myDesk.height * (deskW / myDesk.width);
@@ -540,7 +543,7 @@ function draw() {
       break;
 
 
-    case 14:
+    case 14: // Day 2로 전환
       fill(255);
       textSize(70);
       text("Day 2", width / 2, height / 2 - 50);
@@ -549,7 +552,7 @@ function draw() {
       
       break;
 
-    case 15:
+    case 15: // 바탕화면 1
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -557,7 +560,8 @@ function draw() {
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
       text("3. 코드 해석", width - 250, 205);
-
+      
+      // 아이콘 표시: 파일 아이콘만 활성화
       drawIcons();
       error2.display();
 
@@ -569,7 +573,7 @@ function draw() {
 
       break;
 
-    case 17:
+    case 17: // 바탕화면 2
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -587,7 +591,7 @@ function draw() {
     
     case 18:
       // Day 2 - 업무 2: 정크 데이터 처리
-      noStroke();
+      /*noStroke();
       fill(255);
       rect(50, 30, width - 100, height);
       
@@ -598,13 +602,13 @@ function draw() {
       textSize(20);
       textAlign(LEFT, TOP);
       text("흐름에 맞지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
-      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
+      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);*/
       
       stage ++;
 
       break;
 
-    case 19:
+    case 19: // 바탕화면 3
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -629,22 +633,21 @@ function draw() {
       break;
 
     case 21:
-    fill(255);
-    textSize(70)
-    text("Day 3", width / 2, height / 2 - 50);
-    textSize(30);
-    text("Click to continue ···", width / 2, height / 2 + 50);
-    finishText = true;
-    
-      break;
-    
-    case 22:
       // Day 3 가기 전 전환 파트
       stage ++;
 
       break;
 
-    case 201:
+    case 22: // Day 3로 전환
+    fill(255);
+    textSize(70)
+    text("Day 3", width / 2, height / 2 - 50);
+    textSize(30);
+    text("Click to continue ···", width / 2, height / 2 + 50);
+    
+      break;
+    
+    case 23: // 바탕화면 1
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -657,8 +660,14 @@ function draw() {
       error3.display();
 
       break;
+    
+    case 24:
+      // 셋째 날 업무 1은 여기에
+      stage ++;
 
-    case 202:
+      break;
+
+    case 25: // 바탕화면 2
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -708,7 +717,7 @@ function draw() {
       }
       break;
 
-    case 204:
+    case 204: // 바탕화면 3
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -764,7 +773,7 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 5 || stage === 14 || stage === 200) {
+  if (stage === 5 || stage === 14 || stage === 22) {
     stage++;
   }
 
@@ -775,8 +784,8 @@ function mouseClicked() {
     stage === 15 ||
     stage === 17 ||
     stage === 19 ||
-    stage === 202 ||
-    stage === 204
+    stage === 23 ||
+    stage === 25
   ) {
     let layout = getIconLayout();
     let activeKey = getActiveIconName();
@@ -1039,8 +1048,8 @@ function getIconLayout() {
 
 // 배경화면 아이콘 처리 관련 함수 2
 function getActiveIconName() {
-  if (stage === 6 | stage === 15 | stage === 201 ) return "file";
-  if (stage === 8 | stage === 17 | stage === 202 ) return "doc";
+  if (stage === 6 | stage === 15 | stage === 23 ) return "file";
+  if (stage === 8 | stage === 17 | stage === 25 ) return "doc";
   if (stage === 10 | stage === 19 | stage === 204 ) return "sat";
   return null;
 }
