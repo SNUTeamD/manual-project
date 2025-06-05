@@ -279,7 +279,7 @@ function draw() {
       ]);
 
       if (finishText) {
-        stage++;
+        stage ++;
         resetTyping();
       }
       
@@ -291,7 +291,7 @@ function draw() {
       text("Day 1", width / 2, height / 2 - 50);
       textSize(30);
       text("Click to continue ···", width / 2, height / 2 + 50);
-      finishText = true;
+
       break;
 
     case 6: // 바탕화면 1
@@ -307,6 +307,7 @@ function draw() {
 
       // 아이콘 표시: 파일 아이콘만 활성화
       drawIcons();
+
       break;
     
     case 7:
@@ -319,8 +320,7 @@ function draw() {
       break;
 
     
-    case 8:
-      // 바탕화면 2
+    case 8: // 바탕화면 2
 
       // 업무 리스트
       fill(150, 150, 255);
@@ -439,8 +439,7 @@ function draw() {
 
       break;
 
-    case 10:
-      // 바탕화면 3
+    case 10: // 바탕화면 3
       
       // 업무 리스트
       fill(150, 150, 255);
@@ -509,6 +508,7 @@ function draw() {
       break;
       
     case 12:
+      finishText = false;
       let deskW = 1000;
       let deskH = myDesk.height * (deskW / myDesk.width);
       image(myDesk, (width - deskW) / 2, 0, deskW, deskH);
@@ -526,14 +526,14 @@ function draw() {
       ]);
       
       if (finishText) {
-        stage++;
+        stage ++;
         resetTyping();
       }
 
       break;
       
     case 13:
-      //컷 전환 + 도재인 등장
+      // 컷 전환 + 도재인 등장
       afterDay1.update();
       break;
 
