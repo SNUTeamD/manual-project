@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 6;
+let stage = 13;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -95,7 +95,7 @@ function preload() {
   // 엔딩 C
   endingC = new EndingC();
   endingC.preload();
-  //Day 1이 끝나고고
+  //Day 1이 끝나고
   afterDay1 = new AfterDay1();
   afterDay1.preload();
 }

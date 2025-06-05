@@ -32,7 +32,7 @@ class AfterDay1 {
 
 
     this.endc1Reached = false;
-
+    this.janeMonsterShown = false;
     this.afterDay1 = null;
   }
 
@@ -66,9 +66,26 @@ class AfterDay1 {
   image(this.afterDay1, width / 2, height / 2, imgW, imgH);
   imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
 
-    }else if(this.currentTextIndex >3 && this.currentTextIndex <=10 ){
+    }else if(this.currentTextIndex >3 && this.currentTextIndex <=7 ){
       this.drawJane();
     }
+    //재인 괴수화 코드
+    // 👾 괴인 이미지 잠깐 등장
+if (this.showJaneMonster) {
+  let elapsed = millis() - this.janeMonsterStartTime;
+  if (elapsed < 100) {
+    this.drawJaneMonster();
+  } else {
+    this.showJaneMonster = false;
+    this.janeMonsterShown = true; // ✅ 더 이상 안 나오게
+  }
+}
+
+// ✅ currentTextIndex가 7일 때 한 번만 showJaneMonster를 true로
+if (this.currentTextIndex === 7 && !this.janeMonsterShown && !this.showJaneMonster) {
+  this.showJaneMonster = true;
+  this.janeMonsterStartTime = millis();
+}
 
     this.drawTextbox();
   }
@@ -119,9 +136,9 @@ class AfterDay1 {
       textAlign(CENTER, CENTER);
       text("???", boxX + 120, boxY-20); 
     }
-    fill(255);
-    textAlign(LEFT, TOP);
-    textSize(30);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(35);
     let textMargin = 30;
     
     text(this.displayedText, boxX + textMargin, boxY + textMargin, boxW - textMargin * 2, boxH - textMargin * 2);
@@ -134,6 +151,28 @@ drawJane() {
   let imgY = height - height / 4 -janeH + 200;
   image(this.janeCommon, imgX, imgY, janeW, janeH);
 }
+drawJaneMonster() {
+  let janeMonW = 500;
+  let janeMonH = this.janeMonster.height * (janeMonW / this.janeMonster.width);
+  let imgX = 80;
+  let imgY = height - height / 4 -janeMonH + 200;
+  image(this.janeMonster, imgX, imgY, janeMonW, janeMonH);
+
+  for (let i = 0; i < 3; i++) {
+    let offsetX = random(-5, 5); // 좌우 랜덤 흔들림
+    let offsetY = random(-5, 5);
+    let tintColor;
+    if (i === 0) tintColor = [255, 0, 0];     // 빨강
+    else if (i === 1) tintColor = [0, 255, 255]; // 청록
+    else tintColor = [255, 255, 255];         // 흰색
+
+    tint(...tintColor, 180); // 투명도 조절
+    image(this.janeMonster, imgX + offsetX, imgY + offsetY, janeMonW, janeMonH);
+  }
+
+  noTint(); // 이후 이미지에 영향 안 주게
+}
+
 
   drawTyping() {
     if (this.isTyping && this.charIndex < this.fullText.length) {
