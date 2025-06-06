@@ -1110,7 +1110,7 @@ function mouseClicked() {
 
       // 모든 창 닫혔는지 확인
       if (errors.length === 0) {
-        stage = 204; // 원하는 다음 스테이지 번호로 바꾸세요
+        stage = 14 // 원하는 다음 스테이지 번호로 바꾸세요
       }
 
       return; // 한 번에 하나만 닫기
