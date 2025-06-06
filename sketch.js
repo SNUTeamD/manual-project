@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 204;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -19,7 +19,7 @@ let linePart = 0;
 let letterCount = 0;
 let lastTime = 0;
 let typingSpeed = 120;
-let waitTime = 1200;
+let waitTime = 1000;
 let isWaiting = false;
 let finishText = false;
 
@@ -54,9 +54,9 @@ let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
 
-//day 전환 변수
+// day 전환 변수
 let afterDay1;
-//너무 빨리 넘어감 방지 코드드
+// 너무 빨리 넘어감 방지 코드
 let stageHandled = 0;
 
 
@@ -241,6 +241,15 @@ function draw() {
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
+      // 연구원 이름 표시 박스
+      fill(60, 215);
+      rectMode(CENTER);
+      noStroke();
+      rect(width / 20 + 235, height - 195, 200, 50, 10);
+      rectMode(CORNER);
+      fill(255);
+      text("김철수", width / 20 + 235, height - 200);
+    
       fill(0);
       typeText([
         [nameInput.value() + " 씨 맞으신가요?"],
@@ -267,6 +276,15 @@ function draw() {
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
+      // 연구원 이름 표시 박스
+      fill(60, 215);
+      rectMode(CENTER);
+      noStroke();
+      rect(width / 20 + 235, height - 195, 200, 50, 10);
+      rectMode(CORNER);
+      fill(255);
+      text("김철수", width / 20 + 235, height - 200);
+
       fill(45);
       typeText([
         ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
@@ -286,6 +304,15 @@ function draw() {
 
       fill(120);
       rect(0, height - height / 4, width, height / 4);
+
+      // 연구원 이름 표시 박스
+      fill(60, 215);
+      rectMode(CENTER);
+      noStroke();
+      rect(width / 20 + 235, height - 195, 200, 50, 10);
+      rectMode(CORNER);
+      fill(255);
+      text("김철수", width / 20 + 235, height - 200);
 
       fill(255, 0, 0);
       typeText([
@@ -339,6 +366,7 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textAlign(CENTER, CENTER);
       textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
@@ -618,7 +646,6 @@ function draw() {
 
       if (!dragInitialized) {
         sentenceObjs = [];
-        setSentences(sentenceSet18);
         dragInitialized = true;
       }
       
@@ -685,6 +712,7 @@ function draw() {
 
       if (isDragging) {
         noFill();
+        strokeWeight(3);
         stroke(200);
         rectMode(CORNERS);
         rect(dragStartX, dragStartY, mouseX, mouseY);
@@ -857,6 +885,7 @@ function draw() {
       break;
 
     case 204: // 바탕화면 3
+      noStroke();
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -884,7 +913,7 @@ function draw() {
         morseCheckTime = 0;
         codeInitialized = true;
       }
-
+      
       image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
 
       fill(255);
@@ -898,6 +927,7 @@ function draw() {
       let btnH205 = 62;
 
       checkButton(btnX205, btnY205, btnW205, btnH205);
+      noStroke();
       rect(btnX205, btnY205, btnW205, btnH205);
 
       fill(255);
@@ -920,12 +950,12 @@ function draw() {
       break;
 
     case 400:
-        //엔딩 A
+        // 엔딩 A
         endingA.update();
       break;
     
     case 500:
-        //엔딩 B
+        // 엔딩 B
         endingB.update();
       break;
 
@@ -1020,8 +1050,8 @@ function mouseClicked() {
   if (stage === 5 || stage === 22) {
     stage++;
   }
-//stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
-//2번 눌러야 다음으로 진행됩니다다
+// stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
+// 2번 눌러야 다음으로 진행됩니다
   if (stage === 14) {
   if (stageHandled<1) {
     stageHandled++
@@ -1106,7 +1136,7 @@ function mousePressed() {
     doctaskDay1.mousePressed();
   }
 
-  if (stage === 9) {
+  if (stage === 9 || stage === 18) {
     for (let s of sentenceObjs) {
       s.state = "default";
     }
@@ -1138,7 +1168,7 @@ function mouseReleased() {
     doctaskDay1.mouseReleased();
   }
 
-  if (stage === 9) {
+  if (stage === 9 || stage === 18) {
     dragEndX = mouseX;
     dragEndY = mouseY;
     isDragging = false;

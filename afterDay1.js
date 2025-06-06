@@ -10,13 +10,13 @@ class AfterDay1 {
     this.texts = [
   { speaker: "???", text: "어! 잠시만요!!" },
   { speaker: "PLAYER", text: "(갑자기 나타난 저 여자가 내 책상 위의 보고서를 뺐었다.)" },
-  { speaker: "???", text: "아...이게 왜 여기있지..." },
+  { speaker: "???", text: "아 ... 이게 왜 여기있지 ..." },
   { speaker: "???", text: "이건 오늘 작업 안하셔도 돼요." },
   { speaker: "도재인", text: "제 소개가 늦었네요. 인사이동부의 도재인이라고 합니다." },
-  { speaker: "도재인", text: "제가 작업해야 되는 보고서인데, 실수로 이쪽으로 넘겨졌나봐요." },
+  { speaker: "도재인", text: "제가 작업해야 되는 보고서인데, 실수로 이쪽으로 넘겨졌나 봐요." },
   { speaker: "도재인", text: "오늘은 데이터 처리를 안하셔도 됩니다."},
   { speaker: "도재인", text: "좋은 하루 되세요." },
-  { speaker: "PLAYER", text: "갑자기 나타났더니 그냥 사라졌다" },
+  { speaker: "PLAYER", text: "갑자기 나타났더니 그냥 사라졌다." },
   { speaker: "PLAYER", text: "이거 하지 말까 하는 생각이 다시 들기 시작했다." },
   { speaker: "PLAYER", text: "뭐 그래도 보고서가 하루 줄었으니" }
 ];
@@ -122,26 +122,28 @@ if (this.currentTextIndex === 7 && !this.janeMonsterShown && !this.showJaneMonst
 
 
     if (speaker === "도재인") {
-      fill(40);
+      fill(60, 215);
+      noStroke();
       rect(boxX + 20, boxY - 40, 200, 50, 10);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("도재인", boxX + 120, boxY-20);
+      text("도재인", boxX + 120, boxY - 20);
     }else if (speaker ==="???") {
-        fill(40);
+      fill(60, 215);
+      noStroke();
       rect(boxX + 20, boxY - 40, 200, 50, 10);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("???", boxX + 120, boxY-20); 
+      text("???", boxX + 120, boxY - 20); 
     }
     fill(0);
     textAlign(CENTER, CENTER);
     textSize(35);
     let textMargin = 30;
     
-    text(this.displayedText, boxX + textMargin, boxY + textMargin, boxW - textMargin * 2, boxH - textMargin * 2);
+    text(this.displayedText, boxX + textMargin, boxY + textMargin + 30, boxW - textMargin * 2, boxH - textMargin * 2);
   }
 // 연구원 이미지 비율 유지하면서 표시하는 함수
 drawJane() {
@@ -218,7 +220,7 @@ drawJaneMonster() {
     this.charIndex = 0;
     this.isTyping = true;
     this.clickReady = false;
-    this.delay = obj.speedUp ? 10 : 50;
+    this.delay = obj.speedUp ? 35 : 70;
     this.lastUpdateTime = millis();
   }
 
