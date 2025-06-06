@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 600;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -515,7 +515,7 @@ function draw() {
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
       fill(255);
-      text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
+      text(".--. -.-- -.- .. .-..", width / 2, height * 0.15);
 
       let btnX11 = width / 2 + 210;
       let btnY11 = height - 81;
