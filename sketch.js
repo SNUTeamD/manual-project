@@ -184,7 +184,7 @@ function draw() {
   if (stage === 0) {
     nameInput.show();
     codeInput.hide();
-  } else if (stage === 11 || stage === 20 || stage === 28) {
+  } else if (stage === 12 || stage === 21 || stage === 29) {
     nameInput.hide();
     codeInput.show();
   } else {
@@ -272,9 +272,7 @@ function draw() {
       break;
 
     case 3:
-      let manualW = 1000;
-      let manualH = thisIsManual.height * (manualW / thisIsManual.width);
-      image(thisIsManual, (width - manualW) / 2, 0, manualW, manualH);
+      manualPic();
 
       // 화면 아래 회색 박스
       fill(120);
@@ -303,7 +301,8 @@ function draw() {
       break;
 
     case 4:
-      image(thisIsManual, (width - manualW) / 2, 0, manualW, manualH);
+      // 매뉴얼 주는 장면으로 배경 전환
+      manualPic();
 
       // 화면 아래 회색 박스
       fill(120);
@@ -331,6 +330,8 @@ function draw() {
       break;
 
     case 5:
+      manualPic();
+
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
@@ -356,7 +357,6 @@ function draw() {
       break;
 
     case 7: // 바탕화면 1
-
       // 업무 리스트
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
@@ -381,7 +381,6 @@ function draw() {
 
     
     case 9: // 바탕화면 2
-
       // 업무 리스트
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
@@ -579,6 +578,7 @@ function draw() {
       image(myDesk, (width - deskW) / 2, 0, deskW, deskH);
 
       // 화면 아래 회색 박스
+      noStroke();
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
@@ -652,6 +652,7 @@ function draw() {
     
     case 19:
       // 도재인 불쑥 컷씬 여기에 넣어주심 됩니다
+      stage ++;
       break;
 
     case 20: // 바탕화면 3
@@ -1122,7 +1123,7 @@ function mouseClicked() {
       mouseY >= y &&
       mouseY <= y + iconH
     ) {
-      stage++;
+      stage ++;
     }
   }
 
@@ -1331,14 +1332,21 @@ function drawResearcher() {
   image(imgResearcher, imgX, imgY, researcherW, researcherH);
 }
 
+// 매뉴얼 주는 장면 배경 표시 함수
+function manualPic() {
+  let manualPicW = 1000;
+  let manualPicH = thisIsManual.height * (manualPicW / thisIsManual.width);
+  image(thisIsManual, (width - manualPicW) / 2, 0, manualPicW, manualPicH);
+}
+
 // 매뉴얼 띄우는 함수
 function drawManual() {
   if (!showManual) return;
-  manualH = height * 0.8;
-  manualW = manualH * (imgManual.width / imgManual.height);
-  manualX = width / 2 - manualW / 2;
+  manualPicH = height * 0.8;
+  manualPicW = manualPicH * (imgManual.width / imgManual.height);
+  manualX = width / 2 - manualPicW / 2;
   manualY = height * 0.05;
-  image(imgManual, manualX, manualY, manualW, manualH);
+  image(imgManual, manualX, manualY, manualPicW, manualPicH);
 }
 
 // stage 3 이후에 m키 누르면 매뉴얼이 나오도록

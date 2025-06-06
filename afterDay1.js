@@ -16,9 +16,9 @@ class AfterDay1 {
   { speaker: "도재인", text: "제가 작업해야 되는 보고서인데, 실수로 이쪽으로 넘겨졌나 봐요." },
   { speaker: "도재인", text: "오늘은 데이터 처리를 안하셔도 됩니다."},
   { speaker: "도재인", text: "좋은 하루 되세요." },
-  { speaker: "PLAYER", text: "갑자기 나타났더니 그냥 사라졌다." },
+  { speaker: "PLAYER", text: "갑자기 나타나더니 그냥 사라졌다." },
   { speaker: "PLAYER", text: "이거 하지 말까 하는 생각이 다시 들기 시작했다." },
-  { speaker: "PLAYER", text: "뭐 그래도 보고서가 하루 줄었으니" }
+  { speaker: "PLAYER", text: "뭐 그래도 해야할 일이 줄은거니 .. 좋은건가?" }
 ];
 
     this.currentTextIndex = 0;
@@ -26,7 +26,7 @@ class AfterDay1 {
     this.displayedText = "";
     this.charIndex = 0;
     this.lastUpdateTime = 0;
-    this.delay = 20;
+    this.delay = 50;
     this.isTyping = true;
     this.clickReady = false;
 
@@ -120,23 +120,26 @@ if (this.currentTextIndex === 7 && !this.janeMonsterShown && !this.showJaneMonst
     fill(120);
     rect(0, height - height / 4, width, height / 4);
 
-
     if (speaker === "도재인") {
       fill(60, 215);
       noStroke();
-      rect(boxX + 20, boxY - 40, 200, 50, 10);
+      rectMode(CENTER);
+      rect(boxX + 215, boxY + 15, 200, 50, 10);
+      rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("도재인", boxX + 120, boxY - 20);
+      text("도재인", boxX + 215, boxY + 10);
     }else if (speaker ==="???") {
       fill(60, 215);
       noStroke();
-      rect(boxX + 20, boxY - 40, 200, 50, 10);
+      rectMode(CENTER);
+      rect(boxX + 215, boxY + 15, 200, 50, 10);
+      rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("???", boxX + 120, boxY - 20); 
+      text("???", boxX + 215, boxY + 10); 
     }
     fill(0);
     textAlign(CENTER, CENTER);
@@ -145,19 +148,19 @@ if (this.currentTextIndex === 7 && !this.janeMonsterShown && !this.showJaneMonst
     
     text(this.displayedText, boxX + textMargin, boxY + textMargin + 30, boxW - textMargin * 2, boxH - textMargin * 2);
   }
-// 연구원 이미지 비율 유지하면서 표시하는 함수
+// 도재인 이미지 비율 유지하면서 표시하는 함수
 drawJane() {
-  let janeW = 500;
+  let janeW = 550;
   let janeH = this.janeCommon.height * (janeW / this.janeCommon.width);
-  let imgX = 80;
-  let imgY = height - height / 4 -janeH + 200;
+  let imgX = 20;
+  let imgY = height - height / 4 - janeH + 185;
   image(this.janeCommon, imgX, imgY, janeW, janeH);
 }
 drawJaneMonster() {
-  let janeMonW = 500;
+  let janeMonW = 550;
   let janeMonH = this.janeMonster.height * (janeMonW / this.janeMonster.width);
-  let imgX = 80;
-  let imgY = height - height / 4 -janeMonH + 200;
+  let imgX = 20;
+  let imgY = height - height / 4 -janeMonH + 185;
   image(this.janeMonster, imgX, imgY, janeMonW, janeMonH);
 
   for (let i = 0; i < 3; i++) {
@@ -220,7 +223,7 @@ drawJaneMonster() {
     this.charIndex = 0;
     this.isTyping = true;
     this.clickReady = false;
-    this.delay = obj.speedUp ? 35 : 70;
+    this.delay = obj.speedUp ? 60 : 80;
     this.lastUpdateTime = millis();
   }
 

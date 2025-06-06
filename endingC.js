@@ -49,7 +49,7 @@ class EndingC {
     this.displayedText = "";
     this.charIndex = 0;
     this.lastUpdateTime = 0;
-    this.delay = 20;
+    this.delay = 50;
     this.isTyping = true;
     this.clickReady = false;
 
@@ -205,7 +205,7 @@ class EndingC {
     this.charIndex = 0;
     this.isTyping = true;
     this.clickReady = false;
-    this.delay = obj.speedUp ? 35 : 70;
+    this.delay = obj.speedUp ? 60 : 80;
     this.lastUpdateTime = millis();
   }
 
