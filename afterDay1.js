@@ -236,7 +236,7 @@ drawJaneMonster() {
       this.isTyping = false;
       this.clickReady = true;
     } else if (this.clickReady) {
-      this.currentTextIndex++;
+      this.currentTextIndex ++;
       if (this.currentTextIndex < this.texts.length) {
         this.loadNextText();
       } else {

@@ -163,14 +163,14 @@ class EndingB {
     this.stateStartTime = millis();
 
     // 지속 시간 (단위: ms)
-    this.blinkDuration = 4000;   // 4초 깜빡임
+    this.blinkDuration = 2500;   // 2.5초 깜빡임
     this.noiseDuration = 2000;   // 3초 노이즈
 
     // 대사 관련
     this.texts = [
       { speaker: "PLAYER", text: "...헉. 잠깐 졸았나..?" },
       { speaker: "도재인", text: "첫 날부터 주무시는 거예요? 이제 일하셔야죠." },
-      { speaker: "PLAYER", text: "아, 네... 죄송합니다." },
+      { speaker: "PLAYER", text: "아, 네 ... 죄송합니다." },
     ];
 
     this.currentTextIndex = 0;
@@ -178,7 +178,7 @@ class EndingB {
     this.displayedText = "";
     this.charIndex = 0;
     this.lastUpdateTime = 0;
-    this.delay = 50;
+    this.delay = 100;
     this.isTyping = false;
     this.clickReady = false;
 
@@ -243,12 +243,14 @@ class EndingB {
     let boxY = height - boxH - 50;
 
     fill(120);
+    noStroke();
     rect(0, height - height / 4, width, height / 4);
 
     let speaker = this.texts[this.currentTextIndex]?.speaker;
 
     if (speaker === "도재인") {
-      fill(40);
+      fill(60, 215);
+      noStroke();
       rect(boxX + 20, boxY - 40, 200, 50, 10);
       fill(255);
       textSize(30);
@@ -257,9 +259,9 @@ class EndingB {
     }
 
     fill(255);
-    textAlign(LEFT, TOP);
+    textAlign(CENTER, CENTER);
     textSize(30);
-    text(this.displayedText, boxX + 30, boxY + 30);
+    text(this.displayedText, width / 2, 7 / 8 * height);
   }
 
   drawTyping() {

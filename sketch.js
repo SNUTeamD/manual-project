@@ -6,20 +6,16 @@ let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
-// 폴더에 문서 넣는 업무(Day1 업무1) 관련 변수들
-let doctaskDay1;
-let folderIcon, folderDoc;
-
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 600;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
 let linePart = 0;
 let letterCount = 0;
 let lastTime = 0;
-let typingSpeed = 120;
-let waitTime = 1000;
+let typingSpeed = 100;
+let waitTime = 1500;
 let isWaiting = false;
 let finishText = false;
 
@@ -27,6 +23,10 @@ let showManual = false; // 매뉴얼 보여줄지 여부
 
 // 사용자 입력용 인풋창
 let nameInput, codeInput;
+
+// 폴더에 문서 넣는 업무(Day1 업무1) 관련 변수들
+let doctaskDay1;
+let folderIcon, folderDoc;
 
 // 업무 2 관련 변수
 let sentenceObjs = [];
@@ -224,9 +224,9 @@ function draw() {
       fill(0);
       typeText([
         [" 드디어 오늘이 왔다! "],
-        /*["내가 다니는 제약회사에서 진행하고 있는 프로젝트는", "인간의 감염병을 치료하는 백신을 중점적으로 연구한다고 들었다."], 
-        ["신입이니까 초반 며칠은 자잘한 서류 처리 작업을 맡겠지만", "프로젝트를 진행하다보면 중대한 업무도 맡게 되겠지."], 
-        ["질병의 치료라는 중대한 사명을 가지고 있는 만큼","'절대로 매뉴얼을 따라야 한다’는 선배의 말을 반드시 명심해야 한다."], 
+        /*["오늘부터 내가 근무할 제약회사에서는 인간의 감염병을 치료하는 백신을 중점적으로 연구한다고 들었다."], 
+        ["신입이니까 초반 며칠은 자잘한 서류 처리 작업을 맡겠지만", "프로젝트를 진행하다보면 중대한 업무도 맡게 될 거라 믿는다."], 
+        ["질병의 치료라는 중대한 사명을 가지고 있는 만큼","'절대로 매뉴얼을 따라야 한다’는 선배의 말을 반드시 명심해야겠다."], 
         ["후... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을거다."],*/
         ["Click to continue ···"]
       ]);
@@ -298,7 +298,7 @@ function draw() {
       break;
 
     case 4:
-     let manualW = 1000;
+      let manualW = 1000;
       let manualH = thisIsManual.height * (manualW / thisIsManual.width);
       image(thisIsManual, (width - manualW) / 2, 0, manualW, manualH);
 

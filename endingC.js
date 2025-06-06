@@ -132,12 +132,14 @@ class EndingC {
     //noStroke();
     // fill(60, 220);
     // rect(boxX, boxY, boxW, boxH, 20);
+    noStroke();
     fill(120);
     rect(0, height - height / 4, width, height / 4);
 
 
     if (speaker === "SYSTEM") {
-      fill(40);
+      fill(60, 215);
+      noStroke();
       rect(boxX + 20, boxY - 40, 200, 50, 10);
       fill(255);
       textSize(30);
@@ -146,11 +148,11 @@ class EndingC {
     }
 
     fill(255);
-    textAlign(LEFT, TOP);
+    textAlign(CENTER, CENTER);
     textSize(30);
     let textMargin = 30;
     
-    text(this.displayedText, boxX + textMargin, boxY + textMargin, boxW - textMargin * 2, boxH - textMargin * 2);
+    text(this.displayedText, boxX + textMargin, boxY + textMargin + 30, boxW - textMargin * 2, boxH - textMargin * 2);
   }
 
   drawTyping() {
@@ -197,7 +199,7 @@ class EndingC {
     this.charIndex = 0;
     this.isTyping = true;
     this.clickReady = false;
-    this.delay = obj.speedUp ? 10 : 50;
+    this.delay = obj.speedUp ? 35 : 70;
     this.lastUpdateTime = millis();
   }
 
