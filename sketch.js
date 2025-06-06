@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 600;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -933,7 +933,7 @@ function draw() {
       }
 
       if (morseCorrect && millis() - morseCheckTime > 1500) {
-        stage =400;
+        stage = 400;
         morseCorrect = false;
         resultMessage = "";
       }
