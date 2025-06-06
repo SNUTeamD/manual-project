@@ -1,7 +1,7 @@
 // 실패 시 stage 분기 필요
 
 class Day1Task1 {
-  constructor(onEndCallback = null) {
+  constructor() {
     this.folders = [];
     this.docs = [];
     this.docNames = ["까치", "은행나무", "해파리", "사슴", "고양이", "민들레", "원숭이"];
@@ -18,7 +18,7 @@ class Day1Task1 {
     this.isInitialized = false;
     this.missionEnded = false;
     this.missionSuccess = false;
-    this.onEndCallback = onEndCallback; // 종료 후 실행할 함수
+    this.mistakeMade = false; // 실수 여부
   }
 
   start() {
@@ -44,7 +44,7 @@ class Day1Task1 {
       // 문서들 배치
       let cols = 4;
       let spacing = 150;
-      let startX = width / 4;
+      let startX = width / 3;
       let startY = 350;
 
       for (let i = 0; i < this.docNames.length; i++) {
@@ -67,21 +67,20 @@ class Day1Task1 {
         d.display();
       }
     }
-
+    
     if (!this.missionEnded) {
-      this.checkMissionStatus();
-    } else {
-      if (this.missionEnded) {
-        if (this.missionSuccess) {
-         stage = 7;
-        } else {
-        returnStage = 20;   // 현재 미션 스테이지 번호 기억
-        stage = 500;        // 엔딩B 호출
-        if (this.onEndCallback) this.onEndCallback(); // 종료 콜백 실행
-        }
-      }
+    this.checkMissionStatus();
 
+    if (this.mistakeMade) {
+      fill(255, 0,0);
+      textSize(36);
+      text("틀렸어.", width / 2, height - 100);
     }
+
+    } else if (this.missionSuccess) {
+    stage++;
+    }
+
   }
 
   mousePressed() {
@@ -109,10 +108,10 @@ class Day1Task1 {
           doc.inBasket = f.name;
 
           if (!this.isCorrect(doc)) {
-            this.missionEnded = true;
-            this.missionSuccess = false;
+            this.mistakeMade = true; // 실수 여부 설정
           } else {
             doc.removed = true;
+            this.mistakeMade = false;  // ✔ 실수 상태 초기화
           }
         }
       }
@@ -123,36 +122,32 @@ class Day1Task1 {
     return this.answerMap[doc.name] === doc.inBasket;
   }
 
-  loadNextText() {
-    if (this.currentTextIndex >= this.texts.length) {
-      this.fullText = "";
-      this.displayedText = "";
-      this.clickReady = false;
+  // loadNextText() {
+  //   if (this.currentTextIndex >= this.texts.length) {
+  //     this.fullText = "";
+  //     this.displayedText = "";
+  //     this.clickReady = false;
 
-      if (this.onEndCallback) {
-        this.onEndCallback(); // ← 여기서 stage 변경
-      } else {
-        noLoop();
-      }
+  //     if (this.onEndCallback) {
+  //       this.onEndCallback(); // ← 여기서 stage 변경
+  //     } else {
+  //       noLoop();
+  //     }
 
-      return;
-    }
-  }
+  //     return;
+  //   }
+  // }
   
 
   checkMissionStatus() {
     if (this.docs.every(d => d.removed)) {
       this.missionEnded = true;
       this.missionSuccess = true;
-      stage ++; // 성공 시 다음 스테이지로 이동
-      if (this.onEndCallback) {
-      this.onEndCallback();
-     }
+    //   stage ++; // 성공 시 다음 스테이지로 이동
+    //   if (this.onEndCallback) {
+    //   this.onEndCallback();
+    //  }
     }
   }
-  onTaskFailed() {
-  returnStage = stage;  // 현재 스테이지 저장
-  stage = 500;          // 엔딩B로 전환
-  loop();               // noLoop 상태일 경우 다시 시작
-    }
+  
 }
