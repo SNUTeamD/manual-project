@@ -276,15 +276,6 @@ function draw() {
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
-      // 연구원 이름 표시 박스
-      fill(60, 215);
-      rectMode(CENTER);
-      noStroke();
-      rect(width / 20 + 235, height - 195, 200, 50, 10);
-      rectMode(CORNER);
-      fill(255);
-      text("김철수", width / 20 + 235, height - 200);
-
       fill(45);
       typeText([
         ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
