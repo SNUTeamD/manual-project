@@ -84,7 +84,13 @@ class EndingC {
 
     this.fadeAlpha = constrain((millis() - this.phaseStartTime) / 2000 * 255, 0, 255);
     tint(255, this.fadeAlpha);
-    image(this.endingC1Img, 0, 0, width, height);
+    let scale = 0.5; // 이미지 80% 크기로 줄이기
+    let imgW = this.endingC1Img.width * scale;
+    let imgH = this.endingC1Img.height * scale;
+    imageMode(CENTER);
+    image(this.endingC1Img, width / 2, height / 2, imgW, imgH);
+    imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
+    //image(this.endingC1Img, 0, 0, width, height);
     noTint();
 
     this.drawTyping();
