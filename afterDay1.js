@@ -9,7 +9,7 @@ class AfterDay1 {
 
     this.texts = [
   { speaker: "???", text: "어! 잠시만요!!" },
-  { speaker: "PLAYER", text: "(갑자기 나타난 저 여자가 내 책상 위의 보고서를 뺐었다.)" },
+  { speaker: "PLAYER", text: "(갑자기 나타난 저 여자가 내 책상 위의 보고서를 뺏었다.)" },
   { speaker: "???", text: "아 ... 이게 왜 여기있지 ..." },
   { speaker: "???", text: "이건 오늘 작업 안하셔도 돼요." },
   { speaker: "도재인", text: "제 소개가 늦었네요. 인사이동부의 도재인이라고 합니다." },
@@ -241,7 +241,7 @@ drawJaneMonster() {
         this.loadNextText();
       } else {
         this.endc1Reached = true;
-        stage++;
+        stage ++;
         return;
       }
     }

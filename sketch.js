@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 600;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -276,15 +276,6 @@ function draw() {
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
-      // 연구원 이름 표시 박스
-      fill(60, 215);
-      rectMode(CENTER);
-      noStroke();
-      rect(width / 20 + 235, height - 195, 200, 50, 10);
-      rectMode(CORNER);
-      fill(255);
-      text("김철수", width / 20 + 235, height - 200);
-
       fill(45);
       typeText([
         ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
@@ -515,7 +506,7 @@ function draw() {
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
       fill(255);
-      text(".-- . -.- ..- ...- - --. -..", width / 2, height * 0.15);
+      text(".--. -.-- -.- .. .-..", width / 2, height * 0.15);
 
       let btnX11 = width / 2 + 210;
       let btnY11 = height - 81;
@@ -767,7 +758,7 @@ function draw() {
       fill(255);
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      text(". ... -. --. -- ...." /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
+      text("--. --.- -.- -- ... -.-" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
 
       let btnX20 = width / 2 + 210;
       let btnY20 = height - 81;
