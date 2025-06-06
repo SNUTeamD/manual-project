@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 13;
+let stage = 204;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -181,7 +181,7 @@ function draw() {
   if (stage === 0) {
     nameInput.show();
     codeInput.hide();
-  } else if (stage === 11 || stage === 20) {
+  } else if (stage === 11 || stage === 20 || stage === 205) {
     nameInput.hide();
     codeInput.show();
   } else {
@@ -876,6 +876,49 @@ function draw() {
 
       break;
 
+      case 205:
+      // 업무 3 모스부호 해석
+      if (!codeInitialized) {
+        codeInput.value("");
+        morseCorrect = false;
+        morseCheckTime = 0;
+        codeInitialized = true;
+      }
+
+      image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
+
+      fill(255);
+      textSize(windowWidth * 0.03);
+      text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
+      text("--. . ...- ...- ... .--. - ...." /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답 살려줘
+
+      let btnX205 = width / 2 + 210;
+      let btnY205 = height - 81;
+      let btnW205 = 80;
+      let btnH205 = 62;
+
+      checkButton(btnX205, btnY205, btnW205, btnH205);
+      rect(btnX205, btnY205, btnW205, btnH205);
+
+      fill(255);
+      textSize(30);
+      text("확인", width / 2 + 250, height - 52);
+
+      if (resultMessage !== "") {
+        fill(morseCorrect ? color(0, 100, 255) : color(255, 50, 50));
+        rect(width / 2 - 250, height / 2, 500, 100);
+        fill(255);
+        text(resultMessage, width / 2, height / 2 + 48);
+      }
+
+      if (morseCorrect && millis() - morseCheckTime > 1500) {
+        stage =400;
+        morseCorrect = false;
+        resultMessage = "";
+      }
+
+      break;
+
     case 400:
         //엔딩 A
         endingA.update();
@@ -996,7 +1039,8 @@ function mouseClicked() {
     stage === 17 ||
     stage === 19 ||
     stage === 23 ||
-    stage === 25
+    stage === 25 ||
+    stage === 204
   ) {
     let layout = getIconLayout();
     let activeKey = getActiveIconName();
@@ -1014,7 +1058,7 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 11 || stage === 20) {
+  if (stage === 11 || stage === 20 || stage ===205 ) {
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -1319,7 +1363,8 @@ function checkMorseAnswer() {
 
   if (
     (stage === 11 && codeCheck === "제약") ||
-    (stage === 20 && codeCheck === "생명")
+    (stage === 20 && codeCheck === "생명") ||
+    (stage === 205 && codeCheck === "살려줘")
   ) {
     resultMessage = "성공입니다.";
     morseCorrect = true;
