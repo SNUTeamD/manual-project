@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 500;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -713,7 +713,8 @@ function draw() {
       if (morseCorrect && millis() - morseCheckTime > 1500) {
         stage++;
         morseCorrect = false;
-        resultMessage = "";
+        resultMessage = ""
+        codeInitialized = false;
       }
 
       break;
@@ -1436,7 +1437,6 @@ function drawIcons() {
 // 모스 정답 함수
 function checkMorseAnswer() {
   const codeCheck = codeInput.value().trim();
-
   if (
     (stage === 12 && codeCheck === "제약") ||
     (stage === 21 && codeCheck === "생명") ||
@@ -1445,7 +1445,7 @@ function checkMorseAnswer() {
     resultMessage = "성공입니다.";
     morseCorrect = true;
     morseCheckTime = millis(); 
-  } else if (stage === 28 && codeCheck === "초기화") {
+  } else if (stage === 29 && codeCheck === "초기화") {
     resultMessage = "시스템 초기화 중 ...";
     isResetTriggered = true;
     resetTriggeredTime = millis();
