@@ -767,7 +767,7 @@ function draw() {
       fill(255);
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      text(". ... -. --. -- ...." /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
+      text("--. --.- -.- -- ... -.-" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
 
       let btnX20 = width / 2 + 210;
       let btnY20 = height - 81;
