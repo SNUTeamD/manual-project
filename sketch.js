@@ -439,8 +439,6 @@ function draw() {
         }
       }
 
-      error1.display();
-
       textSize(15);
       textAlign(LEFT, TOP);
 
@@ -471,6 +469,8 @@ function draw() {
         }
         text(resultMessage, width - 355, 180);
       }
+
+      error1.display();
 
       break;
 
