@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 400;
+let stage = 27;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -41,6 +41,11 @@ let morseCorrect = false;
 let morseCheckTime = 0;
 let codeInitialized = false;
 
+// day 전환 변수
+let afterDay1;
+// 너무 빨리 넘어감 방지 코드
+let stageHandled = 0;
+
 // 에러 관련 변수
 let error1;
 let imgError_1; // 에러 1 유형 이미지
@@ -48,16 +53,14 @@ let imgError_2; // 에러 2 유형 이미지
 let errors = [];
 const NUM_ERRORS = 7;
 
+// 마지막 날 엔딩 A, C 전환 관련 변수
+let isResetTriggered = false;
+let resetTriggeredTime = 0;
 
 // 엔딩 관련 변수
 let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
-
-// day 전환 변수
-let afterDay1;
-// 너무 빨리 넘어감 방지 코드
-let stageHandled = 0;
 
 
 function preload() {
@@ -181,7 +184,7 @@ function draw() {
   if (stage === 0) {
     nameInput.show();
     codeInput.hide();
-  } else if (stage === 11 || stage === 20 || stage === 205) {
+  } else if (stage === 11 || stage === 20 || stage === 28) {
     nameInput.hide();
     codeInput.show();
   } else {
@@ -912,29 +915,41 @@ function draw() {
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
       text("--. . ...- ...- ... .--. - ...." /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답: 살려줘
 
-      let btnX205 = width / 2 + 210;
-      let btnY205 = height - 81;
-      let btnW205 = 80;
-      let btnH205 = 62;
+      let btnX28 = width / 2 + 210;
+      let btnY28 = height - 81;
+      let btnW28 = 80;
+      let btnH28 = 62;
 
-      checkButton(btnX205, btnY205, btnW205, btnH205);
+      checkButton(btnX28, btnY28, btnW28, btnH28);
       noStroke();
-      rect(btnX205, btnY205, btnW205, btnH205);
+      rect(btnX28, btnY28, btnW28, btnH28);
 
       fill(255);
       textSize(30);
       text("확인", width / 2 + 250, height - 52);
 
       if (resultMessage !== "") {
-        fill(morseCorrect ? color(0, 100, 255) : color(255, 50, 50));
+        if(morseCorrect) {
+          fill(0, 100, 255);
+        } else if(codeInput.value().trim() === '초기화') {
+          fill(60, 215);
+        } else fill(255, 50, 50);
         rect(width / 2 - 250, height / 2, 500, 100);
         fill(255);
         text(resultMessage, width / 2, height / 2 + 48);
       }
 
+      // 정답일 때: 엔딩 A
       if (morseCorrect && millis() - morseCheckTime > 1500) {
-        stage = 400;
+        stage = 300;
         morseCorrect = false;
+        resultMessage = "";
+      }
+
+      // "초기화"일 때: 엔딩 C
+      if (isResetTriggered && millis() - resetTriggeredTime > 1500) {
+        stage = 500;
+        isResetTriggered = false;
         resultMessage = "";
       }
 
@@ -977,6 +992,12 @@ function updateCursor() {
       mouseY <= height - 19)
     ||
     (stage === 20 &&
+      mouseX >= width / 2 + 210 &&
+      mouseX <= width / 2 + 290 &&
+      mouseY >= height - 81 &&
+      mouseY <= height - 19)
+    ||
+    (stage === 28 &&
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
       mouseY >= height - 81 &&
@@ -1033,22 +1054,22 @@ function mouseClicked() {
 
   if (stage === 1 || stage === 3) {
     if (finishText) {
-      stage++;
+      stage ++;
       resetTyping();
     }
   }
 
   if (stage === 5 || stage === 22) {
-    stage++;
+    stage ++;
   }
 // stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
 // 2번 눌러야 다음으로 진행됩니다
   if (stage === 14) {
   if (stageHandled<1) {
     stageHandled++
-}else if(stageHandled ==1){
-  stage++
-  stageHandled =0;
+}else if(stageHandled == 1){
+  stage ++;
+  stageHandled = 0;
   } 
 }
 
@@ -1061,7 +1082,7 @@ function mouseClicked() {
     stage === 19 ||
     stage === 23 ||
     stage === 25 ||
-    stage === 204
+    stage === 27
   ) {
     let layout = getIconLayout();
     let activeKey = getActiveIconName();
@@ -1079,7 +1100,7 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 11 || stage === 20 || stage ===205 ) {
+  if (stage === 11 || stage === 20 || stage === 28 ) {
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -1137,14 +1158,14 @@ function mousePressed() {
     dragStartY = mouseY;
     isDragging = true;
   }
-  if(stage===13){
+  if(stage === 13){
     afterDay1.mousePressed();
   }
 
-  if (stage === 500) {
+  if (stage === 400) {
     endingB.handleClick();} // 클릭 처리
 
-  if (stage === 600) {
+  if (stage === 500) {
     endingC.mousePressed();}
 }
 
@@ -1338,7 +1359,7 @@ function getIconLayout() {
 function getActiveIconName() {
   if (stage === 6 | stage === 15 | stage === 23 ) return "file";
   if (stage === 8 | stage === 17 | stage === 25 ) return "doc";
-  if (stage === 10 | stage === 19 | stage === 204 ) return "sat";
+  if (stage === 10 | stage === 19 | stage === 27 ) return "sat";
   return null;
 }
 
@@ -1385,11 +1406,16 @@ function checkMorseAnswer() {
   if (
     (stage === 11 && codeCheck === "제약") ||
     (stage === 20 && codeCheck === "생명") ||
-    (stage === 205 && codeCheck === "살려줘")
+    (stage === 28 && codeCheck === "살려줘")
   ) {
     resultMessage = "성공입니다.";
     morseCorrect = true;
     morseCheckTime = millis(); 
+  } else if (stage === 28 && codeCheck === "초기화") {
+    resultMessage = "시스템 초기화 중 ...";
+    isResetTriggered = true;
+    resetTriggeredTime = millis();
+    morseCorrect = false;
   } else {
     resultMessage = "실패입니다. 다시 시도하세요.";
     morseCorrect = false;
