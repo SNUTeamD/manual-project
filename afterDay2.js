@@ -62,7 +62,7 @@ class AfterDay2 {
 
   tint(255, this.fadeAlpha);
   imageMode(CENTER);
-  image(this.afterDay2, width / 2, height / 2, imgW, imgH);
+  image(this.afterDay2, width / 2, height / 3, imgW, imgH);
   imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
 
     }else if(this.currentTextIndex >4 && this.currentTextIndex <=6 ){
