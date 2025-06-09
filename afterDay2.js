@@ -1,5 +1,5 @@
 class AfterDay2 {
-  constructor() {
+constructor() {
     this.phase = 1;
     this.phaseStartTime = 0;
     this.fadeAlpha = 0;
@@ -8,16 +8,17 @@ class AfterDay2 {
     this.lockInput = false;
 
     this.texts = [
-  { speaker: "PLAYER", text: "휴우 힘들다...오늘 하루도 수고 많았어 내자신" },
+  { speaker: "PLAYER", text: "휴우 힘들다 ... 오늘 하루도 수고 많았어, 내자신 ^^" },
   { speaker: "???", text: "커피 드실래요?" },
-  { speaker: "PLAYER", text: "어제 날 안내해준 연구원이 내 자리에 커피를 놔주었다." },
-  { speaker: "김철수", text: "드시면서 하세요" },
+  { speaker: "PLAYER", text: "어제 날 안내해준 연구원이 갑자기 커피를 들고 나타났다." },
+  { speaker: "김철수", text: "드시면서 하세요." },
   { speaker: "PLAYER", text: "감사합니다." },
-  { speaker: "김철수", text: "매뉴얼...잘 지키고 계시죠?" },
+  { speaker: "김철수", text: "매뉴얼 ... 잘 지키고 계시죠?" },
   { speaker: "김철수", text: "잘 지킬거라 믿습니다."},
-  { speaker: "PLAYER", text: "내 대답도 안듣고 사라졌다." },
-  { speaker: "PLAYER", text: "여기 사람들은 지 할말만 하고 사라지는게 버릇인가보다." },
-  { speaker: "PLAYER", text: "이거 하지 말까하는 생각이 또 들었지만 그래도 회삿일은 해야지." }
+  { speaker: "PLAYER", text: "내 대답도 듣지 않고 사라졌다." },
+  { speaker: "PLAYER", text: "여기 사람들은 자기 할 말만 하고 사라지는 게 버릇인가보다." },
+  { speaker: "PLAYER", text: "이거 하지 말까 하는 생각이 또 들었지만 이미 발을 담군 이상 .." },
+  { speaker: "PLAYER", text: "어쨌든 이게 내 일이니까. 하는 데까진 해보자." }
 ];
 
     this.currentTextIndex = 0;
@@ -68,7 +69,8 @@ class AfterDay2 {
     }else if(this.currentTextIndex >4 && this.currentTextIndex <=6 ){
       this.drawChulSu();
     }
-    //재인 괴수화 코드
+    
+    // 철수 괴수화 코드
     // 👾 괴인 이미지 잠깐 등장
 if (this.showChulSuMonster) {
   let elapsed = millis() - this.chulSuMonsterStartTime;
@@ -85,7 +87,6 @@ if (this.currentTextIndex === 5 && !this.chulSuMonsterShown && !this.showChulSuM
   this.showChulSuMonster = true;
   this.chulSuMonsterStartTime = millis();
 }
-
 
     this.drawTextbox();
   }
@@ -124,22 +125,23 @@ if (this.currentTextIndex === 5 && !this.chulSuMonsterShown && !this.showChulSuM
       fill(60, 215);
       noStroke();
       rectMode(CENTER);
-      rect(boxX + 215, boxY + 15, 200, 50, 10);
+
+      rect(boxX + 235, boxY + 15, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("김철수", boxX + 215, boxY + 10);
+      text("김철수", boxX + 235, boxY + 10);
     }else if (speaker ==="???") {
       fill(60, 215);
       noStroke();
       rectMode(CENTER);
-      rect(boxX + 215, boxY + 15, 200, 50, 10);
+      rect(boxX + 235, boxY + 15, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("???", boxX + 215, boxY + 10); 
+      text("???", boxX + 235, boxY + 10); 
     }
     fill(0);
     textAlign(CENTER, CENTER);
@@ -150,24 +152,21 @@ if (this.currentTextIndex === 5 && !this.chulSuMonsterShown && !this.showChulSuM
   }
 // 김철수 이미지 비율 유지하면서 표시하는 함수
 drawChulSu() {
-  let chulSuW = 550;
+  let chulSuW = 500;
   let chulSuH = this.chulSuCommon.height * (chulSuW / this.chulSuCommon.width);
-  let imgX = 20;
-  let imgY = height - height / 4 - chulSuH + 185;
+  let imgX = 80;
+  let imgY = height - height / 4 - chulSuH + 200;
   image(this.chulSuCommon, imgX, imgY, chulSuW, chulSuH);
 }
 drawChulSuMonster() {
-  let chulSuMonW = 550;
+  let chulSuMonW = 500;
   let chulSuMonH = this.chulSuMonster.height * (chulSuMonW / this.chulSuMonster.width);
-  let imgX = 20;
-  let imgY = height - height / 4 - chulSuMonH + 185;
-
-  // 기본 이미지 출력 (중앙 기준)
+  let imgX = 80;
+  let imgY = height - height / 4 -chulSuMonH + 200;
   image(this.chulSuMonster, imgX, imgY, chulSuMonW, chulSuMonH);
 
-  // 글리치 효과 (RGB 분리 + 흔들림 더 강하게)
   for (let i = 0; i < 3; i++) {
-    let offsetX = random(-10, 10); // 좌우 흔들림 확대
+     let offsetX = random(-10, 10); // 좌우 흔들림 확대
     let offsetY = random(-8, 8);   // 상하 흔들림 확대
     let tintColor;
     if (i === 0) tintColor = [255, 0, 0];     // 빨강

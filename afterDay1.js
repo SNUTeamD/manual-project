@@ -8,6 +8,7 @@ class AfterDay1 {
     this.lockInput = false;
 
     this.texts = [
+  { speaker: "PLAYER", text: "음? 오늘 작업해야 하는 보고서인가?"},
   { speaker: "???", text: "어! 잠시만요!!" },
   { speaker: "PLAYER", text: "(갑자기 나타난 저 여자가 내 책상 위의 보고서를 뺏었다.)" },
   { speaker: "???", text: "아 ... 이게 왜 여기있지 ..." },
@@ -55,7 +56,7 @@ class AfterDay1 {
 
     this.drawTyping();
 
-    if (this.currentTextIndex >= 1 && this.currentTextIndex <= 3) {
+    if (this.currentTextIndex >= 2 && this.currentTextIndex <= 4) {
       let scale = 0.5; // 이미지 80% 크기로 줄이기
 
   let imgW = this.afterDay1.width * scale;
@@ -66,7 +67,7 @@ class AfterDay1 {
   image(this.afterDay1, width / 2, height / 2, imgW, imgH);
   imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
 
-    }else if(this.currentTextIndex >3 && this.currentTextIndex <=7 ){
+    }else if(this.currentTextIndex >4 && this.currentTextIndex <=8 ){
       this.drawJane();
     }
     //재인 괴수화 코드
@@ -82,7 +83,7 @@ if (this.showJaneMonster) {
 }
 
 // ✅ currentTextIndex가 7일 때 한 번만 showJaneMonster를 true로
-if (this.currentTextIndex === 7 && !this.janeMonsterShown && !this.showJaneMonster) {
+if (this.currentTextIndex === 8 && !this.janeMonsterShown && !this.showJaneMonster) {
   this.showJaneMonster = true;
   this.janeMonsterStartTime = millis();
 }

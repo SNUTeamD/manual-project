@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 3;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -41,6 +41,13 @@ let morseCorrect = false;
 let morseCheckTime = 0;
 let codeInitialized = false;
 
+
+// day 전환 변수
+let afterDay1;
+let afterDay2;
+// 너무 빨리 넘어감 방지 코드
+let stageHandled = 0;
+
 // 에러 관련 변수
 let error1;
 let imgError_1; // 에러 1 유형 이미지
@@ -54,12 +61,7 @@ let wrongCount =0;
 let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
-
-//day 전환 변수
-let afterDay1;
-let afterDay2;
-//너무 빨리 넘어감 방지 코드
-let stageHandled = 0;
+let endingAStarted = false;
 
 
 function preload() {
@@ -100,10 +102,10 @@ function preload() {
   //Day 1이 끝나고
   afterDay1 = new AfterDay1();
   afterDay1.preload();
-  //Day 2가 끝나고
+  
+  //Day 2가 끝나고Add commentMore actions
   afterDay2 = new AfterDay2();
   afterDay2.preload();
-
 }
 
 // ====== 입력창 생성 및 스타일 지정 ======
@@ -175,7 +177,7 @@ function setup() {
   // 엔딩 초기화
   endingA.start();
   endingC.start();
-
+//Day 마치고 초기화
   afterDay1.start();
   afterDay2.start();
 }
@@ -188,7 +190,9 @@ function draw() {
   if (stage === 0) {
     nameInput.show();
     codeInput.hide();
-  } else if (stage === 11 || stage === 20 || stage === 205) {
+
+  } else if (stage === 12 || stage === 21 || stage === 30) {
+
     nameInput.hide();
     codeInput.show();
   } else {
@@ -546,7 +550,7 @@ function draw() {
         ["휴우 어제는 힘든 하루였어 ..."],
         ["고연봉이라서 지원한 프로젝트인데 .. 이거 하지 말까?"],
         ["아냐 아냐 그래도 어떻게 입사한건데 .. 일 해야지 ..."],
-        ["내일 하루도 힘내보자!"]
+        ["내일 하루도 힘내보자! 아자아자!!"]
       ]);
       
       if (finishText) {
@@ -556,8 +560,8 @@ function draw() {
 
       break;
 
-
-    case 13: // Day 2로 전환
+      
+    case 14: // Day 2로 전환
       fill(255);
       textSize(70);
       text("Day 2", width / 2, height / 2 - 50);
@@ -566,7 +570,8 @@ function draw() {
       
       break;
 
-    case 14: // 바탕화면 1
+
+    case 15: // 바탕화면 1
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -581,13 +586,15 @@ function draw() {
 
       break;
 
-    case 15:
+
+    case 16:
       // 여기에 둘째 날 업무 1 코드 넣어주세요
       stage ++;
 
       break;
 
-    case 16: // 바탕화면 2
+
+    case 17: // 바탕화면 2
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -604,114 +611,17 @@ function draw() {
       drawIcons();
 
       break;
-    
-    case 17:
-      // Day 2 - 업무 2: 정크 데이터 처리
-      fill(255);
-      rect(50, 30, width - 100, height);
-      
-      fill(180);
-      rect(width - 630, 60, 550, 80);
-
-      fill(0);
-      textSize(20);
-      textAlign(LEFT, TOP);
-      text("흐름에 맞지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
-      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
-
-      if (!dragInitialized) {
-        sentenceObjs = [];
-        dragInitialized = true;
-      }
-      
-      if (sentenceObjs.length === 0) { 
-        let secondLines = [
-          "Day 1 데이터 정리",
-          "내부 연구 보고서",
-          "문서번호: IR-401-1",
-          "작성일자: [2025-06-20]",
-          "작성부서: 인지응답실험팀 (현재 비활성화 상태)",
-          "작성자: 김철수 선임연구원",
-          "보안등급: 내부기밀 (Confidential; for Internal Use Only)",
-          "",
-          "1. 보고서 개요",
-          "본 문서는 당사 연구소 내 인지응답실험팀에서 수행한 초기 탐색적 연구 결과를 정리한 것이다.",
-          "해당 연구는 특정 약물 후보물질(Candidate Compound X)이 인지기능에 미치는 영향을 평가하기 위한 사전 실험으로, 약물 투여 후 피험자의 반응 속도, 정확성, 선택적 주의력 변화 등을 측정하였다.",
-          "현재 본 팀은 운영이 일시 중단된 상태이나, 실험 결과의 과학적 의의와 향후 임상 적용 가능성을 고려하여 연구 기록 보존 및 부서 간 공유를 목적으로 본 보고서를 작성하였다.",
-          "",
-          // 흐름에 맞지 않는 내용
-          "한 해를 마무리하는 특별 할인! 겨울의 마법이 시작됩니다. 따뜻한 순간을 선물하세요.",
-          "크리스마스의 기적, 마음에 닿기를",
-          "",
-          "2. 연구 배경 및 목적",
-          "인지 기능은 다양한 신경정신계 질환뿐만 아니라, 통증 완화, 수면 조절 등 다양한 치료영역과 밀접한 관련이 있다.",
-          "최근 개발 중인 Candidate Compound X는 중추신경계에 선택적으로 작용하는 것으로 보고되었으며, 동물모델에서 인지 능력 개선 가능성을 보인 바 있다.",
-          "이에 따라 본 연구에서는 해당 물질이 건강한 성인에게서 인지적 자극에 대한 반응성에 어떤 영향을 미치는지를 사전적으로 검토하고자 하였다.",
-          "",
-          "3. 실험 설계",
-          "3.1 실험 대상자",
-          "모집 대상: 건강한 성인 남녀, 20~35세",
-          "최종 참여자 수: 총 20명 (남성 10명, 여성 10명)",
-          "선정 기준: 신경학적 질환 이력 없음, 약물 복용 이력 없음, 정상 범위 내 인지능력 보유",
-        ];
-
-        for (let i = 0; i < secondLines.length; i ++) {
-          let line = secondLines[i];
-          let isWrong = false;
-
-          // 이상한 문장 판별 기준
-          if (line.includes("특별 할인") || line.includes("크리스마스")) {
-            isWrong = true;
-          }
-
-          sentenceObjs.push({
-            text: line,
-            x: 70,
-            y: 50 + i * lineHeight,
-            isWrong: isWrong,
-            state: "default"
-          });
-        }
-      }
-
-      textSize(15);
-      textAlign(LEFT, TOP);
-
-      for (let s of sentenceObjs) {
-        if (s.state === "correct") fill(0, 100, 255);
-        else if (s.state === "wrong") fill(255, 50, 50);
-        else fill(0);
-
-        text(s.text, s.x, s.y);
-      }
-
-      if (isDragging) {
-        noFill();
-        stroke(200);
-        rectMode(CORNERS);
-        rect(dragStartX, dragStartY, mouseX, mouseY);
-        noStroke();
-        rectMode(CORNER);
-      }
-
-      if (resultMessage) {
-        textSize(30);
-        textAlign(CENTER, CENTER);
-        if (resultMessage.includes("성공")) {
-          fill(0, 100, 255);
-        } else {
-          fill(255, 50, 50);
-        }
-        text(resultMessage, width - 355, 180);
-      }
-
-      break;
 
     case 18:
+      // 아마 빈 페이지에 이상한 보고서 그림
+      stage++
+      break;
+    
+    case 19:
       afterDay1.update();
       break;
 
-    case 19: // 바탕화면 3
+   case 20: // 바탕화면 3
         fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -731,7 +641,7 @@ function draw() {
 
         break;
     
-    case 20:
+    case 21:
       // 업무 3 모스부호 해석
       if (!codeInitialized) {
         codeInput.value("");
@@ -745,7 +655,7 @@ function draw() {
       fill(255);
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      text(". ... -. --. -- ...." /* ← 원하는 모스부호(여기 수정해야됨) */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
+      text("--. --.- -.- -- ... -.-" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
 
       let btnX20 = width / 2 + 210;
       let btnY20 = height - 81;
@@ -769,16 +679,18 @@ function draw() {
       if (morseCorrect && millis() - morseCheckTime > 1500) {
         stage++;
         morseCorrect = false;
-        resultMessage = "";
+        resultMessage = ""
+        codeInitialized = false;
       }
 
       break;
 
-    case 21:
+    case 22:
       afterDay2.update();
+
       break;
 
-    case 22: // Day 3로 전환
+    case 23: // Day 3로 전환
     fill(255);
     textSize(70)
     text("Day 3", width / 2, height / 2 - 50);
@@ -787,7 +699,7 @@ function draw() {
     
       break;
     
-    case 23: // 바탕화면 1
+    case 24: // 바탕화면 1
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -801,13 +713,13 @@ function draw() {
 
       break;
     
-    case 24:
+    case 25:
       // 셋째 날 업무 1은 여기에
       stage ++;
 
       break;
 
-    case 25: // 바탕화면 2
+    case 26: // 바탕화면 2
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -825,8 +737,8 @@ function draw() {
       
       break;
 
-    case 203:
-      // case 0 전용 변수들
+    case 27:
+          // case 0 전용 변수들
       if (typeof draw.errorIndex === 'undefined') {
       draw.errorIndex = 0;
       draw.lastErrorTime = millis();
@@ -860,7 +772,108 @@ function draw() {
       }
       break;
 
-    case 204: // 바탕화면 3
+    case 28: 
+      // Day 3 - 업무 2: 정크 데이터 처리
+      fill(255);
+      rect(50, 30, width - 100, height);
+      
+      fill(180);
+      rect(width - 630, 60, 550, 80);
+
+      fill(0);
+      textSize(20);
+      textAlign(LEFT, TOP);
+      text("흐름에 맞지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
+      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
+
+      if (!dragInitialized) {
+        sentenceObjs = [];
+        dragInitialized = true;
+      }
+      
+      if (sentenceObjs.length === 0) { 
+        let secondLines = [
+          "내부 기밀 보고서 제403-2",
+          "문서 번호: ME-403-∞",
+          "작성일자: [2025-06.22]",
+          "작성 부서: 조직행동 관찰국 - 인지추출실",
+          "작성자: 17번 계약직 ■%$632#",
+          "보안 등급: 🔴 최상위",
+          "",
+          "1. 보고 목적",
+          "본 보고서는 신입 직원 #A1127(이하 “대상”)의 일상적 업무 수행 반응을 통해 정서 자극 민감도,",
+          "인지 왜곡 내성, 감정 수율 등을 분석하고 ner%^&ㅣ5지추$#frㅇㄹ3로서의 적합성 여부를 평가하기 위해 작성되었다.",
+          "",
+          "2. 업무 평가 개요",
+          "업무 관찰 코드명: 〈일상 과업 기반 적합성 판별 실험>",
+          "대상의 3일 동안의 파일 분류, 데이터 정리, 부호 해석 업무를 관찰하면서",
+          "업무 반복성에 따른 감정 관찰, 업무 성실도, 업무 태도를 평가",
+          "",
+          "ㅓ햐거fdfdghg5ㅑ35ㅏ하래2ㅏㅣ2자ㅣㅏ저라우핤6ㅣ4dfgfwrerdt5ㅏㅐ9이거5;ㄴw읽지마",
+          "시스템 관리자에게 전달 사항: 시스템에 치명적 오류 발생 시 초기화 방법.",
+          "키보드에서 /입력 후 초기화코드456827입력 시 시스템 재부팅이 가능합니다.",
+          "",
+          "3. 종합 분석",
+          "“이거 하지 말까?” 발언 3회 기록 → 감정 단백질 분해 시작, 무기력 에너지 추출 가능성 확인",
+          "비록 약간의 반복적인 화면에 대한 스트레스와 피곤함이 보이지만 다른 개체에서는 안 보이는 성실도가 보임,",
+          "관찰 기간 동안 대상은 명백한 업무 반응성 우수 ㄸner%^&로 분류됨."
+        ];
+
+        for (let i = 0; i < secondLines.length; i ++) {
+          let line = secondLines[i];
+          let isWrong = false;
+
+          // 이상한 문장 판별 기준
+          if (line.includes("읽지마") || line.includes("오류")||line.includes("재부팅")) {
+            isWrong = true;
+          }
+
+          sentenceObjs.push({
+            text: line,
+            x: 80,
+            y: 70 + i * lineHeight,
+            isWrong: isWrong,
+            state: "default"
+          });
+        }
+      }
+
+      textSize(15);
+      textAlign(LEFT, TOP);
+
+      for (let s of sentenceObjs) {
+        if (s.state === "correct") fill(0, 100, 255);
+        else if (s.state === "wrong") fill(255, 50, 50);
+        else fill(0);
+
+        text(s.text, s.x, s.y);
+      }
+
+      if (isDragging) {
+        noFill();
+        strokeWeight(3);
+        stroke(200);
+        rectMode(CORNERS);
+        rect(dragStartX, dragStartY, mouseX, mouseY);
+        noStroke();
+        rectMode(CORNER);
+      }
+
+      if (resultMessage) {
+        textSize(30);
+        textAlign(CENTER, CENTER);
+        if (resultMessage.includes("성공")) {
+          fill(0, 100, 255);
+        } else {
+          fill(255, 50, 50);
+        }
+        text(resultMessage, width - 355, 180);
+      }
+
+      break;
+
+    case 29: // 바탕화면 3
+      noStroke();
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -880,7 +893,7 @@ function draw() {
 
       break;
 
-      case 205:
+    case 30:
       // 업무 3 모스부호 해석
       if (!codeInitialized) {
         codeInput.value("");
@@ -888,52 +901,74 @@ function draw() {
         morseCheckTime = 0;
         codeInitialized = true;
       }
-
+      
       image(imgCode, width / 2 - imgCode.width / 10, height / 2 + 50 - imgCode.height / 10, imgCode.width / 5, imgCode.height / 5);
 
       fill(255);
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      text("--. . ...- ...- ... .--. - ...." /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답 살려줘
+      text("--. . ...- ...- ... .--. - ...." /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답: 살려줘
 
-      let btnX205 = width / 2 + 210;
-      let btnY205 = height - 81;
-      let btnW205 = 80;
-      let btnH205 = 62;
+      let btnX28 = width / 2 + 210;
+      let btnY28 = height - 81;
+      let btnW28 = 80;
+      let btnH28 = 62;
 
-      checkButton(btnX205, btnY205, btnW205, btnH205);
-      rect(btnX205, btnY205, btnW205, btnH205);
+      checkButton(btnX28, btnY28, btnW28, btnH28);
+      noStroke();
+      rect(btnX28, btnY28, btnW28, btnH28);
 
       fill(255);
       textSize(30);
       text("확인", width / 2 + 250, height - 52);
 
       if (resultMessage !== "") {
-        fill(morseCorrect ? color(0, 100, 255) : color(255, 50, 50));
+        if(morseCorrect) {
+          fill(0, 100, 255);
+        } else if(isResetTriggered) {
+          fill(60, 215);
+        } else fill(255, 50, 50);
         rect(width / 2 - 250, height / 2, 500, 100);
         fill(255);
         text(resultMessage, width / 2, height / 2 + 48);
       }
 
+      // 정답일 때: 엔딩 A
       if (morseCorrect && millis() - morseCheckTime > 1500) {
-        stage =400;
+        stage = 300;
         morseCorrect = false;
+        resultMessage = "";
+      }
+
+      // "초기화"일 때: 엔딩 C
+      if (isResetTriggered && millis() - resetTriggeredTime > 1500) {
+        stage = 500;
+        isResetTriggered = false;
         resultMessage = "";
       }
 
       break;
 
-    case 400:
-        //엔딩 A
-        endingA.update();
+    case 300:
+        // 엔딩 A
+      if (!endingAStarted) {
+        let name = nameInput.value(); // 예: "홍길동"
+        endingA = new EndingA(name);
+        endingA.start();
+        endingAStarted = true;
+      }
+
+      if (endingA) {
+        endingA.update(); // 매 프레임마다 update()는 호출되어야 함
+      }
       break;
     
-    case 500:
-        //엔딩 B
+    case 400:
+        // 엔딩 B
         endingB.update();
       break;
 
-    case 600:
+    case 500:
         // 엔딩 C
         endingC.update();
       break;
@@ -953,13 +988,19 @@ function updateCursor() {
       mouseY >= height / 2 - 1.5 &&
       mouseY <= height / 2 + 51.5)
     ||
-    (stage === 11 &&
+    (stage === 12 &&
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
       mouseY >= height - 81 &&
       mouseY <= height - 19)
     ||
-    (stage === 20 &&
+    (stage === 21 &&
+      mouseX >= width / 2 + 210 &&
+      mouseX <= width / 2 + 290 &&
+      mouseY >= height - 81 &&
+      mouseY <= height - 19)
+    ||
+    (stage === 30 &&
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
       mouseY >= height - 81 &&
@@ -992,7 +1033,7 @@ function updateCursor() {
   }
 
   // 4. Day 전환 화면
-  if ([5, 13, 22].includes(stage)) {
+  if ([6, 14, 23].includes(stage)) {
     isHand = true;
   }
 
@@ -1014,37 +1055,38 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 1 || stage === 3) {
+  if (stage === 1 || stage === 4) {
     if (finishText) {
-      stage++;
+      stage ++;
       resetTyping();
     }
   }
 
-  if (stage === 5 || stage === 13) {
-    stage++;
+  if (stage === 6 || stage === 14) {
+    stage ++;
   }
-  //stage 21에서 stage 22를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
-//2번 눌러야 다음으로 진행됩니다다
-   if (stage === 22) {
-   if (stageHandled<1) {
+//stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
+//2번 눌러야 다음으로 진행됩니다
+  if (stage === 23) {
+  if (stageHandled<1) {
     stageHandled++
- }else if(stageHandled ==1){
-   stage++
-   stageHandled =0;
-   } 
- }
+}else if(stageHandled == 1){
+  stage ++;
+  stageHandled = 0;
+  } 
+}
 
+ // 바탕화면이 보이는 stage 정의
   if (
-    stage === 6 ||
-    stage === 8 ||
-    stage === 10 ||
-    stage === 14 ||
-    stage === 16 ||
-    stage === 19 ||
-    stage === 23 ||
-    stage === 25 ||
-    stage === 204
+    stage === 7 ||
+    stage === 9 ||
+    stage === 11 ||
+    stage === 15 ||
+    stage === 17 ||
+    stage === 20 ||
+    stage === 24 ||
+    stage === 26 ||
+    stage === 29
   ) {
     let layout = getIconLayout();
     let activeKey = getActiveIconName();
@@ -1058,11 +1100,12 @@ function mouseClicked() {
       mouseY >= y &&
       mouseY <= y + iconH
     ) {
-      stage++;
+      stage ++;
     }
   }
 
-  if (stage === 11 || stage === 20 || stage ===205 ) {
+  // 모스부호 스테이지 정의
+  if (stage === 12 || stage === 21 || stage === 30 ) {
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -1074,7 +1117,7 @@ function mouseClicked() {
   }
   
   if (error1 && error1.isClicked(mouseX, mouseY)) {
-    stage = 500;
+    stage = 400;
     return;
   }
   // 뒤에서부터 검사해서 삭제 시 인덱스 밀림 방지
@@ -1084,7 +1127,7 @@ function mouseClicked() {
 
       // 모든 창 닫혔는지 확인
       if (errors.length === 0) {
-        stage = 204; // 원하는 다음 스테이지 번호로 바꾸세요
+        stage++; // 원하는 다음 스테이지 번호로 바꾸세요
       }
 
       return; // 한 번에 하나만 닫기
@@ -1106,11 +1149,11 @@ function checkButton(x, y, w, h) {
 
 function mousePressed() {
    console.log("mousePressed called, stage =", stage);
-  if (stage === 7){
+  if (stage === 8){
     doctaskDay1.mousePressed();
   }
-
-  if (stage === 9) {
+    // 드래그 업무 쓰는 스테이지
+  if (stage === 10 || stage === 28) {
     for (let s of sentenceObjs) {
       s.state = "default";
     }
@@ -1120,32 +1163,34 @@ function mousePressed() {
     dragStartY = mouseY;
     isDragging = true;
   }
-  if(stage===18){
+  // afterDay들 마우스 처리
+  if(stage === 19){
     afterDay1.mousePressed();
   }
-  if(stage===21){
+
+  if(stage===22){
     afterDay2.mousePressed();
   }
 
-  if (stage === 500) {
+  if (stage === 400) {
     endingB.handleClick();} // 클릭 처리
 
-  if (stage === 600) {
+  if (stage === 500) {
     endingC.mousePressed();}
 }
 
 function mouseDragged() {
-  if (stage === 7){
+  if (stage === 8){
     doctaskDay1.mouseDragged();
   }
 }
 
 function mouseReleased() {
-  if (stage === 7){
+  if (stage === 8){
     doctaskDay1.mouseReleased();
   }
-
-  if (stage === 9) {
+    // 드래그 쓰는 스테이지
+  if (stage === 10 || stage === 28) {
     dragEndX = mouseX;
     dragEndY = mouseY;
     isDragging = false;
@@ -1270,14 +1315,21 @@ function drawResearcher() {
   image(imgResearcher, imgX, imgY, researcherW, researcherH);
 }
 
+// 매뉴얼 주는 장면 배경 표시 함수
+function manualPic() {
+  let manualPicW = 1000;
+  let manualPicH = thisIsManual.height * (manualPicW / thisIsManual.width);
+  image(thisIsManual, (width - manualPicW) / 2, 0, manualPicW, manualPicH);
+}
+
 // 매뉴얼 띄우는 함수
 function drawManual() {
   if (!showManual) return;
-  manualH = height * 0.8;
-  manualW = manualH * (imgManual.width / imgManual.height);
-  manualX = width / 2 - manualW / 2;
+  manualPicH = height * 0.8;
+  manualPicW = manualPicH * (imgManual.width / imgManual.height);
+  manualX = width / 2 - manualPicW / 2;
   manualY = height * 0.05;
-  image(imgManual, manualX, manualY, manualW, manualH);
+  image(imgManual, manualX, manualY, manualPicW, manualPicH);
 }
 
 // stage 3 이후에 m키 누르면 매뉴얼이 나오도록
@@ -1322,9 +1374,9 @@ function getIconLayout() {
 
 // 배경화면 아이콘 처리 관련 함수 2
 function getActiveIconName() {
-  if (stage === 6 | stage === 14 | stage === 23 ) return "file";
-  if (stage === 8 | stage === 16 | stage === 25 ) return "doc";
-  if (stage === 10 | stage === 19 | stage === 204 ) return "sat";
+  if (stage === 7 | stage === 15 | stage === 24 ) return "file";
+  if (stage === 9 | stage === 17 | stage === 26 ) return "doc";
+  if (stage === 11 | stage === 20 | stage === 29 ) return "sat";
   return null;
 }
 
@@ -1367,18 +1419,23 @@ function drawIcons() {
 // 모스 정답 함수
 function checkMorseAnswer() {
   const codeCheck = codeInput.value().trim();
-
   if (
-    (stage === 11 && codeCheck === "제약") ||
-    (stage === 20 && codeCheck === "생명") ||
-    (stage === 205 && codeCheck === "살려줘")
+    (stage === 12 && codeCheck === "제약") ||
+    (stage === 21 && codeCheck === "생명") ||
+    (stage === 30 && codeCheck === "살려줘")
   ) {
     resultMessage = "성공입니다.";
     morseCorrect = true;
     morseCheckTime = millis(); 
+  } else if (stage === 30 && codeCheck === "/456827") {
+    resultMessage = "시스템 초기화 중 ...";
+    isResetTriggered = true;
+    resetTriggeredTime = millis();
+    morseCorrect = false;
   } else {
     resultMessage = "실패입니다. 다시 시도하세요.";
     morseCorrect = false;
     morseCheckTime = 0;
   }
 }
+
