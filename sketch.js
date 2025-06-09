@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 21;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -47,7 +47,8 @@ let imgError_1; // 에러 1 유형 이미지
 let imgError_2; // 에러 2 유형 이미지
 let errors = [];
 const NUM_ERRORS = 7;
-
+//틀림 횟수 변수
+let wrongCount =0;
 
 // 엔딩 관련 변수
 let endingA;  // 엔딩 A
