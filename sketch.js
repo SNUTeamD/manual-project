@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 500;
+let stage = 13;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -587,7 +587,7 @@ function draw() {
         ["휴우 어제는 힘든 하루였어 ..."],
         ["고연봉이라서 지원한 프로젝트인데 .. 이거 하지 말까?"],
         ["아냐 아냐 그래도 어떻게 입사한건데 .. 일 해야지 ..."],
-        ["음? 오늘 작업해야 하는 보고서인가?"]
+        ["내일 하루도 힘내보자!"]
       ]);
       
       if (finishText) {
@@ -597,12 +597,9 @@ function draw() {
 
       break;
       
-    case 14:
-      afterDay1.update();
-      break;
 
 
-    case 15: // Day 2로 전환
+    case 14: // Day 2로 전환
       fill(255);
       textSize(70);
       text("Day 2", width / 2, height / 2 - 50);
@@ -611,7 +608,7 @@ function draw() {
       
       break;
 
-    case 16: // 바탕화면 1
+    case 15: // 바탕화면 1
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -626,13 +623,13 @@ function draw() {
 
       break;
 
-    case 17:
+    case 16:
       // 여기에 둘째 날 업무 1 코드 넣어주세요
       stage ++;
 
       break;
 
-    case 18: // 바탕화면 2
+    case 17: // 바탕화면 2
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -649,10 +646,14 @@ function draw() {
       drawIcons();
 
       break;
+
+    case 18:
+      //아마 빈 페이지에 이상한 보고서 그림
+      stage++
+      break;
     
     case 19:
-      // 도재인 불쑥 컷씬 여기에 넣어주심 됩니다
-      stage ++;
+      afterDay1.update();
       break;
 
     case 20: // 바탕화면 3
@@ -1058,7 +1059,7 @@ function updateCursor() {
   }
 
   // 4. Day 전환 화면
-  if ([6, 15, 23].includes(stage)) {
+  if ([6, 14, 23].includes(stage)) {
     isHand = true;
   }
 
@@ -1087,26 +1088,26 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 6 || stage === 23) {
+  if (stage === 6 || stage === 14 || stage === 23) {
     stage ++;
   }
 // stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
 // 2번 눌러야 다음으로 진행됩니다
-  if (stage === 15) {
-  if (stageHandled<1) {
-    stageHandled++
-}else if(stageHandled == 1){
-  stage ++;
-  stageHandled = 0;
-  } 
-}
+//   if (stage === 15) {
+//   if (stageHandled<1) {
+//     stageHandled++
+// }else if(stageHandled == 1){
+//   stage ++;
+//   stageHandled = 0;
+//   } 
+// }
 
   if (
     stage === 7 ||
     stage === 9 ||
     stage === 11 ||
-    stage === 16 ||
-    stage === 18 ||
+    stage === 15 ||
+    stage === 17 ||
     stage === 20 ||
     stage === 24 ||
     stage === 26 ||
@@ -1186,7 +1187,7 @@ function mousePressed() {
     dragStartY = mouseY;
     isDragging = true;
   }
-  if(stage === 14){
+  if(stage === 19){
     afterDay1.mousePressed();
   }
 
@@ -1392,8 +1393,8 @@ function getIconLayout() {
 
 // 배경화면 아이콘 처리 관련 함수 2
 function getActiveIconName() {
-  if (stage === 7 | stage === 16 | stage === 24 ) return "file";
-  if (stage === 9 | stage === 18 | stage === 26 ) return "doc";
+  if (stage === 7 | stage === 15 | stage === 24 ) return "file";
+  if (stage === 9 | stage === 17 | stage === 26 ) return "doc";
   if (stage === 11 | stage === 20 | stage === 28 ) return "sat";
   return null;
 }
