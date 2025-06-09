@@ -287,7 +287,7 @@ function draw() {
       break;
 
     case 4:
-     let manualW = 1000;
+      let manualW = 1000;
       let manualH = thisIsManual.height * (manualW / thisIsManual.width);
       image(thisIsManual, (width - manualW) / 2, 0, manualW, manualH);
 
@@ -621,7 +621,6 @@ function draw() {
 
       if (!dragInitialized) {
         sentenceObjs = [];
-        setSentences(sentenceSet18);
         dragInitialized = true;
       }
       
@@ -708,7 +707,7 @@ function draw() {
 
       break;
 
-      case 18:
+    case 18:
       afterDay1.update();
       break;
 
