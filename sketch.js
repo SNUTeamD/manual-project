@@ -43,6 +43,7 @@ let codeInitialized = false;
 
 // day 전환 변수
 let afterDay1;
+let afterDay2;
 // 너무 빨리 넘어감 방지 코드
 let stageHandled = 0;
 
@@ -101,6 +102,9 @@ function preload() {
   //Day 1이 끝나고
   afterDay1 = new AfterDay1();
   afterDay1.preload();
+  //Day 2가 끝나고Add commentMore actions
+  afterDay2 = new AfterDay2();
+  afterDay2.preload();
 }
 
 // ====== 입력창 생성 및 스타일 지정 ======
@@ -172,8 +176,9 @@ function setup() {
   // 엔딩 초기화
   endingA.start();
   endingC.start();
-
+//Day 마치고 초기화
   afterDay1.start();
+  afterDay2.start();
 }
 
 // ====== 메인 화면 반복 그리기 ======
@@ -721,8 +726,7 @@ function draw() {
       break;
 
     case 22:
-      // Day 3 가기 전 전환 파트
-      stage ++;
+      afterDay2.update();
 
       break;
 
@@ -1100,19 +1104,19 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 6 || stage === 14 || stage === 23) {
+  if (stage === 6 || stage === 14) {
     stage ++;
   }
-// stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
-// 2번 눌러야 다음으로 진행됩니다
-//   if (stage === 15) {
-//   if (stageHandled<1) {
-//     stageHandled++
-// }else if(stageHandled == 1){
-//   stage ++;
-//   stageHandled = 0;
-//   } 
-// }
+//stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
+//2번 눌러야 다음으로 진행됩니다
+  if (stage === 23) {
+  if (stageHandled<1) {
+    stageHandled++
+}else if(stageHandled == 1){
+  stage ++;
+  stageHandled = 0;
+  } 
+}
 
  // 바탕화면이 보이는 stage 정의
   if (
@@ -1201,8 +1205,13 @@ function mousePressed() {
     dragStartY = mouseY;
     isDragging = true;
   }
+  //afterDay들 마우스 처리
   if(stage === 19){
     afterDay1.mousePressed();
+  }
+
+  if(stage===22){
+    afterDay2.mousePressed();
   }
 
   if (stage === 400) {
