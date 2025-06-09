@@ -164,12 +164,12 @@ class EndingB {
 
     // 지속 시간 (단위: ms)
     this.blinkDuration = 2500;   // 2.5초 깜빡임
-    this.noiseDuration = 2000;   // 3초 노이즈
+    this.noiseDuration = 1800;   // 1.8초 노이즈
 
     // 대사 관련
     this.texts = [
-      { speaker: "PLAYER", text: "...헉. 잠깐 졸았나..?" },
-      { speaker: "도재인", text: "첫 날부터 주무시는 거예요? 이제 일하셔야죠." },
+      { speaker: "PLAYER", text: "...헉. 잠깐 졸았나 ..?" },
+      { speaker: "김철수", text: "첫 날부터 주무시는 거예요? 이제 일하셔야죠." },
       { speaker: "PLAYER", text: "아, 네 ... 죄송합니다." },
     ];
 
@@ -178,7 +178,7 @@ class EndingB {
     this.displayedText = "";
     this.charIndex = 0;
     this.lastUpdateTime = 0;
-    this.delay = 100;
+    this.delay = 50;
     this.isTyping = false;
     this.clickReady = false;
 
@@ -234,7 +234,13 @@ class EndingB {
   }
 
   drawTextbox() {
-    image(this.backgroundImg, 0, 0, width, height);
+    let scale = 0.5; // 이미지 80% 크기로 줄이기
+    let imgW = this.backgroundImg.width * scale;
+    let imgH = this.backgroundImg.height * scale;
+    imageMode(CENTER);
+    image(this.backgroundImg, width / 2, height / 2, imgW, imgH);
+    imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
+    //image(this.backgroundImg, 0, 0, width, height);
     this.drawResearcher();
 
     let boxW = width * 0.9;
@@ -242,24 +248,25 @@ class EndingB {
     let boxX = width / 2 - boxW / 2;
     let boxY = height - boxH - 50;
 
-    fill(120);
     noStroke();
+    fill(120);
     rect(0, height - height / 4, width, height / 4);
 
     let speaker = this.texts[this.currentTextIndex]?.speaker;
 
-    if (speaker === "도재인") {
-      fill(60, 215);
+    if (speaker === "김철수") {
       noStroke();
-      rect(boxX + 20, boxY - 40, 200, 50, 10);
+      fill(60, 215);
+      rectMode(CENTER);
+      rect(boxX + 215, boxY + 15, 200, 50, 10);
+      rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("도재인", boxX + 120, boxY - 20);
+      text("김철수", boxX + 215, boxY + 10);
     }
 
     fill(255);
-    textAlign(CENTER, CENTER);
     textSize(30);
     text(this.displayedText, width / 2, 7 / 8 * height);
   }
