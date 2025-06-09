@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 2;
+let stage = 10;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -1157,7 +1157,7 @@ function mouseClicked() {
   }
   
   if (error1 && error1.isClicked(mouseX, mouseY)) {
-    stage = 500;
+    stage = 400;
     return;
   }
   // 뒤에서부터 검사해서 삭제 시 인덱스 밀림 방지
