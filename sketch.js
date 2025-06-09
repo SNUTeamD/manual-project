@@ -11,7 +11,7 @@ let doctaskDay1;
 let folderIcon, folderDoc;
 
 // 시작 스테이지 설정
-let stage = 18;
+let stage = 21;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -56,6 +56,7 @@ let endingC; // 엔딩 C
 
 //day 전환 변수
 let afterDay1;
+let afterDay2;
 //너무 빨리 넘어감 방지 코드
 let stageHandled = 0;
 
@@ -98,6 +99,10 @@ function preload() {
   //Day 1이 끝나고
   afterDay1 = new AfterDay1();
   afterDay1.preload();
+  //Day 2가 끝나고
+  afterDay2 = new AfterDay2();
+  afterDay2.preload();
+
 }
 
 // ====== 입력창 생성 및 스타일 지정 ======
@@ -171,6 +176,7 @@ function setup() {
   endingC.start();
 
   afterDay1.start();
+  afterDay2.start();
 }
 
 // ====== 메인 화면 반복 그리기 ======
@@ -539,7 +545,7 @@ function draw() {
         ["휴우 어제는 힘든 하루였어 ..."],
         ["고연봉이라서 지원한 프로젝트인데 .. 이거 하지 말까?"],
         ["아냐 아냐 그래도 어떻게 입사한건데 .. 일 해야지 ..."],
-        ["오늘 하루도 힘내보자!"]
+        ["내일 하루도 힘내보자!"]
       ]);
       
       if (finishText) {
@@ -769,9 +775,7 @@ function draw() {
       break;
 
     case 21:
-      // Day 3 가기 전 전환 파트
-      stage ++;
-
+      afterDay2.update();
       break;
 
     case 22: // Day 3로 전환
@@ -1017,9 +1021,19 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 5 || stage === 13 || stage === 22) {
+  if (stage === 5 || stage === 13) {
     stage++;
   }
+  //stage 21에서 stage 22를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
+//2번 눌러야 다음으로 진행됩니다다
+   if (stage === 22) {
+   if (stageHandled<1) {
+    stageHandled++
+ }else if(stageHandled ==1){
+   stage++
+   stageHandled =0;
+   } 
+ }
 
   if (
     stage === 6 ||
@@ -1108,6 +1122,9 @@ function mousePressed() {
   }
   if(stage===18){
     afterDay1.mousePressed();
+  }
+  if(stage===21){
+    afterDay2.mousePressed();
   }
 
   if (stage === 500) {
