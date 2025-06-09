@@ -1,4 +1,4 @@
-class AfterDay1 {
+class AfterDay2 {
   constructor() {
     this.phase = 1;
     this.phaseStartTime = 0;
@@ -8,17 +8,16 @@ class AfterDay1 {
     this.lockInput = false;
 
     this.texts = [
-  { speaker: "???", text: "어! 잠시만요!!" },
-  { speaker: "PLAYER", text: "(갑자기 나타난 저 여자가 내 책상 위의 보고서를 뺏었다.)" },
-  { speaker: "???", text: "아 ... 이게 왜 여기있지 ..." },
-  { speaker: "???", text: "이건 오늘 작업 안하셔도 돼요." },
-  { speaker: "도재인", text: "제 소개가 늦었네요. 인사이동부의 도재인이라고 합니다." },
-  { speaker: "도재인", text: "제가 작업해야 하는 보고서인데, 실수로 이쪽으로 넘겨졌나 봐요." },
-  { speaker: "도재인", text: "오늘은 데이터 처리를 안하셔도 됩니다."},
-  { speaker: "도재인", text: "좋은 하루 되세요." },
-  { speaker: "PLAYER", text: "갑자기 나타나더니 그냥 사라졌다." },
-  { speaker: "PLAYER", text: "이거 하지 말까 하는 생각이 다시 들기 시작했다." },
-  { speaker: "PLAYER", text: "뭐 그래도 해야할 일이 줄은거니 .. 좋은건가?" }
+  { speaker: "PLAYER", text: "휴우 힘들다...오늘 하루도 수고 많았어 내자신" },
+  { speaker: "???", text: "커피 드실래요?" },
+  { speaker: "PLAYER", text: "어제 날 안내해준 연구원이 내 자리에 커피를 놔주었다." },
+  { speaker: "김철수", text: "드시면서 하세요" },
+  { speaker: "PLAYER", text: "감사합니다." },
+  { speaker: "김철수", text: "매뉴얼...잘 지키고 계시죠?" },
+  { speaker: "김철수", text: "잘 지킬거라 믿습니다."},
+  { speaker: "PLAYER", text: "내 대답도 안듣고 사라졌다." },
+  { speaker: "PLAYER", text: "여기 사람들은 지 할말만 하고 사라지는게 버릇인가보다." },
+  { speaker: "PLAYER", text: "이거 하지 말까하는 생각이 또 들었지만 그래도 회삿일은 해야지." }
 ];
 
     this.currentTextIndex = 0;
@@ -32,14 +31,14 @@ class AfterDay1 {
 
 
     this.endc1Reached = false;
-    this.janeMonsterShown = false;
+    this.chulSuMonsterShown = false;
     this.afterDay1 = null;
   }
 
   preload() {
-    this.afterDay1 = loadImage('assets/Day1이 끝나고.png');
-    this.janeCommon = loadImage('assets/도재인(생기있음).png');
-    this.janeMonster = loadImage('assets/도재인 괴인.png');
+    this.afterDay2 = loadImage('assets/Day2가 끝나고.png');
+    this.chulSuCommon = loadImage('assets/연구원.png');
+    this.chulSuMonster = loadImage('assets/연구원 괴인.png');
   }
 
   start() {
@@ -55,37 +54,38 @@ class AfterDay1 {
 
     this.drawTyping();
 
-    if (this.currentTextIndex >= 1 && this.currentTextIndex <= 3) {
+    if (this.currentTextIndex >= 2 && this.currentTextIndex <= 4) {
       let scale = 0.5; // 이미지 80% 크기로 줄이기
 
-  let imgW = this.afterDay1.width * scale;
-  let imgH = this.afterDay1.height * scale;
+  let imgW = this.afterDay2.width * scale;
+  let imgH = this.afterDay2.height * scale;
 
   tint(255, this.fadeAlpha);
   imageMode(CENTER);
-  image(this.afterDay1, width / 2, height / 2, imgW, imgH);
+  image(this.afterDay2, width / 2, height / 3, imgW, imgH);
   imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
 
-    }else if(this.currentTextIndex >3 && this.currentTextIndex <=7 ){
-      this.drawJane();
+    }else if(this.currentTextIndex >4 && this.currentTextIndex <=6 ){
+      this.drawChulSu();
     }
     //재인 괴수화 코드
     // 👾 괴인 이미지 잠깐 등장
-if (this.showJaneMonster) {
-  let elapsed = millis() - this.janeMonsterStartTime;
+if (this.showChulSuMonster) {
+  let elapsed = millis() - this.chulSuMonsterStartTime;
   if (elapsed < 300) {
-    this.drawJaneMonster();
+    this.drawChulSuMonster();
   } else {
-    this.showJaneMonster = false;
-    this.janeMonsterShown = true; // ✅ 더 이상 안 나오게
+    this.showChulSuMonster = false;
+    this.chulSuMonsterShown = true; // ✅ 더 이상 안 나오게
   }
 }
 
-// ✅ currentTextIndex가 7일 때 한 번만 showJaneMonster를 true로
-if (this.currentTextIndex === 7 && !this.janeMonsterShown && !this.showJaneMonster) {
-  this.showJaneMonster = true;
-  this.janeMonsterStartTime = millis();
+// ✅ currentTextIndex가 7일 때 한 번만 showchulSuMonster를 true로
+if (this.currentTextIndex === 5 && !this.chulSuMonsterShown && !this.showChulSuMonster) {
+  this.showChulSuMonster = true;
+  this.chulSuMonsterStartTime = millis();
 }
+
 
     this.drawTextbox();
   }
@@ -120,7 +120,7 @@ if (this.currentTextIndex === 7 && !this.janeMonsterShown && !this.showJaneMonst
     fill(120);
     rect(0, height - height / 4, width, height / 4);
 
-    if (speaker === "도재인") {
+    if (speaker === "김철수") {
       fill(60, 215);
       noStroke();
       rectMode(CENTER);
@@ -129,7 +129,7 @@ if (this.currentTextIndex === 7 && !this.janeMonsterShown && !this.showJaneMonst
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("도재인", boxX + 215, boxY + 10);
+      text("김철수", boxX + 215, boxY + 10);
     }else if (speaker ==="???") {
       fill(60, 215);
       noStroke();
@@ -148,34 +148,50 @@ if (this.currentTextIndex === 7 && !this.janeMonsterShown && !this.showJaneMonst
     
     text(this.displayedText, boxX + textMargin, boxY + textMargin + 30, boxW - textMargin * 2, boxH - textMargin * 2);
   }
-// 도재인 이미지 비율 유지하면서 표시하는 함수
-drawJane() {
-  let janeW = 550;
-  let janeH = this.janeCommon.height * (janeW / this.janeCommon.width);
+// 김철수 이미지 비율 유지하면서 표시하는 함수
+drawChulSu() {
+  let chulSuW = 550;
+  let chulSuH = this.chulSuCommon.height * (chulSuW / this.chulSuCommon.width);
   let imgX = 20;
-  let imgY = height - height / 4 - janeH + 185;
-  image(this.janeCommon, imgX, imgY, janeW, janeH);
+  let imgY = height - height / 4 - chulSuH + 185;
+  image(this.chulSuCommon, imgX, imgY, chulSuW, chulSuH);
 }
-drawJaneMonster() {
-  let janeMonW = 550;
-  let janeMonH = this.janeMonster.height * (janeMonW / this.janeMonster.width);
+drawChulSuMonster() {
+  let chulSuMonW = 550;
+  let chulSuMonH = this.chulSuMonster.height * (chulSuMonW / this.chulSuMonster.width);
   let imgX = 20;
-  let imgY = height - height / 4 -janeMonH + 185;
-  image(this.janeMonster, imgX, imgY, janeMonW, janeMonH);
+  let imgY = height - height / 4 - chulSuMonH + 185;
 
+  // 기본 이미지 출력 (중앙 기준)
+  image(this.chulSuMonster, imgX, imgY, chulSuMonW, chulSuMonH);
+
+  // 글리치 효과 (RGB 분리 + 흔들림 더 강하게)
   for (let i = 0; i < 3; i++) {
-    let offsetX = random(-5, 5); // 좌우 랜덤 흔들림
-    let offsetY = random(-5, 5);
+    let offsetX = random(-10, 10); // 좌우 흔들림 확대
+    let offsetY = random(-8, 8);   // 상하 흔들림 확대
     let tintColor;
     if (i === 0) tintColor = [255, 0, 0];     // 빨강
     else if (i === 1) tintColor = [0, 255, 255]; // 청록
     else tintColor = [255, 255, 255];         // 흰색
 
-    tint(...tintColor, 180); // 투명도 조절
-    image(this.janeMonster, imgX + offsetX, imgY + offsetY, janeMonW, janeMonH);
+    tint(...tintColor, 160); // 투명도 조절
+    image(this.chulSuMonster, imgX + offsetX, imgY + offsetY, chulSuMonW, chulSuMonH);
   }
 
-  noTint(); // 이후 이미지에 영향 안 주게
+  noTint();
+
+  // 노이즈/글리치용 슬라이스 라인 효과 추가
+  for (let i = 0; i < 5; i++) {
+    let sliceY = int(random(imgY, imgY + chulSuMonH));
+    let sliceH = int(random(5, 20));
+    let glitchOffset = int(random(-20, 20));
+
+    copy(
+      this.chulSuMonster,
+      0, sliceY - imgY, this.chulSuMonster.width, sliceH,
+      imgX + glitchOffset, sliceY, chulSuMonW, sliceH
+    );
+  }
 }
 
 

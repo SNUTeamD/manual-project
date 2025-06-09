@@ -7,7 +7,7 @@ class EndingC {
     this.autoDelay = 1500;
     this.lockInput = false;
 
-    this.texts = [ { speaker: "PLAYER", text: "소독약 냄새 ... 여긴... 어디지?" },
+    this.texts = [ { speaker: "PLAYER", text: "소독약 냄새 ... 여긴 ... 어디지?" },
   { speaker: "PLAYER", text: "무언가가 머리에 연결되어 있어 몸을 움직일 수가 없다." },
   { speaker: "SYSTEM", text: "[SYSTEM MESSAGE: 실험체 0441 반응 기록 개시] \n실험체 0441: 고감도 공포 반응군" },
   { speaker: "SYSTEM", text: "안녕하세요. 편하게 계세요." },
@@ -15,8 +15,8 @@ class EndingC {
   { speaker: "SYSTEM", text: "공포 반응이 적을 경우, 추가 자극이 투입됩니다." },
   { speaker: "PLAYER", text: "어째서?" },
   { speaker: "SYSTEM", text: "공포를 감각하세요. 공포는 인간의 당연한 본능이며 당신의 존재 이유입니다." },
-  { speaker: "PLAYER", text: "이게 뭐야..? 도대체 왜..." },
-  { speaker: "PLAYER", text: "제발! 제발 멈춰.. 나는 분명 ... ... 분명 ... " },
+  { speaker: "PLAYER", text: "이게 뭐야 .. ? 도대체 왜 ..." },
+  { speaker: "PLAYER", text: "제발! 제발 멈춰 .. 나는 분명 .. ... 분명 ... " },
   { speaker: "PLAYER", text: "... ... ... 나는 누구였지?" },
   {
     speaker: "PLAYER",
@@ -30,7 +30,7 @@ class EndingC {
   { speaker: "SYSTEM", text: "실험체 0441: 고감도 공포 반응군 데이터 수집 완료.",
     lockInput: true
    },
-  { speaker: "SYSTEM", text: "에너지 변환 시작. 에너지 변환 중..." ,
+  { speaker: "SYSTEM", text: "에너지 변환 시작. 에너지 변환 중 ..." ,
     lockInput: true},
   { speaker: "SYSTEM", text: "변환 완료." ,
     lockInput: true},
@@ -49,7 +49,7 @@ class EndingC {
     this.displayedText = "";
     this.charIndex = 0;
     this.lastUpdateTime = 0;
-    this.delay = 20;
+    this.delay = 50;
     this.isTyping = true;
     this.clickReady = false;
 
@@ -146,11 +146,13 @@ class EndingC {
     if (speaker === "SYSTEM") {
       fill(60, 215);
       noStroke();
-      rect(boxX + 20, boxY - 40, 200, 50, 10);
+      rectMode(CENTER);
+      rect(boxX + 215, boxY + 15, 200, 50, 10);
+      rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("SYSTEM", boxX + 120, boxY-20);
+      text("SYSTEM", boxX + 215, boxY + 10);
     }
 
     fill(255);
@@ -205,7 +207,7 @@ class EndingC {
     this.charIndex = 0;
     this.isTyping = true;
     this.clickReady = false;
-    this.delay = obj.speedUp ? 35 : 70;
+    this.delay = obj.speedUp ? 60 : 80;
     this.lastUpdateTime = millis();
   }
 
