@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 500;
+let stage = 15;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -1407,9 +1407,9 @@ function getIconLayout() {
 
 // 배경화면 아이콘 처리 관련 함수 2
 function getActiveIconName() {
-  if (stage === 7 | stage === 16 | stage === 24 ) return "file";
-  if (stage === 9 | stage === 18 | stage === 26 ) return "doc";
-  if (stage === 11 | stage === 20 | stage === 28 ) return "sat";
+  if (stage === 7 | stage === 15 | stage === 24 ) return "file";
+  if (stage === 9 | stage === 17 | stage === 26 ) return "doc";
+  if (stage === 11 | stage === 20 | stage === 29 ) return "sat";
   return null;
 }
 
