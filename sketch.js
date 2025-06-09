@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 15;
+let stage = 2;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -592,7 +592,7 @@ function draw() {
         ["휴우 어제는 힘든 하루였어 ..."],
         ["고연봉이라서 지원한 프로젝트인데 .. 이거 하지 말까?"],
         ["아냐 아냐 그래도 어떻게 입사한건데 .. 일 해야지 ..."],
-        ["내일 하루도 힘내보자!"]
+        ["내일 하루도 힘내보자! 아자아자!!"]
       ]);
       
       if (finishText) {
@@ -602,8 +602,6 @@ function draw() {
 
       break;
       
-
-
     case 14: // Day 2로 전환
       fill(255);
       textSize(70);
@@ -653,7 +651,7 @@ function draw() {
       break;
 
     case 18:
-      //아마 빈 페이지에 이상한 보고서 그림
+      // 아마 빈 페이지에 이상한 보고서 그림
       stage++
       break;
     
@@ -1194,7 +1192,7 @@ function mousePressed() {
   if (stage === 8){
     doctaskDay1.mousePressed();
   }
-    //드래그 업무 쓰는 스테이지지
+    // 드래그 업무 쓰는 스테이지
   if (stage === 10 || stage === 28) {
     for (let s of sentenceObjs) {
       s.state = "default";
@@ -1205,7 +1203,7 @@ function mousePressed() {
     dragStartY = mouseY;
     isDragging = true;
   }
-  //afterDay들 마우스 처리
+  // afterDay들 마우스 처리
   if(stage === 19){
     afterDay1.mousePressed();
   }
@@ -1231,7 +1229,7 @@ function mouseReleased() {
   if (stage === 8){
     doctaskDay1.mouseReleased();
   }
-    //드래그 쓰는 스테이지지
+    // 드래그 쓰는 스테이지
   if (stage === 10 || stage === 28) {
     dragEndX = mouseX;
     dragEndY = mouseY;
