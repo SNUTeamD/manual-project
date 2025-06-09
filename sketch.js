@@ -272,25 +272,6 @@ function draw() {
       break;
     
     case 3:
-      drawResearcher();
-
-      // 화면 아래 회색 박스
-      fill(120);
-      rect(0, height - height / 4, width, height / 4);
-
-      fill(45);
-      typeText([
-        ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
-      ]);
-
-      if (finishText) {
-        stage ++;
-        resetTyping();
-      }
-
-      break;
-
-    case 4:
       let manualW = 1000;
       let manualH = thisIsManual.height * (manualW / thisIsManual.width);
       image(thisIsManual, (width - manualW) / 2, 0, manualW, manualH);
@@ -301,6 +282,25 @@ function draw() {
       fill(255, 0, 0);
       typeText([
         [".. 반드시 매뉴얼을 따라주셔야 합니다."]
+      ]);
+
+      if (finishText) {
+        stage ++;
+        resetTyping();
+      }
+
+      break;
+
+    case 4:
+      drawResearcher();
+
+      // 화면 아래 회색 박스
+      fill(120);
+      rect(0, height - height / 4, width, height / 4);
+
+      fill(45);
+      typeText([
+        ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
       ]);
 
       if (finishText) {
