@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 13;
+let stage = 500;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -61,7 +61,7 @@ let resetTriggeredTime = 0;
 let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
-
+let endingAStarted = false;
 
 function preload() {
   // 폰트 불러오기
@@ -184,7 +184,7 @@ function draw() {
   if (stage === 0) {
     nameInput.show();
     codeInput.hide();
-  } else if (stage === 12 || stage === 21 || stage === 29) {
+  } else if (stage === 12 || stage === 21 || stage === 30) {
     nameInput.hide();
     codeInput.show();
   } else {
@@ -774,6 +774,41 @@ function draw() {
       break;
 
     case 27:
+          // case 0 전용 변수들
+      if (typeof draw.errorIndex === 'undefined') {
+      draw.errorIndex = 0;
+      draw.lastErrorTime = millis();
+      draw.interval = 200;
+      draw.errorTexts = [
+        "7. 도망쳐.",
+        "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
+        "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
+        "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
+        "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
+        "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
+        "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
+      ];
+      }
+
+      if (draw.errorIndex < NUM_ERRORS && millis() - draw.lastErrorTime > draw.interval) {
+      let relW = 0.4;
+      let relH = relW * (imgError_2.height / imgError_2.width);
+      let relX = random(0, 1 - relW);
+      let relY = random(0, 1 - relH);
+
+      let msg = draw.errorTexts[draw.errorIndex];
+      errors.push(new ErrorWindow(imgError_2, relX, relY, relW, msg));
+
+      draw.errorIndex++;
+      draw.lastErrorTime = millis();
+      }
+
+      for (let e of errors) {
+      e.display();
+      }
+      break;
+
+    case 28: 
       // Day 3 - 업무 2: 정크 데이터 처리
       fill(255);
       rect(50, 30, width - 100, height);
@@ -873,41 +908,9 @@ function draw() {
         text(resultMessage, width - 355, 180);
       }
 
-      // case 0 전용 변수들
-      if (typeof draw.errorIndex === 'undefined') {
-      draw.errorIndex = 0;
-      draw.lastErrorTime = millis();
-      draw.interval = 200;
-      draw.errorTexts = [
-        "7. 도망쳐.",
-        "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
-        "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
-        "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
-        "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
-        "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
-        "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
-      ];
-      }
-
-      if (draw.errorIndex < NUM_ERRORS && millis() - draw.lastErrorTime > draw.interval) {
-      let relW = 0.4;
-      let relH = relW * (imgError_2.height / imgError_2.width);
-      let relX = random(0, 1 - relW);
-      let relY = random(0, 1 - relH);
-
-      let msg = draw.errorTexts[draw.errorIndex];
-      errors.push(new ErrorWindow(imgError_2, relX, relY, relW, msg));
-
-      draw.errorIndex++;
-      draw.lastErrorTime = millis();
-      }
-
-      for (let e of errors) {
-      e.display();
-      }
       break;
 
-    case 28: // 바탕화면 3
+    case 29: // 바탕화면 3
       noStroke();
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
@@ -928,7 +931,7 @@ function draw() {
 
       break;
 
-    case 29:
+    case 30:
       // 업무 3 모스부호 해석
       if (!codeInitialized) {
         codeInput.value("");
@@ -986,7 +989,16 @@ function draw() {
 
     case 300:
         // 엔딩 A
-        endingA.update();
+      if (!endingAStarted) {
+        let name = nameInput.value(); // 예: "홍길동"
+        endingA = new EndingA(name);
+        endingA.start();
+        endingAStarted = true;
+      }
+
+      if (endingA) {
+        endingA.update(); // 매 프레임마다 update()는 호출되어야 함
+      }
       break;
     
     case 400:
@@ -1026,7 +1038,7 @@ function updateCursor() {
       mouseY >= height - 81 &&
       mouseY <= height - 19)
     ||
-    (stage === 29 &&
+    (stage === 30 &&
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
       mouseY >= height - 81 &&
@@ -1102,6 +1114,7 @@ function mouseClicked() {
 //   } 
 // }
 
+ // 바탕화면이 보이는 stage 정의
   if (
     stage === 7 ||
     stage === 9 ||
@@ -1111,7 +1124,7 @@ function mouseClicked() {
     stage === 20 ||
     stage === 24 ||
     stage === 26 ||
-    stage === 28
+    stage === 29
   ) {
     let layout = getIconLayout();
     let activeKey = getActiveIconName();
@@ -1129,7 +1142,8 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 12 || stage === 21 || stage === 29 ) {
+  // 모스부호 스테이지 정의
+  if (stage === 12 || stage === 21 || stage === 30 ) {
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -1151,7 +1165,7 @@ function mouseClicked() {
 
       // 모든 창 닫혔는지 확인
       if (errors.length === 0) {
-        stage = 14 // 원하는 다음 스테이지 번호로 바꾸세요
+        stage++; // 원하는 다음 스테이지 번호로 바꾸세요
       }
 
       return; // 한 번에 하나만 닫기
@@ -1176,8 +1190,8 @@ function mousePressed() {
   if (stage === 8){
     doctaskDay1.mousePressed();
   }
-
-  if (stage === 10 || stage === 27) {
+    //드래그 업무 쓰는 스테이지지
+  if (stage === 10 || stage === 28) {
     for (let s of sentenceObjs) {
       s.state = "default";
     }
@@ -1208,8 +1222,8 @@ function mouseReleased() {
   if (stage === 8){
     doctaskDay1.mouseReleased();
   }
-
-  if (stage === 10 || stage === 27) {
+    //드래그 쓰는 스테이지지
+  if (stage === 10 || stage === 28) {
     dragEndX = mouseX;
     dragEndY = mouseY;
     isDragging = false;
@@ -1393,8 +1407,8 @@ function getIconLayout() {
 
 // 배경화면 아이콘 처리 관련 함수 2
 function getActiveIconName() {
-  if (stage === 7 | stage === 15 | stage === 24 ) return "file";
-  if (stage === 9 | stage === 17 | stage === 26 ) return "doc";
+  if (stage === 7 | stage === 16 | stage === 24 ) return "file";
+  if (stage === 9 | stage === 18 | stage === 26 ) return "doc";
   if (stage === 11 | stage === 20 | stage === 28 ) return "sat";
   return null;
 }
@@ -1441,12 +1455,12 @@ function checkMorseAnswer() {
   if (
     (stage === 12 && codeCheck === "제약") ||
     (stage === 21 && codeCheck === "생명") ||
-    (stage === 29 && codeCheck === "살려줘")
+    (stage === 30 && codeCheck === "살려줘")
   ) {
     resultMessage = "성공입니다.";
     morseCorrect = true;
     morseCheckTime = millis(); 
-  } else if (stage === 29 && codeCheck === "초기화") {
+  } else if (stage === 30 && codeCheck === "초기화") {
     resultMessage = "시스템 초기화 중 ...";
     isResetTriggered = true;
     resetTriggeredTime = millis();
