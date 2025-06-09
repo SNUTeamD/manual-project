@@ -16,7 +16,7 @@ constructor() {
   { speaker: "김철수", text: "매뉴얼 ... 잘 지키고 계시죠?" },
   { speaker: "김철수", text: "잘 지킬거라 믿습니다."},
   { speaker: "PLAYER", text: "내 대답도 듣지 않고 사라졌다." },
-  { speaker: "PLAYER", text: "여기 사람들은 자기 할말만 하고 사라지는 게 버릇인가보다." },
+  { speaker: "PLAYER", text: "여기 사람들은 자기 할 말만 하고 사라지는 게 버릇인가보다." },
   { speaker: "PLAYER", text: "이거 하지 말까 하는 생각이 또 들었지만 이미 발을 담군 이상 .." },
   { speaker: "PLAYER", text: "어쨌든 이게 내 일이니까. 하는 데까진 해보자." }
 ];
