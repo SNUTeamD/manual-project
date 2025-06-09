@@ -69,6 +69,7 @@ constructor() {
     }else if(this.currentTextIndex >4 && this.currentTextIndex <=6 ){
       this.drawChulSu();
     }
+    
     // 철수 괴수화 코드
     // 👾 괴인 이미지 잠깐 등장
 if (this.showChulSuMonster) {
@@ -124,6 +125,7 @@ if (this.currentTextIndex === 5 && !this.chulSuMonsterShown && !this.showChulSuM
       fill(60, 215);
       noStroke();
       rectMode(CENTER);
+
       rect(boxX + 235, boxY + 15, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
