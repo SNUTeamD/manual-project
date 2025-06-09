@@ -86,6 +86,7 @@ if (this.currentTextIndex === 5 && !this.chulSuMonsterShown && !this.showChulSuM
   this.chulSuMonsterStartTime = millis();
 }
 
+
     this.drawTextbox();
   }
 
@@ -159,22 +160,38 @@ drawChulSuMonster() {
   let chulSuMonW = 550;
   let chulSuMonH = this.chulSuMonster.height * (chulSuMonW / this.chulSuMonster.width);
   let imgX = 20;
-  let imgY = height - height / 4 -chulSuMonH + 185;
+  let imgY = height - height / 4 - chulSuMonH + 185;
+
+  // 기본 이미지 출력 (중앙 기준)
   image(this.chulSuMonster, imgX, imgY, chulSuMonW, chulSuMonH);
 
+  // 글리치 효과 (RGB 분리 + 흔들림 더 강하게)
   for (let i = 0; i < 3; i++) {
-    let offsetX = random(-5, 5); // 좌우 랜덤 흔들림
-    let offsetY = random(-5, 5);
+    let offsetX = random(-10, 10); // 좌우 흔들림 확대
+    let offsetY = random(-8, 8);   // 상하 흔들림 확대
     let tintColor;
     if (i === 0) tintColor = [255, 0, 0];     // 빨강
     else if (i === 1) tintColor = [0, 255, 255]; // 청록
     else tintColor = [255, 255, 255];         // 흰색
 
-    tint(...tintColor, 180); // 투명도 조절
+    tint(...tintColor, 160); // 투명도 조절
     image(this.chulSuMonster, imgX + offsetX, imgY + offsetY, chulSuMonW, chulSuMonH);
   }
 
-  noTint(); // 이후 이미지에 영향 안 주게
+  noTint();
+
+  // 노이즈/글리치용 슬라이스 라인 효과 추가
+  for (let i = 0; i < 5; i++) {
+    let sliceY = int(random(imgY, imgY + chulSuMonH));
+    let sliceH = int(random(5, 20));
+    let glitchOffset = int(random(-20, 20));
+
+    copy(
+      this.chulSuMonster,
+      0, sliceY - imgY, this.chulSuMonster.width, sliceH,
+      imgX + glitchOffset, sliceY, chulSuMonW, sliceH
+    );
+  }
 }
 
 
