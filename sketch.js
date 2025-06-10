@@ -63,7 +63,6 @@ let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
 let endingAStarted = false;
-let glitchDuration = 2000;
 
 //틀린 횟수 세기
 let wrongCount =0;
