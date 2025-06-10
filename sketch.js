@@ -1618,7 +1618,7 @@ function checkMorseAnswer() {
     resultMessage = "성공입니다.";
     morseCorrect = true;
     morseCheckTime = millis(); 
-  } else if (stage === 30 && codeCheck === "초기화") {
+  } else if (stage === 30 && codeCheck === "/456827") {
     resultMessage = "시스템 초기화 중 ...";
     isResetTriggered = true;
     resetTriggeredTime = millis();
