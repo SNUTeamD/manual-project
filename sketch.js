@@ -26,6 +26,8 @@ let nameInput, codeInput;
 
 // 폴더에 문서 넣는 업무(Day1 업무1) 관련 변수들
 let doctaskDay1;
+let doctaskDay2;
+let doctaskDay3;
 let folderIcon, folderDoc;
 
 // 업무 2 관련 변수
@@ -189,6 +191,12 @@ function setup() {
   // Day1 업무1
   doctaskDay1 = new Day1Task1();
   doctaskDay1.start();
+  // Day2 업무1
+  doctaskDay2 = new Day2Task1(); 
+  doctaskDay2.start();
+  // Day3 업무1
+  doctaskDay3 = new Day3Task1(); 
+  doctaskDay3.start();
   // 엔딩 초기화
   endingA.start();
   endingC.start();
@@ -656,8 +664,7 @@ function draw() {
 
     case 16:
       // 여기에 둘째 날 업무 1 코드 넣어주세요
-      stage ++;
-
+      doctaskDay2.update();
       break;
 
     case 17: // 바탕화면 2
@@ -802,9 +809,7 @@ function draw() {
       break;
     
     case 25:
-      // 셋째 날 업무 1은 여기에
-      stage ++;
-
+      doctaskDay3.update();
       break;
 
     case 26: // 바탕화면 2
@@ -1299,6 +1304,9 @@ function mousePressed() {
     dragStartY = mouseY;
     isDragging = true;
   }
+  if (stage === 16){
+     doctaskDay2.mousePressed();
+  }
   // afterDay들 마우스 처리
   if(stage === 19){
     afterDay1.mousePressed();
@@ -1306,6 +1314,9 @@ function mousePressed() {
 
   if(stage===22){
     afterDay2.mousePressed();
+  }
+  if (stage === 25){
+     doctaskDay3.mousePressed();
   }
 
   if (stage === 400) {
@@ -1318,6 +1329,12 @@ function mousePressed() {
 function mouseDragged() {
   if (stage === 8){
     doctaskDay1.mouseDragged();
+  }
+  if (stage === 16) {
+    doctaskDay2.mouseDragged();
+  }
+  if (stage === 25) {
+    doctaskDay2.mouseDragged();
   }
 }
 
@@ -1377,6 +1394,12 @@ function mouseReleased() {
       //틀린 횟수 세기
       wrongAction();
     }
+  }
+  if (stage === 16) {
+    doctaskDay2.mouseReleased();
+  }
+  if (stage === 25) {
+    doctaskDay3.mouseReleased();
   }
 }
 

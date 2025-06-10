@@ -1,18 +1,19 @@
 // 실패 시 stage 분기 필요
 
-class Day1Task1 {
+class Day3Task1 {
   constructor() {
     this.folders = [];
     this.docs = [];
-    this.docNames = ["까치", "은행나무", "해파리", "사슴", "고양이", "민들레", "원숭이"];
+    this.docNames = ["공황", "좌절", "혼란", "불안", "공포", "망상", "분노", "초조"];
     this.answerMap = {
-      "까치": "동물",
-      "은행나무": "식물",
-      "해파리": "동물",
-      "사슴": "동물",
-      "고양이": "동물",
-      "민들레": "식물",
-      "원숭이": "동물"
+      "공황": "포집용",
+      "절망": "포집용",
+      "혼란": "포집용",
+      "불안": "포집용",
+      "공포": "감정 연구",
+      "망상": "포집용",
+      "분노": "포집용",
+      "초조": "포집용"
     };
 
     this.isInitialized = false;
@@ -34,12 +35,12 @@ class Day1Task1 {
     fill(255);
     textSize(16);
     textAlign(CENTER, TOP);
-    text("문서를 마우스로 클릭해 선택하세요. 식물 이름을 가진 문서는 ‘식물’ 폴더에, \n동물 이름을 가진 문서는 ‘동물’ 폴더에 넣어주세요. \n분류에 맞게 문서를 옮기면, 자동으로 업무가 완료됩니다.", width / 2, 30);
+    text("문서를 마우스로 클릭해 선택하세요. 인간이 보이는 감정 문서는 ‘포집용’ 폴더에, \n???이 ??취하는 감??문서는 ‘감정 연구’ 폴더에 넣어주세요. \n???에영양되는것만모아서??>&%를 옮기면, 자동으로 ???로 전송이 완료됩니다.", width / 2, 40);
 
     if (!this.isInitialized) {
       // 폴더 위치 설정
-      this.folders.push(new MyFolder(width / 3, 200, 100, 60, "동물"));
-      this.folders.push(new MyFolder(2 * width / 3, 200, 100, 60, "식물"));
+      this.folders.push(new MyFolder(width / 3, 200, 100, 60, "포집용"));
+      this.folders.push(new MyFolder(2 * width / 3, 200, 100, 60, "감정 연구"));
 
       // 문서들 배치
       let cols = 4;
