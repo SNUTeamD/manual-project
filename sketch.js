@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 16;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -64,6 +64,7 @@ let resetTriggeredTime = 0;
 let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
+let endingD1, endingD2; // 엔딩 D
 let endingAStarted = false;
 
 //틀린 횟수 세기
@@ -111,6 +112,10 @@ function preload() {
   // 엔딩 C
   endingC = new EndingC();
   endingC.preload();
+  // 엔딩 D
+  endingD1 = new EndingD1();
+  endingD2 = new EndingD2();
+  endingD2.preload();
   //Day 1이 끝나고
   afterDay1 = new AfterDay1();
   afterDay1.preload();
@@ -194,7 +199,9 @@ function setup() {
   // 엔딩 초기화
   endingA.start();
   endingC.start();
-//Day 마치고 초기화
+  endingD1.start();
+  endingD2.start();
+  //Day 마치고 초기화
   afterDay1.start();
   afterDay2.start();
 }
@@ -1080,6 +1087,15 @@ function draw() {
         // 엔딩 C
         endingC.update();
       break;
+    case 600:
+        // 엔딩 D
+        endingD1.update();
+      break;
+    case 601:
+       // 엔딩 D 연결
+       endingD2.update();
+       break;
+       
   }
   updateCursor();
   drawManual(); // 매뉴얼 표시
@@ -1291,6 +1307,9 @@ function mousePressed() {
 
   if (stage === 500) {
     endingC.mousePressed();}
+  if (stage === 601) {
+    endingD2.mousePressed();
+  }
 }
 
 function mouseDragged() {
