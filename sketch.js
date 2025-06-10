@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 3;
+let stage = 16;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -63,6 +63,16 @@ let endingA;  // 엔딩 A
 let endingB; // 엔딩 B
 let endingC; // 엔딩 C
 let endingAStarted = false;
+let glitchDuration = 2000;
+
+//틀린 횟수 세기
+let wrongCount =0;
+let showImage = false;
+let imageStartTime = 0;
+let showDuration = 2000;
+let wrongImage;
+let warningPositions = []; // "틀리지마" 위치들 저장할 배열
+let warningCount = 10; // 몇 개 표시할지
 
 function preload() {
   // 폰트 불러오기
@@ -77,6 +87,7 @@ function preload() {
   folderDoc = loadImage('assets/folderDoc.png');
   myDesk = loadImage('assets/내 사무실 자리.png');
   thisIsManual = loadImage('assets/이것은 매뉴얼.png');
+  wrongImage =loadImage('assets/왜틀려.png');
 
   // 아이콘들 (활성/비활성) 불러오기
   activeFileIcon = loadImage("assets/파일 아이콘.png");
@@ -720,6 +731,23 @@ function draw() {
         resultMessage = ""
         codeInitialized = false;
       }
+       //틀릴 때 이미지
+      if (showImage) {
+        let elapsed = millis() - imageStartTime;
+      if (elapsed < showDuration) {
+      tint(255,127);
+      image(wrongImage, 0, 0, width, height); // 전체화면에 이미지
+      noTint();
+      fill(255, 0, 0);
+      textSize(48);
+      for (let pos of warningPositions) {
+        text("틀리지마", pos.x, pos.y);
+      }
+
+      } else {
+      showImage = false; // 시간 지나면 안 보이게
+    }
+  }
 
       break;
 
@@ -808,6 +836,8 @@ function draw() {
       for (let e of errors) {
       e.display();
       }
+
+    
       break;
 
     case 28: 
@@ -907,6 +937,23 @@ function draw() {
         }
         text(resultMessage, width - 355, 180);
       }
+       //틀렸을 때 wrongAction 이미지 보이게
+      if (showImage) {
+        let elapsed = millis() - imageStartTime;
+      if (elapsed < showDuration) {
+      tint(255,127);
+      image(wrongImage, 0, 0, width, height); // 전체화면에 이미지
+      noTint();
+      fill(255, 0, 0);
+      textSize(48);
+      for (let pos of warningPositions) {
+        text("틀리지마", pos.x, pos.y);
+      }
+
+      } else {
+      showImage = false; // 시간 지나면 안 보이게
+    }
+  }
 
       break;
 
@@ -970,6 +1017,25 @@ function draw() {
         fill(255);
         text(resultMessage, width / 2, height / 2 + 48);
       }
+        //틀릴 때 이미지
+      if (showImage) {
+        let elapsed = millis() - imageStartTime;
+      if (elapsed < showDuration) {
+      tint(255,127);
+      image(wrongImage, 0, 0, width, height); // 전체화면에 이미지
+      noTint();
+      fill(255, 0, 0);
+      textSize(48);
+      for (let pos of warningPositions) {
+        text("틀리지마", pos.x, pos.y);
+      }
+
+      } else {
+      showImage = false; // 시간 지나면 안 보이게
+    }
+  }
+      
+      
 
       // 정답일 때: 엔딩 A
       if (morseCorrect && millis() - morseCheckTime > 1500) {
@@ -1276,6 +1342,8 @@ function mouseReleased() {
     } else {
       fill(255, 50, 50);
       resultMessage = "실패입니다. 다시 시도하세요.";
+      //틀린 횟수 세기
+      wrongAction();
     }
   }
 }
@@ -1474,5 +1542,25 @@ function checkMorseAnswer() {
     resultMessage = "실패입니다. 다시 시도하세요.";
     morseCorrect = false;
     morseCheckTime = 0;
+    wrongAction();
   }
 }
+
+function wrongAction() {
+  wrongCount++;
+  console.log(wrongCount);
+
+  if (wrongCount === 3) {
+    showImage = true;
+    imageStartTime = millis();
+    wrongCount =0;
+
+    warningPositions = [];
+    for (let i = 0; i < warningCount; i++) {
+      let x = random(100, width - 100);
+      let y = random(100, height - 100);
+      warningPositions.push({ x: x, y: y });
+    }
+  }
+}
+
