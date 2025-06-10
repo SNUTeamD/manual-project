@@ -1247,20 +1247,24 @@ function mouseClicked() {
     }
   }
   
-  if (error1 && error1.isClicked(mouseX, mouseY)) {
+  if (stage == 10){
+    if (error1 && error1.isClicked(mouseX, mouseY)) {
     stage = 400;
     return;
   }
-
-  if (error2 && error2.isClicked(mouseX, mouseY)) {
+}
+  if (stage == 15){
+    if (error2 && error2.isClicked(mouseX, mouseY)) {
     stage = 400;
     return;
   }
-
-  if (error3 && error3.isClicked(mouseX, mouseY)) {
+}
+  if (stage == 24){
+    if (error3 && error3.isClicked(mouseX, mouseY)) {
     stage = 400;
     return;
   }
+}
   // 뒤에서부터 검사해서 삭제 시 인덱스 밀림 방지
   for (let i = errors.length - 1; i >= 0; i--) {
     if (errors[i].isXBtnClicked(mouseX, mouseY)) {
