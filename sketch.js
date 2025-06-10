@@ -7,6 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -409,8 +410,6 @@ function draw() {
     case 8:
       // Day 1 -업무 1: 파일 정리 업무
        doctaskDay1.update(); 
-      // 일단 흐름 파악하려고 주석 처리했어요
-      // 코드 연결하시고 주석 처리 해제하심 됩니다
       
       break;
 
@@ -671,12 +670,14 @@ function draw() {
     case 16:
       // 여기에 둘째 날 업무 1 코드 넣어주세요
       doctaskDay2.update();
+
       break;
 
     case 17: // 바탕화면 2
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -761,7 +762,7 @@ function draw() {
         resultMessage = ""
         codeInitialized = false;
       }
-       //틀릴 때 이미지
+       // 틀릴 때 이미지
       if (showImage) {
         let elapsed = millis() - imageStartTime;
       if (elapsed < showDuration) {
@@ -823,6 +824,7 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -971,7 +973,7 @@ function draw() {
         }
         text(resultMessage, width - 355, 180);
       }
-       //틀렸을 때 wrongAction 이미지 보이게
+       // 틀렸을 때 wrongAction 이미지 보이게
       if (showImage) {
         let elapsed = millis() - imageStartTime;
       if (elapsed < showDuration) {
@@ -1051,7 +1053,7 @@ function draw() {
         fill(255);
         text(resultMessage, width / 2, height / 2 + 48);
       }
-        //틀릴 때 이미지
+        // 틀릴 때 이미지
       if (showImage) {
         let elapsed = millis() - imageStartTime;
       if (elapsed < showDuration) {
@@ -1212,8 +1214,8 @@ function mouseClicked() {
   if (stage === 6 || stage === 14) {
     stage ++;
   }
-//stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
-//2번 눌러야 다음으로 진행됩니다
+// stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
+// 2번 눌러야 다음으로 진행됩니다
   if (stage === 23) {
   if (stageHandled<1) {
     stageHandled++
@@ -1528,6 +1530,7 @@ function keyPressed() {
     return;
   }
 
+  // stage 3 이후에 m키 누르면 매뉴얼이 나오도록
   if (stage >= 3 && key === 'm') {
     showManual = !showManual;
   }
@@ -1611,7 +1614,7 @@ function checkMorseAnswer() {
     resultMessage = "성공입니다.";
     morseCorrect = true;
     morseCheckTime = millis(); 
-  } else if (stage === 30 && codeCheck === "/456827") {
+  } else if (stage === 30 && codeCheck === "초기화") {
     resultMessage = "시스템 초기화 중 ...";
     isResetTriggered = true;
     resetTriggeredTime = millis();
