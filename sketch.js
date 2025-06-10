@@ -215,6 +215,10 @@ function setup() {
 // ====== 메인 화면 반복 그리기 ======
 function draw() {
   background(0);
+  textFont(myFont);
+  textSize(35);
+  textAlign(CENTER, CENTER);
+
 
   // 입력창 보여줄 stage 설정
   if (stage === 0) {
