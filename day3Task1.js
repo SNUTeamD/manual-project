@@ -4,7 +4,7 @@ class Day3Task1 {
   constructor() {
     this.folders = [];
     this.docs = [];
-    this.docNames = ["공황", "좌절", "혼란", "불안", "공포", "망상", "분노", "초조"];
+    this.docNames = ["공황", "절망", "혼란", "불안", "공포", "망상", "분노", "초조"];
     this.answerMap = {
       "공황": "포집용",
       "절망": "포집용",
@@ -35,6 +35,7 @@ class Day3Task1 {
     fill(255);
     textSize(16);
     textAlign(CENTER, TOP);
+    textFont(myFont);
     text("문서를 마우스로 클릭해 선택하세요. 인간이 보이는 감정 문서는 ‘포집용’ 폴더에, \n???이 ??취하는 감??문서는 ‘감정 연구’ 폴더에 넣어주세요. \n???에영양되는것만모아서??>&%를 옮기면, 자동으로 ???로 전송이 완료됩니다.", width / 2, 40);
 
     if (!this.isInitialized) {

@@ -7,7 +7,6 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // 시작 스테이지 설정
-let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -816,6 +815,7 @@ function draw() {
       break;
     
     case 25:
+      //문서 업무 3일차차
       doctaskDay3.update();
       break;
 
@@ -1336,7 +1336,7 @@ function mousePressed() {
     afterDay2.mousePressed();
   }
   if (stage === 25){
-     doctaskDay3.mousePressed();
+    doctaskDay3.mousePressed();
   }
 
   if (stage === 400) {
@@ -1357,7 +1357,7 @@ function mouseDragged() {
     doctaskDay2.mouseDragged();
   }
   if (stage === 25) {
-    doctaskDay2.mouseDragged();
+    doctaskDay3.mouseDragged();
   }
 }
 
