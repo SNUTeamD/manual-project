@@ -184,10 +184,6 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
 
-  textFont(myFont);
-  textSize(35);
-  textAlign(CENTER, CENTER);
-
   setupInputs();
   
   // 에러 1 유형의 텍스트 지정
@@ -998,7 +994,7 @@ function draw() {
           "키보드에서 /입력 후 초기화코드456827입력 시 시스템 재부팅이 가능합니다.",
           "",
           "3. 종합 분석",
-          "“이거 하지 말까?” 발언 3회 기록 → 감정 단백질 분해 시작, 무기력 에너지 추출 가능성 확인",
+          "“그만둘까?” 발언 3회 기록 → 감정 단백질 분해 시작, 무기력 에너지 추출 가능성 확인",
           "비록 약간의 반복적인 화면에 대한 스트레스와 피곤함이 보이지만 다른 개체에서는 안 보이는 성실도가 보임,",
           "관찰 기간 동안 대상은 명백한 업무 반응성 우수 ㄸner%^&로 분류됨."
         ];
@@ -1467,6 +1463,9 @@ function mousePressed() {
   }
   if (stage === 601) {
     endingD2.mousePressed();
+  }
+  if (stage ===601 && endingD2){
+  endingD2.handleClick();//다시 시작 코드
   }
 }
 
