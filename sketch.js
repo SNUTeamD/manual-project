@@ -5,7 +5,8 @@ let imgManual, imgResearcher, imgCompany, imgCode;
 let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
-//bgm 관련 변수들 선언 및 설정정
+
+//bgm 관련 변수들 선언 및 설정
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
