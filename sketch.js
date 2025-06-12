@@ -1157,8 +1157,6 @@ function draw() {
     
     // 정답일 때: 엔딩 A
     if (morseCorrect && millis() - morseCheckTime > 1500) {
-      endingA = new EndingA(playerName);
-      endingA.start();
       stage = 300;
       morseCorrect = false;
       resultMessage = "";
