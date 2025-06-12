@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 300;
+let stage = 20;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -431,6 +431,7 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -584,6 +585,7 @@ function draw() {
       rectMode(CORNER);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -660,7 +662,7 @@ function draw() {
       fill(0);
       typeText([
         ["휴우 어제는 힘든 하루였어 ..."],
-        ["고연봉이라서 지원한 프로젝트인데 .. 이거 하지 말까?"],
+        ["고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?"],
         ["아냐 아냐 그래도 어떻게 입사한건데 .. 일 해야지 ..."],
         ["내일 하루도 힘내보자! 아자아자!!"]
       ]);
@@ -694,6 +696,7 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -736,29 +739,30 @@ function draw() {
       break;
 
     case 18:
-  if (startTime === 0) {
-    startTime = millis();
-    console.log("Stage 18 시작 시간 기록:", startTime);
-  }
+      if (startTime === 0) {
+        startTime = millis();
+        console.log("Stage 18 시작 시간 기록:", startTime);
+      }
 
-  let elapsed = millis() - startTime;
+      let elapsed = millis() - startTime;
 
-  // 깜빡이는 글리치 느낌: 알파값을 랜덤으로 바꿔줌
-  let glitchAlpha = random(200, 255);  
-  tint(255, glitchAlpha);
-  image(fakeDoc, 0, 0, windowWidth, windowHeight);
-  noTint();
+      // 깜빡이는 글리치 느낌: 알파값을 랜덤으로 바꿔줌
+      let glitchAlpha = random(200, 255);  
+      tint(255, glitchAlpha);
+      image(fakeDoc, 0, 0, windowWidth, windowHeight);
+      noTint();
 
-  // 5초 후 스테이지 전환
-  if (elapsed > 5000) {
-    stage++;
-    startTime = 0; // 다음 스테이지에서 새 타이머 시작
-    console.log("5초 경과. 다음 스테이지로:", stage);
-  }
-  break;
+      // 5초 후 스테이지 전환
+      if (elapsed > 5000) {
+        stage++;
+        startTime = 0; // 다음 스테이지에서 새 타이머 시작
+        console.log("5초 경과. 다음 스테이지로:", stage);
+      }
+      break;
     
     case 19:
       afterDay1.update();
+
       break;
 
     case 20: // 바탕화면 3
@@ -868,6 +872,7 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -884,7 +889,7 @@ function draw() {
       break;
     
     case 25:
-      //문서 업무 3일차차
+      // 문서 업무 3일차
       doctaskDay3.update();
       break;
 
@@ -1171,16 +1176,34 @@ function draw() {
     
     case 400:
         // 엔딩 B
+      //bgm
+      if (!endingBbgm.isPlaying()) {
+        stopAllbgm();
+        endingBbgm.loop(); // 자동 반복
+        endingBbgm.setVolume(0.2);
+      }
         endingB.update();
       break;
 
     case 500:
         // 엔딩 C
+      //bgm
+      if (!endingCbgm.isPlaying()) {
+        stopAllbgm();
+        endingCbgm.loop(); // 자동 반복
+        endingCbgm.setVolume(0.2);
+      }
         endingC.update();
       break;
 
     case 600:
         // 엔딩 D
+      //bgm
+      if (!endingDbgm.isPlaying()) {
+        stopAllbgm();
+        endingDbgm.loop(); // 자동 반복
+        endingDbgm.setVolume(0.2);
+      }
         endingD1.update();
       break;
 
@@ -1336,18 +1359,21 @@ function mouseClicked() {
   if (stage == 10){
     if (error1 && error1.isClicked(mouseX, mouseY)) {
     stage = 400;
+    endingB.start();
     return;
   }
 }
   if (stage == 15){
     if (error2 && error2.isClicked(mouseX, mouseY)) {
     stage = 400;
+    endingB.start();
     return;
   }
 }
   if (stage == 24){
     if (error3 && error3.isClicked(mouseX, mouseY)) {
     stage = 400;
+    endingB.start();
     return;
   }
 }
@@ -1402,7 +1428,7 @@ function mousePressed() {
     afterDay1.mousePressed();
   }
 
-  if(stage===22){
+  if(stage === 22){
     afterDay2.mousePressed();
   }
   if (stage === 25){

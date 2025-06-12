@@ -163,7 +163,7 @@ class EndingB {
     this.stateStartTime = millis();
 
     // 지속 시간 (단위: ms)
-    this.blinkDuration = 4000;   // 4초 깜빡임
+    this.blinkDuration = 3000;   // 3초 깜빡임
     this.noiseDuration = 2000;   // 2초 노이즈
 
     // 대사 관련
@@ -178,7 +178,7 @@ class EndingB {
     this.displayedText = "";
     this.charIndex = 0;
     this.lastUpdateTime = 0;
-    this.delay = 50;
+    this.delay = 85;
     this.isTyping = false;
     this.clickReady = false;
 
@@ -210,6 +210,18 @@ class EndingB {
       this.drawTextbox();
       this.drawTyping();
     }
+  }
+
+  start() {
+  this.state = "blink";
+  this.stateStartTime = millis();
+  this.currentTextIndex = 0;
+  this.fullText = "";
+  this.displayedText = "";
+  this.charIndex = 0;
+  this.lastUpdateTime = 0;
+  this.isTyping = false;
+  this.clickReady = false;
   }
 
   drawBlink() {
