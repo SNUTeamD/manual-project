@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 26;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -69,6 +69,7 @@ let imgError_2; // 에러 2 유형 이미지
 let imgError_4; // 힌트 이미지
 let errors = [];
 const NUM_ERRORS = 7;
+let errorDisplay =false; // 에러 창 보이게 하는 변수
 
 // 마지막 날 엔딩 A, C, D 전환 관련 변수
 let isResetTriggered = false;
@@ -235,6 +236,7 @@ function setup() {
 
 // ====== 메인 화면 반복 그리기 ======
 function draw() {
+  console.log("prevStage:", draw.prevStage, "current stage:", stage);
   background(0);
   textFont(myFont);
   textSize(35);
@@ -948,43 +950,49 @@ function draw() {
       break;
 
     case 27:
-          // case 0 전용 변수들
-      if (typeof draw.errorIndex === 'undefined') {
-      draw.errorIndex = 0;
-      draw.lastErrorTime = millis();
-      draw.interval = 200;
-      draw.errorTexts = [
-        "7. 도망쳐.",
-        "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
-        "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
-        "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
-        "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
-        "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
-        "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
-      ];
-      }
+  if (draw.prevStage !== 27) {
+    // stage가 다시 27로 돌아왔을 때 초기화됨
+    draw.errorIndex = 0;
+    draw.lastErrorTime = millis();
+    draw.interval = 200;
+    draw.errorTexts = [
+      "7. 도망쳐.",
+      "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
+      "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
+      "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
+      "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
+      "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
+      "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
+    ];
+    errors = []; // error 창도 초기화
+  }
 
-      if (draw.errorIndex < NUM_ERRORS && millis() - draw.lastErrorTime > draw.interval) {
-      let relW = 0.4;
-      let relH = relW * (imgError_2.height / imgError_2.width);
-      let relX = random(0, 1 - relW);
-      let relY = random(0, 1 - relH);
+  // 에러창 생성
+  if (draw.errorIndex < draw.errorTexts.length && millis() - draw.lastErrorTime > draw.interval) {
+    let relW = 0.4;
+    let relH = relW * (imgError_2.height / imgError_2.width);
+    let relX = random(0, 1 - relW);
+    let relY = random(0, 1 - relH);
 
-      let msg = draw.errorTexts[draw.errorIndex];
-      errors.push(new ErrorWindow(imgError_2, relX, relY, relW, msg));
+    let msg = draw.errorTexts[draw.errorIndex];
+    errors.push(new ErrorWindow(imgError_2, relX, relY, relW, msg));
 
-      draw.errorIndex++;
-      draw.lastErrorTime = millis();
-      }
+    draw.errorIndex++;
+    draw.lastErrorTime = millis();
+  }
 
-      for (let e of errors) {
-      e.display();
-      }
+  for (let e of errors) {
+    e.display();
+  }
 
-    
-      break;
+  // 마지막에 현재 스테이지 저장
+  draw.prevStage = stage;
+
+  break;
 
     case 28: 
+    //위 에러 등장 초기화
+    draw.prevStage = stage;
       // Day 3 - 업무 2: 정크 데이터 처리
       fill(255);
       rect(50, 30, width - 100, height);
