@@ -9,7 +9,12 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
+<<<<<<< Updated upstream
 let stage = 500;
+=======
+let stage = 24;
+let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
+>>>>>>> Stashed changes
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -127,8 +132,8 @@ function preload() {
   // 엔딩 A
   endingA = new EndingA(playerName);
   // 엔딩 B
-  endingB = new EndingB();
-  endingB.preload();
+  //endingB = new EndingB();
+  //endingB.preload();
   // 엔딩 C
   endingC = new EndingC();
   endingC.preload();
@@ -742,6 +747,7 @@ function draw() {
       break;
 
     case 18:
+<<<<<<< Updated upstream
       if (startTime === 0) {
         startTime = millis();
         console.log("Stage 18 시작 시간 기록:", startTime);
@@ -762,6 +768,28 @@ function draw() {
         console.log("5초 경과. 다음 스테이지로:", stage);
       }
       break;
+=======
+    if (startTime === 0) {
+      startTime = millis();
+      console.log("Stage 18 시작 시간 기록:", startTime);
+    }
+
+    let elapsed = millis() - startTime;
+
+    // 깜빡이는 글리치 느낌: 알파값을 랜덤으로 바꿔줌
+    let glitchAlpha = random(200, 255);  
+    tint(255, glitchAlpha);
+    image(fakeDoc, 0, 0, windowWidth, windowHeight);
+    noTint();
+
+    // 5초 후 스테이지 전환
+    if (elapsed > 5000) {
+      stage++;
+      startTime = 0; // 다음 스테이지에서 새 타이머 시작
+      console.log("5초 경과. 다음 스테이지로:", stage);
+    }
+    break;
+>>>>>>> Stashed changes
     
     case 19:
       afterDay1.update();
@@ -1362,22 +1390,39 @@ function mouseClicked() {
   
   if (stage == 10){
     if (error1 && error1.isClicked(mouseX, mouseY)) {
-    stage = 400;
-    endingB.start();
-    return;
-  }
+      returnStage = 7; // Day1 화면으로 돌아가기
+      stage = 400;
+      endingB = new EndingB();     // ✅ 새 인스턴스 생성
+      endingB.preload();           // ✅ 이미지 다시 불러오기
+      endingB.start();             // ✅ 상태 초기화
+      return;
+    }
 }
   if (stage == 15){
     if (error2 && error2.isClicked(mouseX, mouseY)) {
+    returnStage = 15; // 현재 스테이지 저장
     stage = 400;
+<<<<<<< Updated upstream
     endingB.start();
+=======
+    endingB = new EndingB();     // ✅ 새 인스턴스 생성
+    endingB.preload();           // ✅ 이미지 다시 불러오기
+    endingB.start();             // ✅ 상태 초기화
+>>>>>>> Stashed changes
     return;
   }
 }
   if (stage == 24){
     if (error3 && error3.isClicked(mouseX, mouseY)) {
+    returnStage = 24; // 현재 스테이지 저장
     stage = 400;
+<<<<<<< Updated upstream
     endingB.start();
+=======
+    endingB = new EndingB();     // ✅ 새 인스턴스 생성
+    endingB.preload();           // ✅ 이미지 다시 불러오기
+    endingB.start();             // ✅ 상태 초기화
+>>>>>>> Stashed changes
     return;
   }
 }
