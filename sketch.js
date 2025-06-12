@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 17;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -135,12 +135,12 @@ function preload() {
   //endingB = new EndingB();
   //endingB.preload();
   // 엔딩 C
-  endingC = new EndingC();
-  endingC.preload();
+  //endingC = new EndingC();
+  //endingC.preload();
   // 엔딩 D
-  endingD1 = new EndingD1();
-  endingD2 = new EndingD2(playerName);
-  endingD2.preload();
+  //endingD1 = new EndingD1();
+  //endingD2 = new EndingD2(playerName);
+  //endingD2.preload();
   //Day 1이 끝나고
   afterDay1 = new AfterDay1();
   afterDay1.preload();
@@ -220,9 +220,9 @@ function setup() {
   // doctaskDay3.start();
   // 엔딩 초기화
   // endingA.start();
-  endingC.start();
-  endingD1.start();
-  endingD2.start();
+  // endingC.start();
+  //endingD1.start();
+  //endingD2.start();
   //Day 마치고 초기화
   //afterDay1.start();
   //afterDay2.start();
@@ -267,7 +267,12 @@ function draw() {
       textSize(30);
       textAlign(CENTER, CENTER);
       text('확인', width / 2 + 170, height / 2 + 24);
-
+      
+      //엔딩 보고 처음으로 돌아오면 start 초기화
+      endingAStarted = false;
+      endingCStarted = false;
+      endingD1Started = false;
+      endingD2Started = false;
       break;
 
     case 1:
@@ -1211,7 +1216,19 @@ function draw() {
         endingCbgm.loop(); // 자동 반복
         endingCbgm.setVolume(0.2);
       }
-        endingC.update();
+
+      //엔딩 C 초기화 코드
+      if (!endingCStarted) {
+        endingC = new EndingC();
+        endingC.preload();
+        endingC.start();
+        endingCStarted = true;
+      }
+
+      if (endingC) {
+        endingC.update(); // 매 프레임마다 update()는 호출되어야 함
+      }
+        // endingC.update();
       break;
 
     case 600:
@@ -1222,12 +1239,32 @@ function draw() {
         endingDbgm.loop(); // 자동 반복
         endingDbgm.setVolume(0.2);
       }
-        endingD1.update();
+      //엔딩 D 초기화 코드
+      if (!endingD1Started) {
+        endingD1 = new EndingD1();
+        endingD1.start();
+        endingD1Started = true;
+      }
+
+      if (endingD1) {
+        endingD1.update(); // 매 프레임마다 update()는 호출되어야 함
+      }
+        //endingD1.update();
       break;
 
     case 601:
        // 엔딩 D 연결
-       endingD2.update();
+       if (!endingD2Started) {
+        endingD2 = new EndingD2(playerName);
+        endingD2.preload();
+        endingD2.start();
+        endingD2Started = true;
+      }
+
+      if (endingD2) {
+        endingD2.update(); // 매 프레임마다 update()는 호출되어야 함
+      }
+       //endingD2.update();
        break;
        
   }

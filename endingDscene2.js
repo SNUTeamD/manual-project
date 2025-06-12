@@ -24,7 +24,7 @@ class EndingD2 {
     { speaker: "도재인", text: `그것들은 인간의 공포를 에너지원으로 삼고 있어요. ${this.playerName}님이 있던 곳은 그 에너지 전환 기술을 만들어낸 회사고요.` },
     { speaker: "도재인", text: `회사는 매뉴얼과 숨겨진 메시지를 통해 ${this.playerName}님에게 공포심을 주고, 그걸 통해서 에너지화에 적합한 인간을 찾아내고 있었던 거죠.`},
     { speaker: "도재인", text: "하지만, 걱정하지 마세요! 여기는 회사가 전혀 모르는 곳이에요. 정말이지, ‘아주’ 안전한 곳이랍니다."},
-    { speaker: "도재인", text: "...여긴 안전한 곳이에요."},
+    { speaker: "도재인", text: "...여긴, 안전한 곳이에요."},
     { speaker: "PLAYER", text: "방금 .. 뭐였지?"},
     { speaker: "도재인", text: `그러나 여기에서는 ${this.playerName}님이 지켜주셔야 할 몇 가지 사항들이 있어요. 여기 그 사항들을 적은 매뉴얼이에요.`},
     { speaker: "도재인", text: "반드시 매뉴얼을 따라주세요."}
@@ -95,7 +95,7 @@ class EndingD2 {
 
     let scale = 0.5; // 이미지 80% 크기로 줄이기
     imageMode(CENTER);
-    if (this.currentTextIndex === 16){
+    if (this.currentTextIndex === 17){
         let imgW = this.endingD1Bg.width * scale;
         let imgH = this.endingD1Bg.height * scale;
         image(this.endingD1Bg, width / 2, height / 2, imgW, imgH);
@@ -168,7 +168,7 @@ class EndingD2 {
     if (this.displayedText === "반드시 매뉴얼을 따라주세요.") {
       fill(255, 0, 0); // 빨간색
     } else {
-      fill(255); // 흰색
+      fill(0); // 검은색
     }
     text(this.displayedText, boxX + textMargin, boxY + textMargin + 30, boxW - textMargin * 2, boxH - textMargin * 2);
   }
@@ -250,7 +250,7 @@ class EndingD2 {
   }
 
   drawResearcher() {
-    if (this.currentTextIndex === 14) {
+    if (this.currentTextIndex === 15) {
       const w = 1500;
       const h = this.JainGlitImg.height * (w / this.JainGlitImg.width);
       const x = width/2;

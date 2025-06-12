@@ -82,7 +82,7 @@ class EndingC {
       textAlign(CENTER, CENTER);
       textFont("Courier New");
       text("#End C: Fusion Ending", width / 2, height / 2);
-
+     
       if (this.endingShownTime === null) {
         this.endingShownTime = millis();
       }
@@ -172,11 +172,14 @@ class EndingC {
       text("SYSTEM", boxX + 215, boxY + 10);
     }
 
-    fill(255);
+    
     textAlign(CENTER, CENTER);
     textSize(30);
     let textMargin = 30;
-    
+    if (this.currentTextIndex === 16){
+      fill(255, 0, 0);
+    } else{ fill(255);
+    }
     text(this.displayedText, boxX + textMargin, boxY + textMargin + 30, boxW - textMargin * 2, boxH - textMargin * 2);
   }
 
