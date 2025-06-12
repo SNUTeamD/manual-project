@@ -50,6 +50,7 @@ let morseCheckTime = 0;
 let codeInitialized = false;
 
 // day 전환 변수
+let afterDay1Started = false;
 let afterDay1;
 let afterDay2Started = false;
 let afterDay2;
@@ -223,8 +224,8 @@ function setup() {
   endingD1.start();
   endingD2.start();
   //Day 마치고 초기화
-  afterDay1.start();
-  afterDay2.start();
+  //afterDay1.start();
+  //afterDay2.start();
 }
 
 // ====== 메인 화면 반복 그리기 ======
@@ -765,6 +766,11 @@ function draw() {
         break;
     
     case 19:
+      if (!afterDay1Started) {
+        afterDay1.start();
+        afterDay1Started = true;
+      }
+
       afterDay1.update();
 
       break;
