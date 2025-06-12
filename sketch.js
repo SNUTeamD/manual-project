@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 600;
+let stage = 15;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -64,6 +64,7 @@ let error2;
 let error3;
 let imgError_1; // 에러 1 유형 이미지
 let imgError_2; // 에러 2 유형 이미지
+let imgError_4; // 힌트 이미지
 let errors = [];
 const NUM_ERRORS = 7;
 
@@ -114,6 +115,7 @@ function preload() {
   // 에러 이미지 불러오기
   imgError_1 = loadImage('assets/에러창.png');
   imgError_2 = loadImage('assets/에러창2.png');
+  imgError_4 = loadImage('assets/에러창-예.png');
 
   // bgm 불러오기
   beforeDay1bgm = loadSound('audio/업무시작전브금.mp3')
@@ -195,10 +197,7 @@ function setup() {
   error1.start();
 
   error2 = new Error1(
-    imgError_1,
-    "From: 연구원 B(12팀)\n To: 수거조정실 전체\nSubject: 오늘 삭제 처리 후 커피?\n오늘 027 반응 참 재밌었죠.\n끝나고 A-구역 자동판매기 앞에서 모일까요?\n신상 나왔다던데, 어제 것보다 진하면 좋겠(...)", // 30초 이전에 표시할 텍스트
-    "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\nㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ\n"  // 30초 이후에 표시할 텍스트
-  );
+    imgError_4 );
   error2.start();
 
   error3 = new Error1(
