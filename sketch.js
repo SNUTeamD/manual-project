@@ -51,6 +51,7 @@ let codeInitialized = false;
 
 // day 전환 변수
 let afterDay1;
+let afterDay2Started = false;
 let afterDay2;
 // 너무 빨리 넘어감 방지 코드
 let stageHandled = 0;
@@ -78,9 +79,6 @@ let endingB; // 엔딩 B
 let endingC; // 엔딩 C
 let endingD1, endingD2; // 엔딩 D
 let endingAStarted = false;
-let endingCStarted = false;
-let endingD1Started = false;
-let endingD2Started = false;
 
 //틀린 횟수 세기
 let wrongCount =0;
@@ -136,8 +134,8 @@ function preload() {
   //endingB = new EndingB();
   //endingB.preload();
   // 엔딩 C
-  // endingC = new EndingC();
-  // endingC.preload();
+  endingC = new EndingC();
+  endingC.preload();
   // 엔딩 D
   //endingD1 = new EndingD1();
   //endingD2 = new EndingD2(playerName);
@@ -777,7 +775,8 @@ function draw() {
       break;
 
     case 20: // 바탕화면 3
-        fill(150, 150, 255);
+      afterDay1Started = false;   //앞의 스크립트 초기화 함수
+          fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
         textSize(30);
@@ -858,11 +857,17 @@ function draw() {
       break;
 
     case 22:
+      if (!afterDay2Started) {
+        afterDay2.start();
+        afterDay2Started = true;
+      }
+
       afterDay2.update();
 
       break;
 
     case 23: // Day 3로 전환
+    afterDay2Started = false;//앞의 스크립트 초기화 함수
     stopAllbgm();
     fill(255);
     textSize(70)

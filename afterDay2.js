@@ -43,6 +43,17 @@ constructor() {
   }
 
   start() {
+     this.currentTextIndex = 0;
+    this.fullText = "";
+    this.displayedText = "";
+    this.charIndex = 0;
+    this.lastUpdateTime = 0;
+    this.delay = 50;
+    this.isTyping = true;
+    this.clickReady = false;
+    this.endc1Reached = false;
+    this.chulSuMonsterShown = false;
+
     this.phaseStartTime = millis();
     this.loadNextText();
   }
@@ -107,6 +118,7 @@ if (this.currentTextIndex === 5 && !this.chulSuMonsterShown && !this.showChulSuM
   }
 
   drawTextbox() {
+    if (this.currentTextIndex >= this.texts.length) return;
     let speaker = this.texts[this.currentTextIndex].speaker;
     
     let boxW = width * 0.9;
@@ -195,6 +207,8 @@ drawChulSuMonster() {
 
 
   drawTyping() {
+    // 텍스트가 모두 끝났으면 더 이상 처리하지 않음
+  if (this.currentTextIndex >= this.texts.length) return;
     if (this.isTyping && this.charIndex < this.fullText.length) {
       if (millis() - this.lastUpdateTime > this.delay) {
         this.displayedText += this.fullText.charAt(this.charIndex);
@@ -232,6 +246,7 @@ drawChulSuMonster() {
   }
 
   loadNextText() {
+    if (this.currentTextIndex >= this.texts.length) return;
     let obj = this.texts[this.currentTextIndex];
     this.fullText = obj.text;
     this.displayedText = "";
@@ -244,6 +259,8 @@ drawChulSuMonster() {
 
   mousePressed() {
     if (this.phase !== 1) return;
+
+    if (this.currentTextIndex >= this.texts.length) return;
 
     let currentObj = this.texts[this.currentTextIndex];
     if (currentObj.lockInput) return;
