@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 17;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -50,6 +50,7 @@ let morseCheckTime = 0;
 let codeInitialized = false;
 
 // day 전환 변수
+let afterDay1Started = false;
 let afterDay1;
 let afterDay2;
 // 너무 빨리 넘어감 방지 코드
@@ -763,12 +764,18 @@ function draw() {
         break;
     
     case 19:
+       if (!afterDay1Started) {
+        afterDay1.start();
+        afterDay1Started = true;
+      }
       afterDay1.update();
 
       break;
 
     case 20: // 바탕화면 3
-        fill(150, 150, 255);
+    //앞의 스크립트 초기화 함수
+      afterDay1Started = false;
+          fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
         textSize(30);

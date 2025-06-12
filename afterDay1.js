@@ -46,6 +46,18 @@ class AfterDay1 {
   }
 
   start() {
+    this.currentTextIndex = 0;
+    this.fullText = "";
+    this.displayedText = "";
+    this.charIndex = 0;
+    this.lastUpdateTime = 0;
+    this.delay = 50;
+    this.isTyping = true;
+    this.clickReady = false;
+
+    this.endc1Reached = false;
+    this.janeMonsterShown = false;
+    this.endc1Reached = false; 
     this.phaseStartTime = millis();
     this.loadNextText();
   }
@@ -109,6 +121,7 @@ if (this.currentTextIndex === 8 && !this.janeMonsterShown && !this.showJaneMonst
   }
 
   drawTextbox() {
+    if (this.currentTextIndex >= this.texts.length) return;
     let speaker = this.texts[this.currentTextIndex].speaker;
     
     let boxW = width * 0.9;
@@ -183,43 +196,47 @@ drawJaneMonster() {
 
 
   drawTyping() {
-    if (this.isTyping && this.charIndex < this.fullText.length) {
-      if (millis() - this.lastUpdateTime > this.delay) {
-        this.displayedText += this.fullText.charAt(this.charIndex);
-        this.charIndex++;
-        this.lastUpdateTime = millis();
+  // 텍스트가 모두 끝났으면 더 이상 처리하지 않음
+  if (this.currentTextIndex >= this.texts.length) return;
+
+  if (this.isTyping && this.charIndex < this.fullText.length) {
+    if (millis() - this.lastUpdateTime > this.delay) {
+      this.displayedText += this.fullText.charAt(this.charIndex);
+      this.charIndex++;
+      this.lastUpdateTime = millis();
+    }
+  } else {
+    this.isTyping = false;
+    let currentObj = this.texts[this.currentTextIndex];
+
+    if (currentObj.lockInput) {
+      this.clickReady = false;
+      if (this.autoAdvanceTime === null) {
+        this.autoAdvanceTime = millis();
       }
     } else {
-      this.isTyping = false;
-      let currentObj = this.texts[this.currentTextIndex];
-
-      if (currentObj.lockInput) {
-        this.clickReady = false;
-        if (this.autoAdvanceTime === null) {
-          this.autoAdvanceTime = millis();
-        }
-      } else {
-        this.clickReady = true;
-      }
-    }
-
-    if (this.autoAdvanceTime !== null) {
-      let elapsed = millis() - this.autoAdvanceTime;
-
-      if (elapsed > this.autoDelay) {
-        if (this.currentTextIndex < this.texts.length - 1) {
-          this.currentTextIndex++;
-          this.loadNextText();
-        } else {
-          this.endc1Reached = true;
-        }
-
-        this.autoAdvanceTime = null;
-      }
+      this.clickReady = true;
     }
   }
 
+  if (this.autoAdvanceTime !== null) {
+    let elapsed = millis() - this.autoAdvanceTime;
+
+    if (elapsed > this.autoDelay) {
+      this.currentTextIndex++;
+      if (this.currentTextIndex < this.texts.length) {
+        this.loadNextText();
+      } else {
+        this.endc1Reached = true;
+      }
+      this.autoAdvanceTime = null;
+    }
+  }
+}
+
   loadNextText() {
+
+    if (this.currentTextIndex >= this.texts.length) return;
     let obj = this.texts[this.currentTextIndex];
     this.fullText = obj.text;
     this.displayedText = "";
@@ -232,6 +249,9 @@ drawJaneMonster() {
 
   mousePressed() {
     if (this.phase !== 1) return;
+
+     // 범위 보호
+  if (this.currentTextIndex >= this.texts.length) return;
 
     let currentObj = this.texts[this.currentTextIndex];
     if (currentObj.lockInput) return;
