@@ -49,7 +49,7 @@ class EndingC {
     this.displayedText = "";
     this.charIndex = 0;
     this.lastUpdateTime = 0;
-    this.delay = 50;
+    this.delay = 85;
     this.isTyping = true;
     this.clickReady = false;
 

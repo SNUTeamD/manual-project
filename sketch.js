@@ -431,6 +431,7 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -584,6 +585,7 @@ function draw() {
       rectMode(CORNER);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -694,6 +696,7 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -736,29 +739,30 @@ function draw() {
       break;
 
     case 18:
-  if (startTime === 0) {
-    startTime = millis();
-    console.log("Stage 18 시작 시간 기록:", startTime);
-  }
+      if (startTime === 0) {
+        startTime = millis();
+        console.log("Stage 18 시작 시간 기록:", startTime);
+      }
 
-  let elapsed = millis() - startTime;
+      let elapsed = millis() - startTime;
 
-  // 깜빡이는 글리치 느낌: 알파값을 랜덤으로 바꿔줌
-  let glitchAlpha = random(200, 255);  
-  tint(255, glitchAlpha);
-  image(fakeDoc, 0, 0, windowWidth, windowHeight);
-  noTint();
+      // 깜빡이는 글리치 느낌: 알파값을 랜덤으로 바꿔줌
+      let glitchAlpha = random(200, 255);  
+      tint(255, glitchAlpha);
+      image(fakeDoc, 0, 0, windowWidth, windowHeight);
+      noTint();
 
-  // 5초 후 스테이지 전환
-  if (elapsed > 5000) {
-    stage++;
-    startTime = 0; // 다음 스테이지에서 새 타이머 시작
-    console.log("5초 경과. 다음 스테이지로:", stage);
-  }
-  break;
+      // 5초 후 스테이지 전환
+      if (elapsed > 5000) {
+        stage++;
+        startTime = 0; // 다음 스테이지에서 새 타이머 시작
+        console.log("5초 경과. 다음 스테이지로:", stage);
+      }
+      break;
     
     case 19:
       afterDay1.update();
+
       break;
 
     case 20: // 바탕화면 3
@@ -868,6 +872,7 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
+      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -884,7 +889,7 @@ function draw() {
       break;
     
     case 25:
-      //문서 업무 3일차차
+      // 문서 업무 3일차
       doctaskDay3.update();
       break;
 
@@ -1343,12 +1348,14 @@ function mouseClicked() {
   if (stage == 15){
     if (error2 && error2.isClicked(mouseX, mouseY)) {
     stage = 400;
+    endingB.start();
     return;
   }
 }
   if (stage == 24){
     if (error3 && error3.isClicked(mouseX, mouseY)) {
     stage = 400;
+    endingB.start();
     return;
   }
 }
