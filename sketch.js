@@ -50,7 +50,6 @@ let morseCheckTime = 0;
 let codeInitialized = false;
 
 // day 전환 변수
-let afterDay1Started = false;
 let afterDay1;
 let afterDay2;
 // 너무 빨리 넘어감 방지 코드
@@ -143,7 +142,7 @@ function preload() {
   //Day 1이 끝나고
   afterDay1 = new AfterDay1();
   afterDay1.preload();
-  //Day 2가 끝나고Add commentMore actions
+  //Day 2가 끝나고
   afterDay2 = new AfterDay2();
   afterDay2.preload();
 }
@@ -765,18 +764,12 @@ function draw() {
         break;
     
     case 19:
-       if (!afterDay1Started) {
-        afterDay1.start();
-        afterDay1Started = true;
-      }
       afterDay1.update();
 
       break;
 
     case 20: // 바탕화면 3
-    //앞의 스크립트 초기화 함수
-      afterDay1Started = false;
-          fill(150, 150, 255);
+        fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
         textSize(30);
