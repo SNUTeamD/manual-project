@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 400;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -1171,16 +1171,34 @@ function draw() {
     
     case 400:
         // 엔딩 B
+      //bgm
+      if (!endingBbgm.isPlaying()) {
+        stopAllbgm();
+        endingBbgm.loop(); // 자동 반복
+        endingBbgm.setVolume(0.2);
+      }
         endingB.update();
       break;
 
     case 500:
         // 엔딩 C
+      //bgm
+      if (!endingCbgm.isPlaying()) {
+        stopAllbgm();
+        endingCbgm.loop(); // 자동 반복
+        endingCbgm.setVolume(0.2);
+      }
         endingC.update();
       break;
 
     case 600:
         // 엔딩 D
+      //bgm
+      if (!endingDbgm.isPlaying()) {
+        stopAllbgm();
+        endingDbgm.loop(); // 자동 반복
+        endingDbgm.setVolume(0.2);
+      }
         endingD1.update();
       break;
 
