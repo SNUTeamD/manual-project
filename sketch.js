@@ -50,6 +50,9 @@ let afterDay1;
 let afterDay2;
 // 너무 빨리 넘어감 방지 코드
 let stageHandled = 0;
+//시간 재기 변수
+let startTime =0;
+let glitchAlpha = 255;
 
 // 에러 관련 변수
 let error1;
@@ -94,6 +97,7 @@ function preload() {
   myDesk = loadImage('assets/내 사무실 자리.png');
   thisIsManual = loadImage('assets/이것은 매뉴얼.png');
   wrongImage =loadImage('assets/왜틀려.png');
+  fakeDoc = loadImage('assets/위장용 보고서.png');
 
   // 아이콘들 (활성/비활성) 불러오기
   activeFileIcon = loadImage("assets/파일 아이콘.png");
@@ -732,9 +736,26 @@ function draw() {
       break;
 
     case 18:
-      // 아마 빈 페이지에 이상한 보고서 그림
-      stage++
-      break;
+  if (startTime === 0) {
+    startTime = millis();
+    console.log("Stage 18 시작 시간 기록:", startTime);
+  }
+
+  let elapsed = millis() - startTime;
+
+  // 깜빡이는 글리치 느낌: 알파값을 랜덤으로 바꿔줌
+  let glitchAlpha = random(200, 255);  
+  tint(255, glitchAlpha);
+  image(fakeDoc, 0, 0, windowWidth, windowHeight);
+  noTint();
+
+  // 5초 후 스테이지 전환
+  if (elapsed > 5000) {
+    stage++;
+    startTime = 0; // 다음 스테이지에서 새 타이머 시작
+    console.log("5초 경과. 다음 스테이지로:", stage);
+  }
+  break;
     
     case 19:
       afterDay1.update();
