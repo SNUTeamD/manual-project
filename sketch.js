@@ -406,6 +406,7 @@ function draw() {
       break;
 
     case 6:
+      stopAllbgm();
       fill(255);
       textSize(70)
       text("Day 1", width / 2, height / 2 - 50);
@@ -668,11 +669,13 @@ function draw() {
       break;
       
     case 14: // Day 2로 전환
+      stopAllbgm();
       fill(255);
       textSize(70);
       text("Day 2", width / 2, height / 2 - 50);
       textSize(30);
       text("Click to continue ···", width / 2, height / 2 + 50);
+
       
       break;
 
@@ -824,6 +827,7 @@ function draw() {
       break;
 
     case 23: // Day 3로 전환
+    stopAllbgm();
     fill(255);
     textSize(70)
     text("Day 3", width / 2, height / 2 - 50);
