@@ -28,6 +28,9 @@ class EndingA {
     this.startX = 120;
     this.startY = 120;
     this.lineHeight = 40;
+
+    this.endingShownTime = null; // 엔딩이 끝난 시점 저장
+    this.canRestart = false;
   }
 
   start() {
@@ -43,6 +46,20 @@ class EndingA {
       textAlign(CENTER, CENTER);
       textFont("Courier New");
       text("#End A: Bad Ending", width / 2, height / 2);
+      
+      if (this.endingShownTime === null) {
+        this.endingShownTime = millis();
+      }
+
+      if (!this.canRestart && millis() - this.endingShownTime > 5000) {
+        this.canRestart = true;
+      }
+
+      if (this.canRestart) {
+        textSize(20);
+        text("Click to Restart", width / 2, height / 2 + 30);
+      }
+
       return;
     }
 
@@ -51,12 +68,14 @@ class EndingA {
   }
 
   drawMonitor() {
+     push(); // 상태 저장
     rectMode(CENTER);
     noStroke();
     fill(50);
     rect(width / 2, height / 2, width - 100, height - 100, 20);
     fill(30);
     rect(width / 2, height / 2, width - 150, height - 150, 20);
+    pop(); // 상태 복원
   }
 
   drawTyping() {
@@ -110,5 +129,10 @@ class EndingA {
     this.charIndex = 0;
     this.isTyping = true;
     this.lastUpdateTime = millis();
+  }
+  handleClick() {
+    if (this.canRestart) {
+      stage = 0; // stage 0으로 복귀
+    }
   }
 }
