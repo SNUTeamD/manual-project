@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 600;
+let stage = 601;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -182,10 +182,6 @@ function styleInput(input, placeholder, fontSize, bg = 'black') {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
-
-  textFont(myFont);
-  textSize(35);
-  textAlign(CENTER, CENTER);
 
   setupInputs();
   
