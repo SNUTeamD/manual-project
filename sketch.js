@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 10;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -70,9 +70,10 @@ let imgError_4; // 힌트 이미지
 let errors = [];
 const NUM_ERRORS = 7;
 
-// 마지막 날 엔딩 A, C 전환 관련 변수
+// 마지막 날 엔딩 A, C, D 전환 관련 변수
 let isResetTriggered = false;
 let resetTriggeredTime = 0;
+let anotherResetTriggered = false; //우선 엔딩 D 전환 변수입니다.
 
 // 엔딩 관련 변수
 let endingA;  // 엔딩 A
@@ -80,6 +81,10 @@ let endingB; // 엔딩 B
 let endingC; // 엔딩 C
 let endingD1, endingD2; // 엔딩 D
 let endingAStarted = false;
+let endingCStarted = false;
+let endingD1Started =false;
+let endingD2Started = false;
+
 
 //틀린 횟수 세기
 let wrongCount =0;
@@ -276,6 +281,7 @@ function draw() {
       break;
 
     case 1:
+      nameInput.value(''); 
       //bgm
       if (!beforeDay1bgm.isPlaying()) {
                 stopAllbgm();
@@ -662,6 +668,7 @@ function draw() {
       break;
       
     case 13: // Day 1 마무리 파트
+      codeInput.value(''); // 모스부호 입력창 초기화
       finishText = false;
       let deskW = 1000;
       let deskH = myDesk.height * (deskW / myDesk.width);
@@ -867,6 +874,7 @@ function draw() {
       break;
 
     case 22:
+      codeInput.value(''); // 모스부호 입력창 초기화
       if (!afterDay2Started) {
         afterDay2.start();
         afterDay2Started = true;
@@ -1178,16 +1186,23 @@ function draw() {
       resultMessage = "";
     }
 
-    // "초기화"일 때: 엔딩 C
+    // "/456827"일 때: 엔딩 C
     if (isResetTriggered && millis() - resetTriggeredTime > 1500) {
       stage = 500;
       isResetTriggered = false;
       resultMessage = "";
     }
+    //초기화 일 때: 엔딩 D // 임시 코드+ 꼭 바꾸세요!!
+    if(anotherResetTriggered && millis()- resetTriggeredTime > 1500){
+      stage = 600;
+      anotherResetTriggere = false;
+      resultMessage ="";
+    }
 
       break;
 
     case 300:
+      codeInput.value(''); // 모스부호 입력창 초기화
         // 엔딩 A
       if (!endingAStarted) {
         let name = nameInput.value(); // 예: "홍길동"
@@ -1213,6 +1228,7 @@ function draw() {
       break;
 
     case 500:
+      codeInput.value(''); // 모스부호 입력창 초기화
         // 엔딩 C
       //bgm
       if (!endingCbgm.isPlaying()) {
@@ -1236,6 +1252,7 @@ function draw() {
       break;
 
     case 600:
+      codeInput.value(''); // 모스부호 입력창 초기화
         // 엔딩 D
       //bgm
       if (!endingDbgm.isPlaying()) {
@@ -1785,12 +1802,19 @@ function checkMorseAnswer() {
   ) {
     resultMessage = "성공입니다.";
     morseCorrect = true;
-    morseCheckTime = millis(); 
+    morseCheckTime = millis();  
   } else if (stage === 30 && codeCheck === "/456827") {
     resultMessage = "시스템 초기화 중 ...";
     isResetTriggered = true;
     resetTriggeredTime = millis();
     morseCorrect = false;
+    codeInput.value(''); 
+  } else if (stage === 30 && codeCheck === "초기화"){ // 우선 임시 코드, 나중에 무조건 바꾸세요
+    resultMessage = "매뉴얼 무효화 시스템 가동 중 ...";
+    anotherResetTriggered = true;
+    resetTriggeredTime = millis();
+    morseCorrect = false;
+    codeInput.value(''); 
   } else {
     resultMessage = "실패입니다. 다시 시도하세요.";
     morseCorrect = false;
