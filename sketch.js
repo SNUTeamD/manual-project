@@ -134,8 +134,8 @@ function preload() {
   //endingB = new EndingB();
   //endingB.preload();
   // 엔딩 C
-  endingC = new EndingC();
-  endingC.preload();
+  //endingC = new EndingC();
+  //endingC.preload();
   // 엔딩 D
   //endingD1 = new EndingD1();
   //endingD2 = new EndingD2(playerName);
