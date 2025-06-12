@@ -50,6 +50,9 @@ let afterDay1;
 let afterDay2;
 // 너무 빨리 넘어감 방지 코드
 let stageHandled = 0;
+//시간 재기 변수
+let startTime =0;
+let glitchAlpha = 255;
 
 // 에러 관련 변수
 let error1;
@@ -88,12 +91,13 @@ function preload() {
   imgManual = loadImage("assets/매뉴얼.png");
   imgResearcher = loadImage("assets/연구원.png");
   imgCompany = loadImage("assets/우리 회사다! 반짝.png");
-  imgCode = loadImage("assets/모스부호.jpg");
+  imgCode = loadImage("assets/모스부호 수정.jpg");
   folderIcon = loadImage('assets/folderIcon.png');
   folderDoc = loadImage('assets/folderDoc.png');
   myDesk = loadImage('assets/내 사무실 자리.png');
   thisIsManual = loadImage('assets/이것은 매뉴얼.png');
   wrongImage =loadImage('assets/왜틀려.png');
+  fakeDoc = loadImage('assets/위장용 보고서.png');
 
   // 아이콘들 (활성/비활성) 불러오기
   activeFileIcon = loadImage("assets/파일 아이콘.png");
@@ -605,7 +609,7 @@ function draw() {
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
       fill(255);
-      text(".--. -.-- -.- .. .-..", width / 2, height * 0.15);
+      text(".--./ -.--/ -.-/ ../ .-..", width / 2, height * 0.15);
 
       let btnX11 = width / 2 + 210;
       let btnY11 = height - 81;
@@ -732,9 +736,26 @@ function draw() {
       break;
 
     case 18:
-      // 아마 빈 페이지에 이상한 보고서 그림
-      stage++
-      break;
+  if (startTime === 0) {
+    startTime = millis();
+    console.log("Stage 18 시작 시간 기록:", startTime);
+  }
+
+  let elapsed = millis() - startTime;
+
+  // 깜빡이는 글리치 느낌: 알파값을 랜덤으로 바꿔줌
+  let glitchAlpha = random(200, 255);  
+  tint(255, glitchAlpha);
+  image(fakeDoc, 0, 0, windowWidth, windowHeight);
+  noTint();
+
+  // 5초 후 스테이지 전환
+  if (elapsed > 5000) {
+    stage++;
+    startTime = 0; // 다음 스테이지에서 새 타이머 시작
+    console.log("5초 경과. 다음 스테이지로:", stage);
+  }
+  break;
     
     case 19:
       afterDay1.update();
@@ -774,7 +795,7 @@ function draw() {
       fill(255);
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      text("--. --.- -.- -- ... -.-" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
+      text("--./ --.-/ -.-/ --/ .../ -.-" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
 
       let btnX20 = width / 2 + 210;
       let btnY20 = height - 81;
@@ -1075,7 +1096,7 @@ function draw() {
       fill(255);
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      text("--. . ...- ...- ... .--. - ...." /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답: 살려줘
+      text("--./ ./ ...-/ ...-/ .../ .--./ ..../ -" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답: 살려줘
 
       let btnX28 = width / 2 + 210;
       let btnY28 = height - 81;
@@ -1100,7 +1121,8 @@ function draw() {
         fill(255);
         text(resultMessage, width / 2, height / 2 + 48);
       }
-        // 틀릴 때 이미지
+      
+      // 틀릴 때 이미지
       if (showImage) {
         let elapsed = millis() - imageStartTime;
       if (elapsed < showDuration) {
@@ -1109,30 +1131,27 @@ function draw() {
       noTint();
       fill(255, 0, 0);
       textSize(48);
-      for (let pos of warningPositions) {
-        text("틀리지마", pos.x, pos.y);
-      }
-
+        for (let pos of warningPositions) {
+          text("틀리지마", pos.x, pos.y);
+        }
       } else {
       showImage = false; // 시간 지나면 안 보이게
+      }
     }
-  }
       
-      
+    // 정답일 때: 엔딩 A
+    if (morseCorrect && millis() - morseCheckTime > 1500) {
+      stage = 300;
+      morseCorrect = false;
+      resultMessage = "";
+    }
 
-      // 정답일 때: 엔딩 A
-      if (morseCorrect && millis() - morseCheckTime > 1500) {
-        stage = 300;
-        morseCorrect = false;
-        resultMessage = "";
-      }
-
-      // "초기화"일 때: 엔딩 C
-      if (isResetTriggered && millis() - resetTriggeredTime > 1500) {
-        stage = 500;
-        isResetTriggered = false;
-        resultMessage = "";
-      }
+    // "초기화"일 때: 엔딩 C
+    if (isResetTriggered && millis() - resetTriggeredTime > 1500) {
+      stage = 500;
+      isResetTriggered = false;
+      resultMessage = "";
+    }
 
       break;
 
@@ -1171,6 +1190,7 @@ function draw() {
       }
         endingC.update();
       break;
+
     case 600:
         // 엔딩 D
       //bgm
@@ -1181,6 +1201,7 @@ function draw() {
       }
         endingD1.update();
       break;
+
     case 601:
        // 엔딩 D 연결
        endingD2.update();
@@ -1284,13 +1305,13 @@ function mouseClicked() {
   if (stage === 23) {
   if (stageHandled<1) {
     stageHandled++
-}else if(stageHandled == 1){
-  stage ++;
-  stageHandled = 0;
-  } 
-}
+  } else if(stageHandled == 1){
+    stage ++;
+    stageHandled = 0;
+    } 
+  }
 
- // 바탕화면이 보이는 stage 정의
+  // 바탕화면이 보이는 stage 정의
   if (
     stage === 7 ||
     stage === 9 ||
@@ -1319,7 +1340,7 @@ function mouseClicked() {
   }
 
   // 모스부호 스테이지 정의
-  if (stage === 12 || stage === 21 || stage === 30 ) {
+  if (stage === 12 || stage === 21 || stage === 30) {
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -1333,6 +1354,7 @@ function mouseClicked() {
   if (stage == 10){
     if (error1 && error1.isClicked(mouseX, mouseY)) {
     stage = 400;
+    endingB.start();
     return;
   }
 }
@@ -1355,7 +1377,7 @@ function mouseClicked() {
 
       // 모든 창 닫혔는지 확인
       if (errors.length === 0) {
-        stage++; // 원하는 다음 스테이지 번호로 바꾸세요
+        stage ++; // 원하는 다음 스테이지 번호로 바꾸세요
       }
 
       return; // 한 번에 하나만 닫기
@@ -1399,7 +1421,7 @@ function mousePressed() {
     afterDay1.mousePressed();
   }
 
-  if(stage===22){
+  if(stage === 22){
     afterDay2.mousePressed();
   }
   if (stage === 25){
@@ -1583,7 +1605,6 @@ function drawManual() {
   image(imgManual, manualX, manualY, manualPicW, manualPicH);
 }
 
-// stage 3 이후에 m키 누르면 매뉴얼이 나오도록
 function keyPressed() {
   const focusedEl = document.activeElement;
 
@@ -1595,8 +1616,8 @@ function keyPressed() {
     return;
   }
 
-  // stage 3 이후에 m키 누르면 매뉴얼이 나오도록
-  if (stage >= 3 && key === 'm') {
+  // stage 5 이후에 m키 누르면 매뉴얼이 나오도록
+  if (stage >= 5 && key === 'm') {
     showManual = !showManual;
   }
 }
