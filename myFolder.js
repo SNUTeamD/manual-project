@@ -19,11 +19,13 @@ class MyFolder {
     pop();
   }
   contains(doc) {
+    let centerX = doc.x;
+    let centerY = doc.y;
     return (
-      doc.x > this.x - this.w / 2 &&
-      doc.x < this.x + this.w / 2 &&
-      doc.y > this.y - this.h / 2 &&
-      doc.y < this.y + this.h / 2
+      centerX >= this.x - this.w / 2 &&
+      centerX <= this.x + this.w / 2 &&
+      centerY >= this.y - this.h / 2 &&
+      centerY <= this.y + this.h / 2
     );
   }
 }

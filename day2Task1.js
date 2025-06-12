@@ -81,23 +81,24 @@ class Day2Task1 {
     } else if (this.missionSuccess) {
     stage++;
     }
-      //틀릴 때 이미지
+    
+    //틀릴 때 이미지
     if (showImage) {
-  let elapsed = millis() - imageStartTime;
-  if (elapsed < showDuration) {
-    tint(255, 127);
-    image(wrongImage, 0, 0, width, height); // 전체화면에 이미지
-    noTint();
-    fill(255, 0, 0);
-    textSize(48);
-    for (let pos of warningPositions) {
-      text("틀리지마", pos.x, pos.y);
+      let elapsed = millis() - imageStartTime;
+      if (elapsed < showDuration) {
+      tint(255, 127);
+      image(wrongImage, 0, 0, width, height); // 전체화면에 이미지
+      noTint();
+      fill(255, 0, 0);
+      textSize(48);
+      for (let pos of warningPositions) {
+        text("틀리지마", pos.x, pos.y);
+      }
+      } else {
+      showImage = false;
+      this.mistakeMade = false; // ✅ 이미지가 사라지면 실수 상태도 초기화
+      }
     }
-  } else {
-    showImage = false;
-    this.mistakeMade = false; // ✅ 이미지가 사라지면 실수 상태도 초기화
-  }
-}
   }
 
   mousePressed() {
@@ -116,10 +117,11 @@ class Day2Task1 {
 
   mouseReleased() {
     if (this.missionEnded) return;
-
+    
     for (let doc of this.docs) {
       doc.stopDragging();
-
+      doc.inBasket = null; // 드래그 후 폴더에 넣지 않은 경우 초기화
+      
       for (let f of this.folders) {
         if (f.contains(doc)) {
           doc.inBasket = f.name;
@@ -134,6 +136,7 @@ class Day2Task1 {
         }
       }
     }
+    this.checkMistakes();
   }
 
   isCorrect(doc) {
@@ -168,4 +171,22 @@ class Day2Task1 {
     }
   }
   
+  checkMistakes() {
+  //console.log("🔎 checking mistakes");
+  this.mistakeMade = false; // 초기화
+
+  for (let doc of this.docs) {
+    //console.log(`doc ${doc.name} → inBasket: ${doc.inBasket}, removed: ${doc.removed}`);
+    if (doc.inBasket && !doc.removed) {
+      if (this.answerMap[doc.name] !== doc.inBasket) {
+        this.mistakeMade = true;
+        //console.log("❌ mistake found:", doc.name);
+        return;
+      }
+    }
+  }
+  //console.log("✅ no mistakes found");
+}
+
+
 }
