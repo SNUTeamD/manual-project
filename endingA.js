@@ -1,9 +1,9 @@
 class EndingA {
-  constructor(name) {
+  constructor(playerName) {
     this.lines = [
       "업무가 모두 완료되었습니다.",
       "에너지 변환 수준 미달.",
-      `${name} == 부적합`, // ← 여기!
+      `${this.playerName} == 부적합`, // ← 여기!
       "규정 7.13조에 따라, 신규 직원으로 등록됩니다.",
       "기억을 제거합니다.",
       "...",
@@ -11,12 +11,13 @@ class EndingA {
       "환영합니다. 연구부서로의 이동이 승인되었습니다."
     ];
 
+    this.playerName = playerName;
     this.currentTextIndex = 0;
     this.fullText = "";
     this.currentLineText = "";
     this.charIndex = 0;
     this.lastUpdateTime = 0;
-    this.delay = 50;
+    this.delay = 85;
 
     this.autoAdvanceTime = null;
     this.autoDelay = 500;
@@ -28,6 +29,9 @@ class EndingA {
     this.startX = 120;
     this.startY = 120;
     this.lineHeight = 40;
+
+    this.endingShownTime = null; // 엔딩이 끝난 시점 저장
+    this.canRestart = false;
   }
 
   start() {
@@ -43,6 +47,20 @@ class EndingA {
       textAlign(CENTER, CENTER);
       textFont("Courier New");
       text("#End A: Bad Ending", width / 2, height / 2);
+      
+      if (this.endingShownTime === null) {
+        this.endingShownTime = millis();
+      }
+
+      if (!this.canRestart && millis() - this.endingShownTime > 5000) {
+        this.canRestart = true;
+      }
+
+      if (this.canRestart) {
+        textSize(20);
+        text("Click to Restart", width / 2, height / 2 + 30);
+      }
+
       return;
     }
 
@@ -51,12 +69,14 @@ class EndingA {
   }
 
   drawMonitor() {
+     push(); // 상태 저장
     rectMode(CENTER);
     noStroke();
     fill(50);
     rect(width / 2, height / 2, width - 100, height - 100, 20);
     fill(30);
     rect(width / 2, height / 2, width - 150, height - 150, 20);
+    pop(); // 상태 복원
   }
 
   drawTyping() {
@@ -110,5 +130,10 @@ class EndingA {
     this.charIndex = 0;
     this.isTyping = true;
     this.lastUpdateTime = millis();
+  }
+  handleClick() {
+    if (this.canRestart) {
+      stage = 0; // stage 0으로 복귀
+    }
   }
 }
