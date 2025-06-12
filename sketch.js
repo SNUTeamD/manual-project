@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 10;
+let stage = 8;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -91,7 +91,7 @@ function preload() {
   imgManual = loadImage("assets/매뉴얼.png");
   imgResearcher = loadImage("assets/연구원.png");
   imgCompany = loadImage("assets/우리 회사다! 반짝.png");
-  imgCode = loadImage("assets/모스부호.jpg");
+  imgCode = loadImage("assets/모스부호 수정.jpg");
   folderIcon = loadImage('assets/folderIcon.png');
   folderDoc = loadImage('assets/folderDoc.png');
   myDesk = loadImage('assets/내 사무실 자리.png');
@@ -609,7 +609,7 @@ function draw() {
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
       fill(255);
-      text(".--. -.-- -.- .. .-..", width / 2, height * 0.15);
+      text(".--./ -.--/ -.-/ ../ .-..", width / 2, height * 0.15);
 
       let btnX11 = width / 2 + 210;
       let btnY11 = height - 81;
@@ -795,7 +795,7 @@ function draw() {
       fill(255);
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      text("--. --.- -.- -- ... -.-" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
+      text("--./ --.-/ -.-/ --/ .../ -.-" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
 
       let btnX20 = width / 2 + 210;
       let btnY20 = height - 81;
@@ -1096,7 +1096,7 @@ function draw() {
       fill(255);
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      text("--. . ...- ...- ... .--. - ...." /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답: 살려줘
+      text("--./ ./ ...-/ ...-/ .../ .--./ ..../ -" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답: 살려줘
 
       let btnX28 = width / 2 + 210;
       let btnY28 = height - 81;

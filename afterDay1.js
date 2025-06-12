@@ -8,7 +8,7 @@ class AfterDay1 {
     this.lockInput = false;
 
     this.texts = [
-  { speaker: "PLAYER", text: "음? 오늘 작업해야 하는 보고서인가?"},
+  { speaker: "PLAYER", text: "음? 보고서의 상태가???"},
   { speaker: "???", text: "어! 잠시만요!!" },
   { speaker: "PLAYER", text: "(갑자기 나타난 저 여자가 내 책상 위의 보고서를 뺏었다.)" },
   { speaker: "???", text: "아 ... 이게 왜 여기있지 ..." },
