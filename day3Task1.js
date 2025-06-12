@@ -82,6 +82,23 @@ class Day3Task1 {
     } else if (this.missionSuccess) {
     stage++;
     }
+    //틀릴 때 이미지
+    if (showImage) {
+  let elapsed = millis() - imageStartTime;
+  if (elapsed < showDuration) {
+    tint(255, 127);
+    image(wrongImage, 0, 0, width, height); // 전체화면에 이미지
+    noTint();
+    fill(255, 0, 0);
+    textSize(48);
+    for (let pos of warningPositions) {
+      text("틀리지마", pos.x, pos.y);
+    }
+  } else {
+    showImage = false;
+    this.mistakeMade = false; // ✅ 이미지가 사라지면 실수 상태도 초기화
+  }
+}
 
   }
 
@@ -111,6 +128,7 @@ class Day3Task1 {
 
           if (!this.isCorrect(doc)) {
             this.mistakeMade = true; // 실수 여부 설정
+            wrongAction();
           } else {
             doc.removed = true;
             this.mistakeMade = false;  // ✔ 실수 상태 초기화
