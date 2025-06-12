@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 10;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -588,6 +588,10 @@ function draw() {
       break;
 
     case 11: // 바탕화면 3
+    //업무 2 초기화
+    sentenceObjs = [];
+    resultMessage = "";
+    isDragging = false;
       
       // 업무 리스트
       fill(150, 150, 255);
@@ -1361,7 +1365,7 @@ function mouseClicked() {
   if (stage === 6 || stage === 14) {
     stage ++;
   }
-// stage 13에서 stage 14를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
+// stage 23에서 stage 24를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
 // 2번 눌러야 다음으로 진행됩니다
   if (stage === 23) {
   if (stageHandled<1) {
@@ -1580,6 +1584,7 @@ function mouseReleased() {
       setTimeout(() => {
         stage ++;
         resultMessage = "";
+        sentenceObjs = [];  // 필요하면 리셋
       }, 1500);
     } else {
       fill(255, 50, 50);
