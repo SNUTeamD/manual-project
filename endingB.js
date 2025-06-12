@@ -301,7 +301,8 @@ class EndingB {
       this.fullText = "";
       this.displayedText = "";
       this.clickReady = false;
-      noLoop(); // 대사 종료 후 멈춤
+      // noLoop(); // 대사 종료 후 멈춤
+      stage = returnStage;
       return;
     }
 
