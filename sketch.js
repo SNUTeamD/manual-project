@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 24;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -126,7 +126,7 @@ function preload() {
   
   // 엔딩 객체 불러오기
   // 엔딩 A
-  endingA = new EndingA(playerName);
+  //endingA = new EndingA(playerName);
   // 엔딩 B
   //endingB = new EndingB();
   //endingB.preload();
@@ -213,8 +213,8 @@ function setup() {
   error3.start();
 
   // Day1 업무1
-  doctaskDay1 = new Day1Task1();
-  doctaskDay1.start();
+  // doctaskDay1 = new Day1Task1();
+  // doctaskDay1.start();
   // Day2 업무1
   doctaskDay2 = new Day2Task1(); 
   doctaskDay2.start();
@@ -222,7 +222,7 @@ function setup() {
   doctaskDay3 = new Day3Task1(); 
   doctaskDay3.start();
   // 엔딩 초기화
-  endingA.start();
+  // endingA.start();
   endingC.start();
   endingD1.start();
   endingD2.start();
@@ -444,12 +444,15 @@ function draw() {
       // 아이콘 표시: 파일 아이콘만 활성화
       drawIcons();
 
+      //다음 업무 미리 로드
+      doctaskDay1 = new Day1Task1();
+      doctaskDay1.start();
       break;
     
     case 8:
       // Day 1 -업무 1: 파일 정리 업무
-       doctaskDay1.update(); 
-      
+      doctaskDay1.update();
+
       break;
 
     
@@ -1147,9 +1150,11 @@ function draw() {
       showImage = false; // 시간 지나면 안 보이게
       }
     }
-      
+    
     // 정답일 때: 엔딩 A
     if (morseCorrect && millis() - morseCheckTime > 1500) {
+      endingA = new EndingA(playerName);
+      endingA.start();
       stage = 300;
       morseCorrect = false;
       resultMessage = "";
