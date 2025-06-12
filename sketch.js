@@ -5,6 +5,7 @@ let imgManual, imgResearcher, imgCompany, imgCode;
 let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
+let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
 let stage = 500;
@@ -104,6 +105,15 @@ function preload() {
   // 에러 이미지 불러오기
   imgError_1 = loadImage('assets/에러창.png');
   imgError_2 = loadImage('assets/에러창2.png');
+
+  //bgm불러오기
+  beforeDay1bgm = loadSound('audio/업무시작전브금.mp3')
+  day1bgm = loadSound('audio/1일차 브금.mp3')
+  day2bgm = loadSound('audio/2일차브금_믹스다운.mp3')
+  day3bgm = loadSound('audio/3일차브금_믹스다운.mp3')
+  endingBbgm = loadSound('audio/엔딩B사무실.mp3')
+  endingCbgm = loadSound('audio/엔딩c브금_믹스다운.mp3')
+  endingDbgm = loadSound('audio/엔딩D.mp3')
   
   // 엔딩 객체 불러오기
   // 엔딩 A
