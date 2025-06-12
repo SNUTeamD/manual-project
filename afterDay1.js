@@ -8,17 +8,19 @@ class AfterDay1 {
     this.lockInput = false;
 
     this.texts = [
-  { speaker: "PLAYER", text: "음? 보고서의 상태가???"},
+  { speaker: "PLAYER", text: "(무언가 이상한 보고서다)"},
   { speaker: "???", text: "어! 잠시만요!!" },
   { speaker: "PLAYER", text: "(갑자기 나타난 저 여자가 내 책상 위의 보고서를 뺏었다.)" },
   { speaker: "???", text: "아 ... 이게 왜 여기있지 ..." },
   { speaker: "???", text: "이건 오늘 작업 안하셔도 돼요." },
   { speaker: "도재인", text: "제 소개가 늦었네요. 인사이동부의 도재인이라고 합니다." },
+  { speaker: "PLAYER", text: "방금 보고서에 이상한게 보였는데요" },
+  { speaker: "도재인", text: "네? 무슨 말씀인지 모르겠어요"},
   { speaker: "도재인", text: "제가 작업해야 하는 보고서인데, 실수로 이쪽으로 넘겨졌나 봐요." },
   { speaker: "도재인", text: "오늘은 데이터 처리를 안하셔도 됩니다."},
   { speaker: "도재인", text: "좋은 하루 되세요." },
   { speaker: "PLAYER", text: "갑자기 나타나더니 그냥 사라졌다." },
-  { speaker: "PLAYER", text: "이거 하지 말까 하는 생각이 다시 들기 시작했다." },
+  { speaker: "PLAYER", text: "그만둘까 하는 생각이 다시 들기 시작했다." },
   { speaker: "PLAYER", text: "뭐 그래도 해야할 일이 줄은거니 .. 좋은건가?" }
 ];
 

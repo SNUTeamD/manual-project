@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 600;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -662,7 +662,7 @@ function draw() {
       fill(0);
       typeText([
         ["휴우 어제는 힘든 하루였어 ..."],
-        ["고연봉이라서 지원한 프로젝트인데 .. 이거 하지 말까?"],
+        ["고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?"],
         ["아냐 아냐 그래도 어떻게 입사한건데 .. 일 해야지 ..."],
         ["내일 하루도 힘내보자! 아자아자!!"]
       ]);
@@ -1176,16 +1176,34 @@ function draw() {
     
     case 400:
         // 엔딩 B
+      //bgm
+      if (!endingBbgm.isPlaying()) {
+        stopAllbgm();
+        endingBbgm.loop(); // 자동 반복
+        endingBbgm.setVolume(0.2);
+      }
         endingB.update();
       break;
 
     case 500:
         // 엔딩 C
+      //bgm
+      if (!endingCbgm.isPlaying()) {
+        stopAllbgm();
+        endingCbgm.loop(); // 자동 반복
+        endingCbgm.setVolume(0.2);
+      }
         endingC.update();
       break;
 
     case 600:
         // 엔딩 D
+      //bgm
+      if (!endingDbgm.isPlaying()) {
+        stopAllbgm();
+        endingDbgm.loop(); // 자동 반복
+        endingDbgm.setVolume(0.2);
+      }
         endingD1.update();
       break;
 
