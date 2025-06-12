@@ -50,7 +50,6 @@ let morseCheckTime = 0;
 let codeInitialized = false;
 
 // day 전환 변수
-let afterDay1Started = false;
 let afterDay1;
 let afterDay2Started = false;
 let afterDay2;
@@ -80,6 +79,9 @@ let endingB; // 엔딩 B
 let endingC; // 엔딩 C
 let endingD1, endingD2; // 엔딩 D
 let endingAStarted = false;
+let endingCStarted = false;
+let endingD1Started = false;
+let endingD2Started = false;
 
 //틀린 횟수 세기
 let wrongCount =0;
@@ -135,8 +137,8 @@ function preload() {
   //endingB = new EndingB();
   //endingB.preload();
   // 엔딩 C
-  endingC = new EndingC();
-  endingC.preload();
+  // endingC = new EndingC();
+  // endingC.preload();
   // 엔딩 D
   endingD1 = new EndingD1();
   endingD2 = new EndingD2(playerName);
@@ -144,7 +146,7 @@ function preload() {
   //Day 1이 끝나고
   afterDay1 = new AfterDay1();
   afterDay1.preload();
-  //Day 2가 끝나고Add commentMore actions
+  //Day 2가 끝나고
   afterDay2 = new AfterDay2();
   afterDay2.preload();
 }
@@ -766,10 +768,6 @@ function draw() {
         break;
     
     case 19:
-       if (!afterDay1Started) {
-        afterDay1.start();
-        afterDay1Started = true;
-      }
       afterDay1.update();
 
       break;
@@ -1163,8 +1161,6 @@ function draw() {
     
     // 정답일 때: 엔딩 A
     if (morseCorrect && millis() - morseCheckTime > 1500) {
-      endingA = new EndingA(playerName);
-      endingA.start();
       stage = 300;
       morseCorrect = false;
       resultMessage = "";
@@ -1212,7 +1208,18 @@ function draw() {
         endingCbgm.loop(); // 자동 반복
         endingCbgm.setVolume(0.2);
       }
-        endingC.update();
+
+      //엔딩 C 초기화 코드
+      if (!endingCStarted) {
+        endingC = new EndingC();
+        endingC.preload();
+        endingCStarted = true;
+      }
+
+      if (endingC) {
+        endingC.update(); // 매 프레임마다 update()는 호출되어야 함
+      }
+        // endingC.update();
       break;
 
     case 600:
