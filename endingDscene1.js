@@ -33,9 +33,9 @@ class EndingD1 {
 
     this.displayedLines = [];
 
-    this.startX = 90;
-    this.startY = 90;
-    this.lineHeight = 35;
+    this.startX = 120;
+    this.startY = 120;
+    this.lineHeight = 40;
   }
 
   start() {
@@ -65,7 +65,7 @@ class EndingD1 {
 
   drawTyping() {
     fill(255);
-    textSize(25);
+    textSize(24);
     textAlign(LEFT, TOP);
 
     // 1. 이전 줄들 출력
