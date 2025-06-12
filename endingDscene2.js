@@ -1,9 +1,8 @@
 class EndingD2 {
-  constructor(playerName) {
+  constructor() {
     // this.phase = 1;
     // this.phaseStartTime = 0;
     // this.fadeAlpha = 0;
-    this.playerName = playerName;
     this.autoAdvanceTime = null;
     this.autoDelay = 1500;
     // this.lockInput = false;
@@ -12,8 +11,7 @@ class EndingD2 {
     { speaker: "PLAYER", text: "왠지 모르게 따스한 느낌이 드는 공간이다." },
     { speaker: "PLAYER", text: "여기가.. 어디지..?" },
     { speaker: "도재인", text: "깨어나셨나요? 인사이동부 도재인입니다. 메일 드렸었는데.. 다행히도 눈치채시고 빠져나오셨네요." },
-    { speaker: "도재인", text: "다행히도 눈치채시고 빠져나오셨네요." },
-    { speaker: "도재인", text: `시스템을 초기화해주신 틈을 타 ${this.playerName}님을 빼올 수 있었어요.` },
+    { speaker: "도재인", text: "시스템을 초기화해주신 틈을 타 (플레이어)님을 빼올 수 있었어요." },
     { speaker: "PLAYER", text: "시스템이라면..?" },
     { speaker: "도재인", text: "거기서 준 그 ‘매뉴얼’ 말이에요. 그게 ‘그것들’이 인간을 구분하는 방법이죠." },
     { speaker: "도재인", text: "‘그것들’은 인간과 달리 매뉴얼을 어기지도 않고, 어떤 감정도 느끼지 못하거든요." },
@@ -21,12 +19,12 @@ class EndingD2 {
     { speaker: "PLAYER", text: "그럼 저와 함께 일하던 사람들은 모두..."},
     { speaker: "PLAYER", text: "그래도 그 중에 저처럼 실험당하는 사람은 없었나요?"},
     { speaker: "도재인", text: "....'그것'과 인간을 구분할 방법이요? 그런 건 없어요. 최대한 안전한 곳에 있는 것, 인간임을 들키지 않는 것만이 할 수 있는 최선이에요." },
-    { speaker: "도재인", text: `그것들은 인간의 공포를 에너지원으로 삼고 있어요. ${this.playerName}님이 있던 곳은 그 에너지 전환 기술을 만들어낸 회사고요.` },
-    { speaker: "도재인", text: `회사는 매뉴얼과 숨겨진 메시지를 통해 ${this.playerName}님에게 공포심을 주고, 그걸 통해서 에너지화에 적합한 인간을 찾아내고 있었던 거죠.`},
+    { speaker: "도재인", text: "그것들은 인간의 공포를 에너지원으로 삼고 있어요. (플레이어)님이 있던 곳은 그 에너지 전환 기술을 만들어낸 회사고요." },
+    { speaker: "도재인", text: "회사는 매뉴얼과 숨겨진 메시지를 통해 (플레이어)님에게 공포심을 주고, 그걸 통해서 에너지화에 적합한 인간을 찾아내고 있었던 거죠."},
     { speaker: "도재인", text: "하지만, 걱정하지 마세요! 여기는 회사가 전혀 모르는 곳이에요. 정말이지, ‘아주’ 안전한 곳이랍니다."},
     { speaker: "도재인", text: "...여긴 안전한 곳이에요."},
     { speaker: "PLAYER", text: "방금.. 뭐였지?"},
-    { speaker: "도재인", text: `그러나 여기에서는 ${this.playerName}님이 지켜주셔야 할 몇 가지 사항들이 있어요. 여기 그 사항들을 적은 매뉴얼이에요.`},
+    { speaker: "도재인", text: "그러나 여기에서는 (플레이어)님이 지켜주셔야 할 몇 가지 사항들이 있어요. 여기 그 사항들을 적은 매뉴얼이에요."},
     { speaker: "도재인", text: "반드시 매뉴얼을 따라주세요."}
     ];
 

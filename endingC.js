@@ -60,9 +60,6 @@ class EndingC {
     this.endc1Reached = false;
 
     this.endingC1Img = null;
-    //처음으로 가기
-    this.endingShownTime = null; // 엔딩이 끝난 시점 저장
-    this.canRestart = false;
   }
 
   preload() {
@@ -82,20 +79,6 @@ class EndingC {
       textAlign(CENTER, CENTER);
       textFont("Courier New");
       text("#End C: Fusion Ending", width / 2, height / 2);
-
-      if (this.endingShownTime === null) {
-        this.endingShownTime = millis();
-      }
-
-      if (!this.canRestart && millis() - this.endingShownTime > 5000) {
-        this.canRestart = true;
-      }
-
-      if (this.canRestart) {
-        textSize(20);
-        text("Click to Restart", width / 2, height / 2 + 30);
-      }
-
       return;
     }
 
@@ -246,11 +229,6 @@ class EndingC {
       } else {
         this.endc1Reached = true;
       }
-    }
-  }
-  handleClick() {
-    if (this.canRestart) {
-      stage = 0; // stage 0으로 복귀
     }
   }
 }

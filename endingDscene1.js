@@ -65,7 +65,7 @@ class EndingD1 {
 
   drawTyping() {
     fill(255);
-    textSize(30);
+    textSize(24);
     textAlign(LEFT, TOP);
 
     // 1. 이전 줄들 출력

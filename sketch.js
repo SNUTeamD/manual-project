@@ -27,9 +27,6 @@ let showManual = false; // 매뉴얼 보여줄지 여부
 // 사용자 입력용 인풋창
 let nameInput, codeInput;
 
-// 플레이어 이름 받는 변수
-let playerName = "";
-
 // 폴더에 문서 넣는 업무(Day1 업무1) 관련 변수들
 let doctaskDay1;
 let doctaskDay2;
@@ -115,7 +112,7 @@ function preload() {
   imgError_1 = loadImage('assets/에러창.png');
   imgError_2 = loadImage('assets/에러창2.png');
 
-  // bgm 불러오기
+  //bgm불러오기
   beforeDay1bgm = loadSound('audio/업무시작전브금.mp3')
   day1bgm = loadSound('audio/1일차 브금.mp3')
   day2bgm = loadSound('audio/2일차브금_믹스다운.mp3')
@@ -126,16 +123,16 @@ function preload() {
   
   // 엔딩 객체 불러오기
   // 엔딩 A
-  endingA = new EndingA(playerName);
+  endingA = new EndingA();
   // 엔딩 B
-  //endingB = new EndingB();
-  //endingB.preload();
+  endingB = new EndingB();
+  endingB.preload();
   // 엔딩 C
   endingC = new EndingC();
   endingC.preload();
   // 엔딩 D
   endingD1 = new EndingD1();
-  endingD2 = new EndingD2(playerName);
+  endingD2 = new EndingD2();
   endingD2.preload();
   //Day 1이 끝나고
   afterDay1 = new AfterDay1();
@@ -322,7 +319,7 @@ function draw() {
     
       fill(0);
       typeText([
-        [playerName + " 씨 맞으신가요?"],
+        [nameInput.value() + " 씨 맞으신가요?"],
         /*["저는 연구 부서의 김철수 연구원이라고 합니다."],
         ["해야 할 업무를 설명해 드리겠습니다."],
         ["이전에 안내드린 바와 같이, 업무는 간단합니다."],
@@ -435,7 +432,6 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
-      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -589,7 +585,6 @@ function draw() {
       rectMode(CORNER);
       rect(width - 450, 50, 400, 200);
       fill(0);
-      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -700,7 +695,6 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
-      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -743,30 +737,29 @@ function draw() {
       break;
 
     case 18:
-        if (startTime === 0) {
-          startTime = millis();
-          console.log("Stage 18 시작 시간 기록:", startTime);
-        }
+  if (startTime === 0) {
+    startTime = millis();
+    console.log("Stage 18 시작 시간 기록:", startTime);
+  }
 
-        let elapsed = millis() - startTime;
+  let elapsed = millis() - startTime;
 
-        // 깜빡이는 글리치 느낌: 알파값을 랜덤으로 바꿔줌
-        let glitchAlpha = random(200, 255);  
-        tint(255, glitchAlpha);
-        image(fakeDoc, 0, 0, windowWidth, windowHeight);
-        noTint();
+  // 깜빡이는 글리치 느낌: 알파값을 랜덤으로 바꿔줌
+  let glitchAlpha = random(200, 255);  
+  tint(255, glitchAlpha);
+  image(fakeDoc, 0, 0, windowWidth, windowHeight);
+  noTint();
 
-        // 5초 후 스테이지 전환
-        if (elapsed > 5000) {
-          stage++;
-          startTime = 0; // 다음 스테이지에서 새 타이머 시작
-          console.log("5초 경과. 다음 스테이지로:", stage);
-        }
-        break;
+  // 5초 후 스테이지 전환
+  if (elapsed > 5000) {
+    stage++;
+    startTime = 0; // 다음 스테이지에서 새 타이머 시작
+    console.log("5초 경과. 다음 스테이지로:", stage);
+  }
+  break;
     
     case 19:
       afterDay1.update();
-
       break;
 
     case 20: // 바탕화면 3
@@ -876,7 +869,6 @@ function draw() {
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
-      textSize(30);
       text("오늘의 할 일", width - 250, 85);
       text("1. 파일 정리", width - 250, 125);
       text("2. 정크 데이터 처리", width - 250, 165);
@@ -893,7 +885,7 @@ function draw() {
       break;
     
     case 25:
-      // 문서 업무 3일차
+      //문서 업무 3일차차
       doctaskDay3.update();
       break;
 
@@ -1294,8 +1286,7 @@ function mouseClicked() {
       mouseY >= height / 2 - 1.5 &&
       mouseY <= height / 2 + 51.5
     ) {
-      playerName = nameInput.value();
-      stage ++;
+      stage++;
       nameInput.hide();
     }
   }
@@ -1363,31 +1354,20 @@ function mouseClicked() {
   
   if (stage == 10){
     if (error1 && error1.isClicked(mouseX, mouseY)) {
-      returnStage = 7; // Day1 화면으로 돌아가기
-      stage = 400;
-      endingB = new EndingB();     // ✅ 새 인스턴스 생성
-      endingB.preload();           // ✅ 이미지 다시 불러오기
-      endingB.start();             // ✅ 상태 초기화
-      return;
-    }
+    stage = 400;
+    endingB.start();
+    return;
+  }
 }
   if (stage == 15){
     if (error2 && error2.isClicked(mouseX, mouseY)) {
-    returnStage = 15; // 현재 스테이지 저장
     stage = 400;
-    endingB = new EndingB();     // ✅ 새 인스턴스 생성
-    endingB.preload();           // ✅ 이미지 다시 불러오기
-    endingB.start();             // ✅ 상태 초기화
     return;
   }
 }
   if (stage == 24){
     if (error3 && error3.isClicked(mouseX, mouseY)) {
-    returnStage = 24; // 현재 스테이지 저장
     stage = 400;
-    endingB = new EndingB();     // ✅ 새 인스턴스 생성
-    endingB.preload();           // ✅ 이미지 다시 불러오기
-    endingB.start();             // ✅ 상태 초기화
     return;
   }
 }
@@ -1449,17 +1429,11 @@ function mousePressed() {
     doctaskDay3.mousePressed();
   }
 
-  if (stage ===300 && endingA){
-    endingA.handleClick();//다시 시작 코드
-  }
   if (stage === 400) {
     endingB.handleClick();} // 클릭 처리
 
   if (stage === 500) {
     endingC.mousePressed();}
-  if (stage ===500 && endingC){
-  endingC.handleClick();//다시 시작 코드
-  }
   if (stage === 601) {
     endingD2.mousePressed();
   }
