@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 8;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -1336,6 +1336,7 @@ function mouseClicked() {
   if (stage == 10){
     if (error1 && error1.isClicked(mouseX, mouseY)) {
     stage = 400;
+    endingB.start();
     return;
   }
 }
@@ -1402,7 +1403,7 @@ function mousePressed() {
     afterDay1.mousePressed();
   }
 
-  if(stage===22){
+  if(stage === 22){
     afterDay2.mousePressed();
   }
   if (stage === 25){
