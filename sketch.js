@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 10;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -1121,7 +1121,8 @@ function draw() {
         fill(255);
         text(resultMessage, width / 2, height / 2 + 48);
       }
-        // 틀릴 때 이미지
+      
+      // 틀릴 때 이미지
       if (showImage) {
         let elapsed = millis() - imageStartTime;
       if (elapsed < showDuration) {
@@ -1130,30 +1131,27 @@ function draw() {
       noTint();
       fill(255, 0, 0);
       textSize(48);
-      for (let pos of warningPositions) {
-        text("틀리지마", pos.x, pos.y);
-      }
-
+        for (let pos of warningPositions) {
+          text("틀리지마", pos.x, pos.y);
+        }
       } else {
       showImage = false; // 시간 지나면 안 보이게
+      }
     }
-  }
       
-      
+    // 정답일 때: 엔딩 A
+    if (morseCorrect && millis() - morseCheckTime > 1500) {
+      stage = 300;
+      morseCorrect = false;
+      resultMessage = "";
+    }
 
-      // 정답일 때: 엔딩 A
-      if (morseCorrect && millis() - morseCheckTime > 1500) {
-        stage = 300;
-        morseCorrect = false;
-        resultMessage = "";
-      }
-
-      // "초기화"일 때: 엔딩 C
-      if (isResetTriggered && millis() - resetTriggeredTime > 1500) {
-        stage = 500;
-        isResetTriggered = false;
-        resultMessage = "";
-      }
+    // "초기화"일 때: 엔딩 C
+    if (isResetTriggered && millis() - resetTriggeredTime > 1500) {
+      stage = 500;
+      isResetTriggered = false;
+      resultMessage = "";
+    }
 
       break;
 
@@ -1180,10 +1178,12 @@ function draw() {
         // 엔딩 C
         endingC.update();
       break;
+
     case 600:
         // 엔딩 D
         endingD1.update();
       break;
+
     case 601:
        // 엔딩 D 연결
        endingD2.update();
@@ -1287,13 +1287,13 @@ function mouseClicked() {
   if (stage === 23) {
   if (stageHandled<1) {
     stageHandled++
-}else if(stageHandled == 1){
-  stage ++;
-  stageHandled = 0;
-  } 
-}
+  } else if(stageHandled == 1){
+    stage ++;
+    stageHandled = 0;
+    } 
+  }
 
- // 바탕화면이 보이는 stage 정의
+  // 바탕화면이 보이는 stage 정의
   if (
     stage === 7 ||
     stage === 9 ||
@@ -1322,7 +1322,7 @@ function mouseClicked() {
   }
 
   // 모스부호 스테이지 정의
-  if (stage === 12 || stage === 21 || stage === 30 ) {
+  if (stage === 12 || stage === 21 || stage === 30) {
     if (
       mouseX >= width / 2 + 210 &&
       mouseX <= width / 2 + 290 &&
@@ -1358,7 +1358,7 @@ function mouseClicked() {
 
       // 모든 창 닫혔는지 확인
       if (errors.length === 0) {
-        stage++; // 원하는 다음 스테이지 번호로 바꾸세요
+        stage ++; // 원하는 다음 스테이지 번호로 바꾸세요
       }
 
       return; // 한 번에 하나만 닫기
@@ -1586,7 +1586,6 @@ function drawManual() {
   image(imgManual, manualX, manualY, manualPicW, manualPicH);
 }
 
-// stage 3 이후에 m키 누르면 매뉴얼이 나오도록
 function keyPressed() {
   const focusedEl = document.activeElement;
 
@@ -1598,8 +1597,8 @@ function keyPressed() {
     return;
   }
 
-  // stage 3 이후에 m키 누르면 매뉴얼이 나오도록
-  if (stage >= 3 && key === 'm') {
+  // stage 5 이후에 m키 누르면 매뉴얼이 나오도록
+  if (stage >= 5 && key === 'm') {
     showManual = !showManual;
   }
 }

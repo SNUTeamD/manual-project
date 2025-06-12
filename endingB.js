@@ -163,8 +163,8 @@ class EndingB {
     this.stateStartTime = millis();
 
     // 지속 시간 (단위: ms)
-    this.blinkDuration = 2500;   // 2.5초 깜빡임
-    this.noiseDuration = 1800;   // 1.8초 노이즈
+    this.blinkDuration = 4000;   // 4초 깜빡임
+    this.noiseDuration = 2000;   // 2초 노이즈
 
     // 대사 관련
     this.texts = [
