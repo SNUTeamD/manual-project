@@ -211,11 +211,11 @@ function setup() {
   // doctaskDay1 = new Day1Task1();
   // doctaskDay1.start();
   // Day2 업무1
-  doctaskDay2 = new Day2Task1(); 
-  doctaskDay2.start();
+  // doctaskDay2 = new Day2Task1(); 
+  // doctaskDay2.start();
   // Day3 업무1
-  doctaskDay3 = new Day3Task1(); 
-  doctaskDay3.start();
+  // doctaskDay3 = new Day3Task1(); 
+  // doctaskDay3.start();
   // 엔딩 초기화
   // endingA.start();
   endingC.start();
@@ -663,7 +663,7 @@ function draw() {
 
       fill(0);
       typeText([
-        ["휴... 오늘은은 힘든 하루였어 ..."],
+        ["휴... 오늘은 힘든 하루였어 ..."],
         ["고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?"],
         ["아냐.. 그래도 어떻게 입사했는데 .. 열심히 일 해야지 ..."],
         ["내일 하루도 힘내보자! 아자아자!!"]
@@ -712,7 +712,8 @@ function draw() {
        }
       error2.display();
       }
-
+      doctaskDay2 = new Day2Task1(); 
+      doctaskDay2.start();
       break;
 
     case 16:
@@ -887,7 +888,8 @@ function draw() {
        }
       error3.display();
       }
-
+      doctaskDay3 = new Day3Task1(); 
+      doctaskDay3.start();
       break;
     
     case 25:
