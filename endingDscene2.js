@@ -39,6 +39,10 @@ class EndingD2 {
     this.isTyping = true;
     this.clickReady = false;
 
+    //처음으로 가기
+    this.endingShownTime = null; // 엔딩이 끝난 시점 저장
+    this.canRestart = false;
+
     // 노이즈 관련 변수
     // this.noiseStartTime = null;
     // this.noiseDuration = 30000;
@@ -72,6 +76,20 @@ class EndingD2 {
       textAlign(CENTER, CENTER);
       textFont("Courier New");
       text("#End D: New MANUAL Ending", width / 2, height / 2);
+
+      if (this.endingShownTime === null) {
+        this.endingShownTime = millis();
+      }
+
+      if (!this.canRestart && millis() - this.endingShownTime > 5000) {
+        this.canRestart = true;
+      }
+
+      if (this.canRestart) {
+        textSize(20);
+        text("Click to Restart", width / 2, height / 2 + 30);
+      }
+
       return;
     }
 
@@ -246,6 +264,12 @@ class EndingD2 {
       const x = 80;
       const y = height - height / 4 - h + 200;  
       image(this.JainNormImg, x, y, w, h);
+    }
+  }
+  //처음으로 이동
+   handleClick() {
+    if (this.canRestart) {
+      stage = 0; // stage 0으로 복귀
     }
   }
 }
