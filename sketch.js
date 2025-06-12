@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 500;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -1439,11 +1439,17 @@ function mousePressed() {
     doctaskDay3.mousePressed();
   }
 
+  if (stage ===300 && endingA){
+    endingA.handleClick();//다시 시작 코드
+  }
   if (stage === 400) {
     endingB.handleClick();} // 클릭 처리
 
   if (stage === 500) {
     endingC.mousePressed();}
+  if (stage ===500 && endingC){
+  endingC.handleClick();//다시 시작 코드
+  }
   if (stage === 601) {
     endingD2.mousePressed();
   }
