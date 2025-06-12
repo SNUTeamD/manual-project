@@ -52,6 +52,7 @@ let codeInitialized = false;
 // day 전환 변수
 let afterDay1Started = false;
 let afterDay1;
+let afterDay2Started = false;
 let afterDay2;
 // 너무 빨리 넘어감 방지 코드
 let stageHandled = 0;
@@ -774,8 +775,7 @@ function draw() {
       break;
 
     case 20: // 바탕화면 3
-    //앞의 스크립트 초기화 함수
-      afterDay1Started = false;
+      afterDay1Started = false;   //앞의 스크립트 초기화 함수
           fill(150, 150, 255);
         rect(width - 450, 50, 400, 200);
         fill(0);
@@ -857,11 +857,17 @@ function draw() {
       break;
 
     case 22:
+      if (!afterDay2Started) {
+        afterDay2.start();
+        afterDay2Started = true;
+      }
+
       afterDay2.update();
 
       break;
 
     case 23: // Day 3로 전환
+    afterDay2Started = false;//앞의 스크립트 초기화 함수
     stopAllbgm();
     fill(255);
     textSize(70)
