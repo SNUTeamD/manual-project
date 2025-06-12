@@ -9,7 +9,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 600;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -25,6 +25,9 @@ let showManual = false; // 매뉴얼 보여줄지 여부
 
 // 사용자 입력용 인풋창
 let nameInput, codeInput;
+
+// 플레이어 이름 받는 변수
+let playerName = "";
 
 // 폴더에 문서 넣는 업무(Day1 업무1) 관련 변수들
 let doctaskDay1;
@@ -111,7 +114,7 @@ function preload() {
   imgError_1 = loadImage('assets/에러창.png');
   imgError_2 = loadImage('assets/에러창2.png');
 
-  //bgm불러오기
+  // bgm 불러오기
   beforeDay1bgm = loadSound('audio/업무시작전브금.mp3')
   day1bgm = loadSound('audio/1일차 브금.mp3')
   day2bgm = loadSound('audio/2일차브금_믹스다운.mp3')
@@ -122,7 +125,7 @@ function preload() {
   
   // 엔딩 객체 불러오기
   // 엔딩 A
-  endingA = new EndingA();
+  endingA = new EndingA(playerName);
   // 엔딩 B
   endingB = new EndingB();
   endingB.preload();
@@ -131,7 +134,7 @@ function preload() {
   endingC.preload();
   // 엔딩 D
   endingD1 = new EndingD1();
-  endingD2 = new EndingD2();
+  endingD2 = new EndingD2(playerName);
   endingD2.preload();
   //Day 1이 끝나고
   afterDay1 = new AfterDay1();
@@ -318,7 +321,7 @@ function draw() {
     
       fill(0);
       typeText([
-        [nameInput.value() + " 씨 맞으신가요?"],
+        [playerName + " 씨 맞으신가요?"],
         /*["저는 연구 부서의 김철수 연구원이라고 합니다."],
         ["해야 할 업무를 설명해 드리겠습니다."],
         ["이전에 안내드린 바와 같이, 업무는 간단합니다."],
@@ -1290,7 +1293,8 @@ function mouseClicked() {
       mouseY >= height / 2 - 1.5 &&
       mouseY <= height / 2 + 51.5
     ) {
-      stage++;
+      playerName = nameInput.value();
+      stage ++;
       nameInput.hide();
     }
   }

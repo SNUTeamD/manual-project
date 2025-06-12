@@ -1,9 +1,9 @@
 class EndingA {
-  constructor(name) {
+  constructor(playerName) {
     this.lines = [
       "업무가 모두 완료되었습니다.",
       "에너지 변환 수준 미달.",
-      `${name} == 부적합`, // ← 여기!
+      `${playerName} == 부적합`, // ← 여기!
       "규정 7.13조에 따라, 신규 직원으로 등록됩니다.",
       "기억을 제거합니다.",
       "...",
@@ -11,6 +11,7 @@ class EndingA {
       "환영합니다. 연구부서로의 이동이 승인되었습니다."
     ];
 
+    this.playerName = playerName;
     this.currentTextIndex = 0;
     this.fullText = "";
     this.currentLineText = "";
