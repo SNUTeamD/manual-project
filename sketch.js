@@ -5,10 +5,11 @@ let imgManual, imgResearcher, imgCompany, imgCode;
 let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
+//bgm 관련 변수들 선언 및 설정정
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 500;
+let stage = 0;
 
 // 텍스트 타자 효과 관련 변수
 let part = 0;
@@ -265,6 +266,13 @@ function draw() {
       break;
 
     case 1:
+      //bgm
+      if (!beforeDay1bgm.isPlaying()) {
+                stopAllbgm();
+                beforeDay1bgm.loop(); // 자동 반복
+                beforeDay1bgm.setVolume(0.3);
+      }
+
       // 회사 배경과 함께 도입 문구 출력
       let companyW = 1000;
       let companyH = imgCompany.height * (companyW / imgCompany.width);
@@ -407,6 +415,13 @@ function draw() {
       break;
 
     case 7: // 바탕화면 1
+      //bgm
+      if (!day1bgm.isPlaying()) {
+                stopAllbgm();
+                day1bgm.loop(); // 자동 반복
+                day1bgm.setVolume(0.2);
+      }
+
       // 업무 리스트
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
@@ -662,6 +677,13 @@ function draw() {
       break;
 
     case 15: // 바탕화면 1
+    //bgm
+      if (!day2bgm.isPlaying()) {
+                stopAllbgm();
+                day2bgm.loop(); // 자동 반복
+                day2bgm.setVolume(0.2);
+      }
+
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -811,6 +833,13 @@ function draw() {
       break;
     
     case 24: // 바탕화면 1
+    //bgm
+      if (!day3bgm.isPlaying()) {
+                stopAllbgm();
+                day3bgm.loop(); // 자동 반복
+                day3bgm.setVolume(0.2);
+      }
+
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
       fill(0);
@@ -1659,3 +1688,13 @@ function wrongAction() {
   }
 }
 
+//모든 bgm 정지 함수
+function stopAllbgm() {
+    beforeDay1bgm.stop();
+  day1bgm.stop();
+  day2bgm.stop();
+  day3bgm.stop();
+  endingBbgm.stop();
+  endingCbgm.stop();
+  endingDbgm.stop();
+}
