@@ -178,7 +178,7 @@ class EndingC {
     let textMargin = 30;
     if (this.currentTextIndex === 16){
       fill(255, 0, 0);
-    } else { fill(255);}
+    } else { fill(0);}
     text(this.displayedText, boxX + textMargin, boxY + textMargin + 30, boxW - textMargin * 2, boxH - textMargin * 2);
   }
 
