@@ -246,30 +246,30 @@ class AfterDay1 {
     this.lastUpdateTime = millis();
   }
 
-  mousePressed() {
-    if (this.phase !== 1) return;
+ mousePressed() {
+  if (this.phase !== 1) return;
+  if (this.currentTextIndex >= this.texts.length) return;
 
-    // 범위 보호
-    if (this.currentTextIndex >= this.texts.length) return;
+  let currentObj = this.texts[this.currentTextIndex];
+  if (currentObj.lockInput) return;
 
-      let currentObj = this.texts[this.currentTextIndex];
-      if (currentObj.lockInput) return;
+  if (this.isTyping) {
+    // 글자 다 보여주기만 하고 다음 대사로 넘기지 않음
+    this.displayedText = this.fullText;
+    this.charIndex = this.fullText.length;
+    this.isTyping = false;
+    this.clickReady = true;
+    return; // ❗ 여기서 종료해야 같은 텍스트 반복 방지
+  }
 
-    if (this.isTyping) {
-      this.displayedText = this.fullText;
-      this.charIndex = this.fullText.length;
-      this.isTyping = false;
-      this.clickReady = true;
-    } else if (this.clickReady) {
-      this.currentTextIndex ++;
-    }
-
+  if (this.clickReady) {
+    this.currentTextIndex++;
     if (this.currentTextIndex < this.texts.length) {
       this.loadNextText();
     } else {
       this.endc1Reached = true;
-      stage ++;
-      return;
+      stage++;
     }
   }
+}
 }

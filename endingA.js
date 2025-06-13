@@ -59,6 +59,7 @@ class EndingA {
       if (this.canRestart) {
         textSize(20);
         text("Click to Restart", width / 2, height / 2 + 30);
+        text("에러창과 보고서를 잘 들여다보면 무언가 있을지도...?", width / 2, height / 2 + 60);
       }
 
       return;
