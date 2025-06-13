@@ -1493,7 +1493,7 @@ function mouseClicked() {
       return; // 한 번에 하나만 닫기
     }
     else if (errors && stage === 27 && errors[i].isDetailBtnClicked(mouseX, mouseY)) {
-    returnStage = 26;
+    returnStage = 24;
     stage = 400;
     endingB = new EndingB();     // ✅ 새 인스턴스 생성
     endingB.preload();           // ✅ 이미지 다시 불러오기
