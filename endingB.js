@@ -277,7 +277,7 @@ class EndingB {
       textAlign(CENTER, CENTER);
       text("김철수", boxX + 230, boxY + 10);
     }
-    fill(255);
+    fill(0);
     textSize(30);
     text(this.displayedText, width / 2, 7 / 8 * height);
   }
