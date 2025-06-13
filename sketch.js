@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 23;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -238,7 +238,6 @@ function setup() {
 
 // ====== 메인 화면 반복 그리기 ======
 function draw() {
-  console.log("prevStage:", draw.prevStage, "current stage:", stage);
   background(0);
   textFont(myFont);
   textSize(35);
@@ -306,10 +305,10 @@ function draw() {
       textSize(30);
       typeText([
         [" 드디어 오늘이 왔다! "],
-        /*["오늘부터 나는 이 제약회사에서 인간의 감염병을 치료하는 백신을 중점적으로 연구하는 프로젝트에 참여하게 되었다."], 
+        ["오늘부터 나는 이 제약회사에서 인간의 감염병을 치료하는 백신을 중점적으로 연구하는 프로젝트에 참여하게 되었다."], 
         ["신입이니까 초반 며칠은 자잘한 서류 처리 작업을 맡겠지만", "프로젝트를 진행하다보면 중대한 업무도 맡게 될 거라 믿는다."], 
         ["질병의 치료라는 중대한 사명을 가지고 있는 만큼","'절대로 매뉴얼을 따라야 한다’는 선배의 말을 반드시 명심해야겠다."], 
-        ["후 ... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을거다. 할 수 있다!!"],*/
+        ["후 ... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을거다. 할 수 있다!!"],
         ["Click to continue ···"]
       ]);
   
@@ -337,10 +336,10 @@ function draw() {
       textSize(30);
       typeText([
         [playerName + " 씨 맞으신가요?"],
-        /*["저는 연구 부서의 김철수 연구원이라고 합니다."],
+        ["저는 연구 부서의 김철수 연구원이라고 합니다."],
         ["해야 할 업무를 설명해 드리겠습니다."],
         ["이전에 안내드린 바와 같이, 업무는 간단합니다."],
-        ["컴퓨터 화면에 그날 해야 할 업무 리스트가 제시되어 있을 겁니다."],*/
+        ["컴퓨터 화면에 그날 해야 할 업무 리스트가 제시되어 있을 겁니다."],
         ["순서대로 업무를 수행해주시면 됩니다."],
       ]);
 
@@ -1380,7 +1379,6 @@ function updateCursor() {
 }
 
 function mouseClicked() {
-  console.log("mouseClicked called, stage =", stage);
   if (stage === 0) {
     // 확인 버튼 클릭 시 다음 stage로
     if (
@@ -1523,7 +1521,6 @@ function checkButton(x, y, w, h) {
 }
 
 function mousePressed() {
-  console.log("mousePressed called, stage =", stage);
   if (stage === 8){
     doctaskDay1.mousePressed();
   }
