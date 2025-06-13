@@ -6,7 +6,7 @@ let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
-//bgm 관련 변수들 선언 및 설정
+// bgm 관련 변수들 선언 및 설정
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
@@ -57,7 +57,7 @@ let afterDay2Started = false;
 let afterDay2;
 // 너무 빨리 넘어감 방지 코드
 let stageHandled = 0;
-//시간 재기 변수
+// 시간 재기 변수
 let startTime =0;
 let glitchAlpha = 255;
 
@@ -75,7 +75,7 @@ let errorDisplay =false; // 에러 창 보이게 하는 변수
 // 마지막 날 엔딩 A, C, D 전환 관련 변수
 let isResetTriggered = false;
 let resetTriggeredTime = 0;
-let anotherResetTriggered = false; //우선 엔딩 D 전환 변수입니다.
+let anotherResetTriggered = false; // 우선 엔딩 D 전환 변수입니다.
 
 // 엔딩 관련 변수
 let endingA;  // 엔딩 A
@@ -88,7 +88,7 @@ let endingD1Started =false;
 let endingD2Started = false;
 
 
-//틀린 횟수 세기
+// 틀린 횟수 세기
 let wrongCount =0;
 let showImage = false;
 let imageStartTime = 0;
@@ -308,7 +308,7 @@ function draw() {
         /*["오늘부터 내가 근무할 제약회사에서는 인간의 감염병을 치료하는 백신을 중점적으로 연구한다고 들었다."], 
         ["신입이니까 초반 며칠은 자잘한 서류 처리 작업을 맡겠지만", "프로젝트를 진행하다보면 중대한 업무도 맡게 될 거라 믿는다."], 
         ["질병의 치료라는 중대한 사명을 가지고 있는 만큼","'절대로 매뉴얼을 따라야 한다’는 선배의 말을 반드시 명심해야겠다."], 
-        ["후 ... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을거다."],*/
+        ["후 ... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을거다. 할 수 있다!!"],*/
         ["Click to continue ···"]
       ]);
   
@@ -1090,7 +1090,7 @@ function draw() {
         }
         text(resultMessage, width - 355, 180);
       }
-       // 틀렸을 때 wrongAction 이미지 보이게
+      // 틀렸을 때 wrongAction 이미지 보이게
       if (showImage) {
         let elapsed = millis() - imageStartTime;
       if (elapsed < showDuration) {
@@ -1823,7 +1823,7 @@ function checkMorseAnswer() {
     resetTriggeredTime = millis();
     morseCorrect = false;
     codeInput.value(''); 
-  } else if (stage === 30 && codeCheck === "초기화"){ // 우선 임시 코드, 나중에 무조건 바꾸세요
+  } else if (stage === 30 && codeCheck === "도재인") { 
     resultMessage = "매뉴얼 무효화 시스템 가동 중 ...";
     anotherResetTriggered = true;
     resetTriggeredTime = millis();
@@ -1857,7 +1857,7 @@ function wrongAction() {
 
 //모든 bgm 정지 함수
 function stopAllbgm() {
-    beforeDay1bgm.stop();
+  beforeDay1bgm.stop();
   day1bgm.stop();
   day2bgm.stop();
   day3bgm.stop();
