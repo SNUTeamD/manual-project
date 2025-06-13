@@ -7,7 +7,7 @@ let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
 
 // bgm 관련 변수들 선언 및 설정
-let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
+let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
 let stage = 23;
@@ -134,6 +134,7 @@ function preload() {
   endingBbgm = loadSound('audio/엔딩B사무실.mp3')
   endingCbgm = loadSound('audio/엔딩c브금_믹스다운.mp3')
   endingDbgm = loadSound('audio/엔딩D.mp3')
+  manualbgm = loadSound('audio/매뉴얼 브금.mp3')
   
   // 엔딩 객체 불러오기
   // 엔딩 A
@@ -351,6 +352,11 @@ function draw() {
       break;
 
     case 3:
+      if (!manualbgm.isPlaying()) {
+                stopAllbgm();
+                manualbgm.loop(); // 자동 반복
+                manualbgm.setVolume(0.3);
+      }
       manualPic();
 
       // 화면 아래 회색 박스
@@ -1494,7 +1500,7 @@ function mouseClicked() {
       return; // 한 번에 하나만 닫기
     }
     else if (errors && stage === 27 && errors[i].isDetailBtnClicked(mouseX, mouseY)) {
-    returnStage = 26;
+    returnStage = 24;
     stage = 400;
     endingB = new EndingB();     // ✅ 새 인스턴스 생성
     endingB.preload();           // ✅ 이미지 다시 불러오기
@@ -1875,4 +1881,5 @@ function stopAllbgm() {
   endingBbgm.stop();
   endingCbgm.stop();
   endingDbgm.stop();
+  manualbgm.stop();
 }
