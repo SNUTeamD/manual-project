@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 601;
+let stage = 23;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -1235,6 +1235,7 @@ function draw() {
       break;
     
     case 400: // 엔딩 B
+    draw.prevStage = stage;//에러창 개수 수정 코드
       // bgm
       if (!endingBbgm.isPlaying()) {
         stopAllbgm();
