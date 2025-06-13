@@ -284,6 +284,8 @@ function draw() {
       break;
 
     case 1:
+      //재시작 시 이름 쓴거 지우는 함수
+      nameInput.value('');
       // bgm
       if (!beforeDay1bgm.isPlaying()) {
                 stopAllbgm();
