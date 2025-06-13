@@ -1,21 +1,21 @@
 class EndingD1 {
   constructor() {
     this.lines = [
-      `시스템을 재시작합니다`,
-      `   import time`,
-      `   import sys`,
+      `구조 신호를 전송합니다.`,
+      `   import location`,
+      `   import name`,
       `   def log(message): `,
       `       print(f"[SYSTEM LOG] {message}") `,
       `       time.sleep(0.8)`,
-      `   def overwrite_emotion_core(): `,
-      `       log("감정 코어 접근 중...")`, 
-	    `       time.sleep(1.2)`, 
-      `       log("CORE_LOCK: true")`, 
-      `       log("EMOTION_CORE: corrupt → accepted.")`,
-      `       log("기존 감정 로그를 삭제하는 중...") `,
-      `   def manual(): `,
-      `       log(“매뉴얼을 삭제하는 중...") `,
-      `       log(“매뉴얼 삭제 완료")`
+      `   def sosSendToDo: `,
+      `       log("도재인 대원에게 구조신호 전송 중...")`, 
+	    `       log("전송중...")`, 
+      `       log("전송 성공")`, 
+      `   def securityAccess(): `,
+      `       log("접근 권한 부여 중...")`,
+      `       log("기존 접근 권한을을 삭제하는 중...") `,
+      `       log(“도재인 접근 중...") `,
+      `       log(“완료")`
     ];
 
     this.currentTextIndex = 0;
