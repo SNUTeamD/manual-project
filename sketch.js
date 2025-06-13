@@ -895,7 +895,7 @@ function draw() {
       break;
 
     case 23: // Day 3로 전환
-      afterDay2Started = false;//앞의 스크립트 초기화 함수
+      afterDay2Started = false; // 앞의 스크립트 초기화 함수
       stopAllbgm();
       fill(255);
       textSize(70)
@@ -931,6 +931,7 @@ function draw() {
       }
       doctaskDay3 = new Day3Task1(); 
       doctaskDay3.start();
+
       break;
     
     case 25:
@@ -1399,7 +1400,7 @@ function mouseClicked() {
 // stage 23에서 stage 24를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
 // 2번 눌러야 다음으로 진행됩니다
   if (stage === 23) {
-  if (stageHandled<1) {
+  if (stageHandled < 1) {
     stageHandled++
   } else if(stageHandled == 1){
     stage ++;
@@ -1491,8 +1492,8 @@ function mouseClicked() {
       }
       return; // 한 번에 하나만 닫기
     }
-    else if (errors && stage ===27 && errors[i].isDetailBtnClicked(mouseX, mouseY)) {
-    returnStage = 24
+    else if (errors && stage === 27 && errors[i].isDetailBtnClicked(mouseX, mouseY)) {
+    returnStage = 26;
     stage = 400;
     endingB = new EndingB();     // ✅ 새 인스턴스 생성
     endingB.preload();           // ✅ 이미지 다시 불러오기
@@ -1544,7 +1545,7 @@ function mousePressed() {
     doctaskDay3.mousePressed();
   }
 
-  if (stage ===300 && endingA){
+  if (stage === 300 && endingA){
     endingA.handleClick(); // 다시 시작 코드
   }
   if (stage === 400) {
@@ -1552,13 +1553,13 @@ function mousePressed() {
 
   if (stage === 500) {
     endingC.mousePressed();}
-  if (stage ===500 && endingC){
+  if (stage === 500 && endingC){
   endingC.handleClick(); // 다시 시작 코드
   }
   if (stage === 601) {
     endingD2.mousePressed();
   }
-  if (stage ===601 && endingD2){
+  if (stage === 601 && endingD2){
   endingD2.handleClick(); // 다시 시작 코드
   }
 }
