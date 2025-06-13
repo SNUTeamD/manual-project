@@ -5,7 +5,8 @@ let imgManual, imgResearcher, imgCompany, imgCode;
 let activeFileIcon, inactiveFileIcon;
 let activeDocIcon, inactiveDocIcon;
 let activeSatIcon, inactiveSatIcon;
-//bgm 관련 변수들 선언 및 설정정
+
+//bgm 관련 변수들 선언 및 설정
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
@@ -1200,7 +1201,7 @@ function draw() {
       isResetTriggered = false;
       resultMessage = "";
     }
-    //초기화 일 때: 엔딩 D // 임시 코드+ 꼭 바꾸세요!!
+    //초기화일 때: 엔딩 D // 임시 코드 + 꼭 바꾸세요!!
     if(anotherResetTriggered && millis()- resetTriggeredTime > 1500){
       stage = 600;
       anotherResetTriggere = false;
@@ -1213,8 +1214,7 @@ function draw() {
       codeInput.value(''); // 모스부호 입력창 초기화
         // 엔딩 A
       if (!endingAStarted) {
-        let name = nameInput.value(); // 예: "홍길동"
-        endingA = new EndingA(name);
+        endingA = new EndingA(playerName);
         endingA.start();
         endingAStarted = true;
       }
