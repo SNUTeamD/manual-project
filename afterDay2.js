@@ -16,9 +16,9 @@ constructor() {
   { speaker: "김철수", text: "매뉴얼 ... 잘 지키고 계시죠?" },
   { speaker: "김철수", text: "잘 지킬거라 믿습니다."},
   { speaker: "PLAYER", text: "내 대답도 듣지 않고 사라졌다." },
-  { speaker: "PLAYER", text: "여기 사람들은 자기 할 말만 하고 사라지는 게 버릇인가보다." },
+  { speaker: "PLAYER", text: "여기 사람들은 자기 할 말만 하고 사라지는 게 버릇인가 보다." },
   { speaker: "PLAYER", text: "이거 그만둘까 하는 생각이 또 들었지만 이미 발을 담군 이상 .." },
-  { speaker: "PLAYER", text: "어쨌든 이게 내 일이니까. 하는 데까진 해보자." }
+  { speaker: "PLAYER", text: "어쨌든 이게 내 일이니까. 하는 데까진 해보자 .." }
 ];
 
     this.currentTextIndex = 0;
@@ -77,21 +77,21 @@ constructor() {
   image(this.afterDay2, width / 2, height / 3, imgW, imgH);
   imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
 
-    }else if(this.currentTextIndex >4 && this.currentTextIndex <=6 ){
+    } else if(this.currentTextIndex >4 && this.currentTextIndex <=6 ){
       this.drawChulSu();
     }
     
-    // 철수 괴수화 코드
-    // 👾 괴인 이미지 잠깐 등장
-if (this.showChulSuMonster) {
-  let elapsed = millis() - this.chulSuMonsterStartTime;
-  if (elapsed < 300) {
-    this.drawChulSuMonster();
-  } else {
-    this.showChulSuMonster = false;
-    this.chulSuMonsterShown = true; // ✅ 더 이상 안 나오게
+  // 철수 괴수화 코드
+  // 👾 괴인 이미지 잠깐 등장
+  if (this.showChulSuMonster) {
+    let elapsed = millis() - this.chulSuMonsterStartTime;
+    if (elapsed < 300) {
+      this.drawChulSuMonster();
+    } else {
+      this.showChulSuMonster = false;
+      this.chulSuMonsterShown = true; // ✅ 더 이상 안 나오게
+    }
   }
-}
 
 // ✅ currentTextIndex가 7일 때 한 번만 showchulSuMonster를 true로
 if (this.currentTextIndex === 5 && !this.chulSuMonsterShown && !this.showChulSuMonster) {
@@ -157,7 +157,7 @@ if (this.currentTextIndex === 5 && !this.chulSuMonsterShown && !this.showChulSuM
     }
     fill(0);
     textAlign(CENTER, CENTER);
-    textSize(35);
+    textSize(30);
     let textMargin = 30;
     
     text(this.displayedText, boxX + textMargin, boxY + textMargin + 30, boxW - textMargin * 2, boxH - textMargin * 2);

@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 17;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -418,7 +418,7 @@ function draw() {
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
-      fill(50);
+      fill(55);
       textSize(30);
       typeText([
         ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
@@ -442,7 +442,7 @@ function draw() {
       break;
 
     case 7: // 바탕화면 1
-      //bgm
+      // bgm
       if (!day1bgm.isPlaying()) {
                 stopAllbgm();
                 day1bgm.loop(); // 자동 반복
@@ -462,7 +462,7 @@ function draw() {
       // 아이콘 표시: 파일 아이콘만 활성화
       drawIcons();
 
-      //다음 업무 미리 로드
+      // 다음 업무 미리 로드
       doctaskDay1 = new Day1Task1();
       doctaskDay1.start();
       break;
@@ -498,7 +498,7 @@ function draw() {
       break;
 
     case 10:
-      // Day 1 - 업무 2: 정크 데이터 처리
+      // Day 1 - 업무 2: 정크 데이터 처리  
       fill(255);
       rect(50, 30, width - 100, height);
       
@@ -561,7 +561,6 @@ function draw() {
         }
       }
 
-
       textSize(15);
       textAlign(LEFT, TOP);
 
@@ -594,12 +593,11 @@ function draw() {
       }
 
       if (stage === 10) {
-      if (!error1.isVisible) {
-      error1.start();
-       }
-      error1.display();
+        if (!error1.isVisible) {
+          error1.start();
+        }
+        error1.display();
       }
-
 
       break;
 
@@ -692,10 +690,10 @@ function draw() {
       fill(0);
       textSize(30);
       typeText([
-        ["휴... 오늘은 힘든 하루였어 ..."],
+        ["휴 ... 오늘은 힘든 하루였어 ..."],
         ["고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?"],
-        ["아냐.. 그래도 어떻게 입사했는데 .. 열심히 일 해야지 ..."],
-        ["내일 하루도 힘내보자! 아자아자!!"]
+        ["아냐 .. 그래도 어떻게 입사했는데 ... 열심히 일 해야지 ...."],
+        ["내일 하루도 힘내보자! 어떻게든 되겠지~"]
       ]);
       
       if (finishText) {
@@ -717,7 +715,7 @@ function draw() {
       break;
 
     case 15: // 바탕화면 1
-    //bgm
+      // bgm
       if (!day2bgm.isPlaying()) {
                 stopAllbgm();
                 day2bgm.loop(); // 자동 반복
@@ -784,8 +782,8 @@ function draw() {
         image(fakeDoc, 0, 0, windowWidth, windowHeight);
         noTint();
 
-        // 5초 후 스테이지 전환
-        if (elapsed > 5000) {
+        // 2초 후 스테이지 전환
+        if (elapsed > 2000) {
           stage++;
           startTime = 0; // 다음 스테이지에서 새 타이머 시작
           console.log("5초 경과. 다음 스테이지로:", stage);
@@ -1451,7 +1449,8 @@ function mouseClicked() {
   
   if (stage == 10){
     if (error1 && error1.isClicked(mouseX, mouseY)) {
-      returnStage = 7; // Day1 화면으로 돌아가기
+      returnStage = 9;
+      resultMessage = ""
       stage = 400;
       endingB = new EndingB();     // ✅ 새 인스턴스 생성
       endingB.preload();           // ✅ 이미지 다시 불러오기
@@ -1461,7 +1460,8 @@ function mouseClicked() {
 }
   if (stage == 15){
     if (error2 && error2.isClicked(mouseX, mouseY)) {
-    returnStage = 15; // 현재 스테이지 저장
+    returnStage = 15;
+    resultMessage = ""
     stage = 400;
     endingB = new EndingB();     // ✅ 새 인스턴스 생성
     endingB.preload();           // ✅ 이미지 다시 불러오기
@@ -1471,8 +1471,9 @@ function mouseClicked() {
 }
   if (stage == 24){
     if (error3 && error3.isClicked(mouseX, mouseY)) {
-    returnStage = 24; // 현재 스테이지 저장
+    returnStage = 24;
     stage = 400;
+    resultMessage = ""
     endingB = new EndingB();     // ✅ 새 인스턴스 생성
     endingB.preload();           // ✅ 이미지 다시 불러오기
     endingB.start();             // ✅ 상태 초기화
@@ -1513,11 +1514,11 @@ function checkButton(x, y, w, h) {
 }
 
 function mousePressed() {
-   console.log("mousePressed called, stage =", stage);
+  console.log("mousePressed called, stage =", stage);
   if (stage === 8){
     doctaskDay1.mousePressed();
   }
-    // 드래그 업무 쓰는 스테이지
+  // 드래그 업무 쓰는 스테이지
   if (stage === 10 || stage === 28) {
     for (let s of sentenceObjs) {
       s.state = "default";
@@ -1544,7 +1545,7 @@ function mousePressed() {
   }
 
   if (stage ===300 && endingA){
-    endingA.handleClick();//다시 시작 코드
+    endingA.handleClick(); // 다시 시작 코드
   }
   if (stage === 400) {
     endingB.handleClick();} // 클릭 처리
@@ -1552,13 +1553,13 @@ function mousePressed() {
   if (stage === 500) {
     endingC.mousePressed();}
   if (stage ===500 && endingC){
-  endingC.handleClick();//다시 시작 코드
+  endingC.handleClick(); // 다시 시작 코드
   }
   if (stage === 601) {
     endingD2.mousePressed();
   }
   if (stage ===601 && endingD2){
-  endingD2.handleClick();//다시 시작 코드
+  endingD2.handleClick(); // 다시 시작 코드
   }
 }
 
@@ -1863,7 +1864,7 @@ function wrongAction() {
   }
 }
 
-//모든 bgm 정지 함수
+// 모든 bgm 정지 함수
 function stopAllbgm() {
   beforeDay1bgm.stop();
   day1bgm.stop();

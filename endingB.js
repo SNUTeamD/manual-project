@@ -168,7 +168,7 @@ class EndingB {
 
     // 대사 관련
     this.texts = [
-      { speaker: "PLAYER", text: "...헉. 잠깐 졸았나 .. ?" },
+      { speaker: "PLAYER", text: "헉, 잠깐 졸았나 .. ?" },
       { speaker: "김철수", text: "첫 날부터 주무시는 거예요? 이제 일하셔야죠." },
       { speaker: "PLAYER", text: "아, 네 ... 죄송합니다." },
     ];
@@ -270,14 +270,13 @@ class EndingB {
       noStroke();
       fill(60, 215);
       rectMode(CENTER);
-      rect(boxX + 215, boxY + 15, 200, 50, 10);
+      rect(boxX + 230, boxY + 15, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("김철수", boxX + 215, boxY + 10);
+      text("김철수", boxX + 230, boxY + 10);
     }
-
     fill(255);
     textSize(30);
     text(this.displayedText, width / 2, 7 / 8 * height);

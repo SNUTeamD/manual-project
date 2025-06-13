@@ -8,14 +8,14 @@ class AfterDay1 {
     this.lockInput = false;
 
     this.texts = [
-  { speaker: "PLAYER", text: "(무언가 이상한 보고서다)"},
+  { speaker: "PLAYER", text: "(무언가 이상한 보고서다.)"},
   { speaker: "???", text: "어! 잠시만요!!" },
   { speaker: "PLAYER", text: "(갑자기 나타난 저 여자가 내 책상 위의 보고서를 뺏었다.)" },
   { speaker: "???", text: "아 ... 이게 왜 여기있지 ..." },
   { speaker: "???", text: "이건 오늘 작업 안하셔도 돼요." },
   { speaker: "도재인", text: "제 소개가 늦었네요. 인사이동부의 도재인이라고 합니다." },
-  { speaker: "PLAYER", text: "방금 보고서에 이상한 게 보였는데요..?" },
-  { speaker: "도재인", text: "네? 무슨 말씀인지 모르겠어요."},
+  { speaker: "PLAYER", text: "방금 보고서에 이상한 게 보였는데요 .. ?" },
+  { speaker: "도재인", text: "네? 이상한 거라뇨? 잘못 보신 거 같은데요?"},
   { speaker: "도재인", text: "제가 작업해야 하는 보고서인데, 실수로 이쪽으로 넘겨졌나 봐요." },
   { speaker: "도재인", text: "오늘은 데이터 처리를 안 하셔도 됩니다."},
   { speaker: "도재인", text: "좋은 하루 되세요." },
@@ -73,37 +73,37 @@ class AfterDay1 {
     if (this.currentTextIndex >= 2 && this.currentTextIndex <= 4) {
       let scale = 0.5; // 이미지 80% 크기로 줄이기
 
-  let imgW = this.afterDay1.width * scale;
-  let imgH = this.afterDay1.height * scale;
+    let imgW = this.afterDay1.width * scale;
+    let imgH = this.afterDay1.height * scale;
 
-  tint(255, this.fadeAlpha);
-  imageMode(CENTER);
-  image(this.afterDay1, width / 2, height / 2, imgW, imgH);
-  imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
+    tint(255, this.fadeAlpha);
+    imageMode(CENTER);
+    image(this.afterDay1, width / 2, height / 2, imgW, imgH);
+    imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
 
-    } else if(this.currentTextIndex >4 && this.currentTextIndex <=8 ){
+    } else if(this.currentTextIndex > 4 && this.currentTextIndex <= 10 ){
       this.drawJane();
     }
+
     // 재인 괴수화 코드
     // 👾 괴인 이미지 잠깐 등장
-if (this.showJaneMonster) {
-  let elapsed = millis() - this.janeMonsterStartTime;
-  if (elapsed < 300) {
-    this.drawJaneMonster();
-  } else {
-    this.showJaneMonster = false;
-    this.janeMonsterShown = true; // ✅ 더 이상 안 나오게
+  if (this.showJaneMonster) {
+    let elapsed = millis() - this.janeMonsterStartTime;
+    if (elapsed < 300) {
+      this.drawJaneMonster();
+    } else {
+      this.showJaneMonster = false;
+      this.janeMonsterShown = true; // ✅ 더 이상 안 나오게
+    }
   }
-}
 
-// ✅ currentTextIndex가 7일 때 한 번만 showJaneMonster를 true로
-if (this.currentTextIndex === 8 && !this.janeMonsterShown && !this.showJaneMonster) {
-  this.showJaneMonster = true;
-  this.janeMonsterStartTime = millis();
-}
-
+  // ✅ currentTextIndex가 8일 때 한 번만 showJaneMonster를 true로
+  if (this.currentTextIndex === 10 && !this.janeMonsterShown && !this.showJaneMonster) {
+    this.showJaneMonster = true;
+    this.janeMonsterStartTime = millis();
+  }
     this.drawTextbox();
-  }
+}
 
   drawNoise(progress) {
     loadPixels();
@@ -159,41 +159,41 @@ if (this.currentTextIndex === 8 && !this.janeMonsterShown && !this.showJaneMonst
     }
     fill(0);
     textAlign(CENTER, CENTER);
-    textSize(35);
+    textSize(30);
     let textMargin = 30;
     
     text(this.displayedText, boxX + textMargin, boxY + textMargin + 30, boxW - textMargin * 2, boxH - textMargin * 2);
   }
-// 도재인 이미지 비율 유지하면서 표시하는 함수
-drawJane() {
-  let janeW = 550;
-  let janeH = this.janeCommon.height * (janeW / this.janeCommon.width);
-  let imgX = 20;
-  let imgY = height - height / 4 - janeH + 185;
-  image(this.janeCommon, imgX, imgY, janeW, janeH);
-}
-drawJaneMonster() {
-  let janeMonW = 550;
-  let janeMonH = this.janeMonster.height * (janeMonW / this.janeMonster.width);
-  let imgX = 20;
-  let imgY = height - height / 4 -janeMonH + 185;
-  image(this.janeMonster, imgX, imgY, janeMonW, janeMonH);
 
-  for (let i = 0; i < 3; i++) {
-    let offsetX = random(-5, 5); // 좌우 랜덤 흔들림
-    let offsetY = random(-5, 5);
-    let tintColor;
-    if (i === 0) tintColor = [255, 0, 0];     // 빨강
-    else if (i === 1) tintColor = [0, 255, 255]; // 청록
-    else tintColor = [255, 255, 255];         // 흰색
-
-    tint(...tintColor, 180); // 투명도 조절
-    image(this.janeMonster, imgX + offsetX, imgY + offsetY, janeMonW, janeMonH);
+  // 도재인 이미지 비율 유지하면서 표시하는 함수
+  drawJane() {
+    let janeW = 550;
+    let janeH = this.janeCommon.height * (janeW / this.janeCommon.width);
+    let imgX = 20;
+    let imgY = height - height / 4 - janeH + 185;
+    image(this.janeCommon, imgX, imgY, janeW, janeH);
   }
+  drawJaneMonster() {
+    let janeMonW = 550;
+    let janeMonH = this.janeMonster.height * (janeMonW / this.janeMonster.width);
+    let imgX = 20;
+    let imgY = height - height / 4 -janeMonH + 185;
+    image(this.janeMonster, imgX, imgY, janeMonW, janeMonH);
 
-  noTint(); // 이후 이미지에 영향 안 주게
-}
+    for (let i = 0; i < 3; i++) {
+      let offsetX = random(-5, 5); // 좌우 랜덤 흔들림
+      let offsetY = random(-5, 5);
+      let tintColor;
+      if (i === 0) tintColor = [255, 0, 0];     // 빨강
+      else if (i === 1) tintColor = [0, 255, 255]; // 청록
+      else tintColor = [255, 255, 255];         // 흰색
 
+      tint(...tintColor, 180); // 투명도 조절
+      image(this.janeMonster, imgX + offsetX, imgY + offsetY, janeMonW, janeMonH);
+    }
+
+    noTint(); // 이후 이미지에 영향 안 주게
+  }
 
   drawTyping() {
     // 텍스트가 모두 끝났으면 더 이상 처리하지 않음
@@ -251,7 +251,7 @@ drawJaneMonster() {
 
     // 범위 보호
     if (this.currentTextIndex >= this.texts.length) return;
-    
+
       let currentObj = this.texts[this.currentTextIndex];
       if (currentObj.lockInput) return;
 

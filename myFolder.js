@@ -15,7 +15,7 @@ class MyFolder {
     fill(255); // White text for folder name
     textSize(16); // Text size relative to folder height
     textAlign(CENTER, CENTER);
-    text(this.name, this.x, this.y+50);
+    text(this.name, this.x, this.y + 50);
     pop();
   }
   contains(doc) {
