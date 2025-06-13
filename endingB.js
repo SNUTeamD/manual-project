@@ -225,8 +225,8 @@ class EndingB {
   }
 
   drawBlink() {
-    background(250);
-    let alpha = random(120, 255);
+    background(0);
+    let alpha = random(0, 255);
     fill(255, 0, 0, alpha);
     textSize(80);
     textAlign(CENTER, CENTER);
