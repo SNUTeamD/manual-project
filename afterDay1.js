@@ -81,10 +81,10 @@ class AfterDay1 {
   image(this.afterDay1, width / 2, height / 2, imgW, imgH);
   imageMode(CORNER); // 다른 이미지들에 영향 안 주게 복원
 
-    }else if(this.currentTextIndex >4 && this.currentTextIndex <=8 ){
+    } else if(this.currentTextIndex >4 && this.currentTextIndex <=8 ){
       this.drawJane();
     }
-    //재인 괴수화 코드
+    // 재인 괴수화 코드
     // 👾 괴인 이미지 잠깐 등장
 if (this.showJaneMonster) {
   let elapsed = millis() - this.janeMonsterStartTime;
@@ -196,18 +196,18 @@ drawJaneMonster() {
 
 
   drawTyping() {
-  // 텍스트가 모두 끝났으면 더 이상 처리하지 않음
-  if (this.currentTextIndex >= this.texts.length) return;
+    // 텍스트가 모두 끝났으면 더 이상 처리하지 않음
+    if (this.currentTextIndex >= this.texts.length) return;
 
-  if (this.isTyping && this.charIndex < this.fullText.length) {
-    if (millis() - this.lastUpdateTime > this.delay) {
-      this.displayedText += this.fullText.charAt(this.charIndex);
-      this.charIndex++;
-      this.lastUpdateTime = millis();
-    }
-  } else {
-    this.isTyping = false;
-    let currentObj = this.texts[this.currentTextIndex];
+    if (this.isTyping && this.charIndex < this.fullText.length) {
+      if (millis() - this.lastUpdateTime > this.delay) {
+        this.displayedText += this.fullText.charAt(this.charIndex);
+        this.charIndex++;
+        this.lastUpdateTime = millis();
+      }
+    } else {
+      this.isTyping = false;
+      let currentObj = this.texts[this.currentTextIndex];
 
     if (currentObj.lockInput) {
       this.clickReady = false;
@@ -219,23 +219,22 @@ drawJaneMonster() {
     }
   }
 
-  if (this.autoAdvanceTime !== null) {
-    let elapsed = millis() - this.autoAdvanceTime;
+    if (this.autoAdvanceTime !== null) {
+      let elapsed = millis() - this.autoAdvanceTime;
 
-    if (elapsed > this.autoDelay) {
-      this.currentTextIndex++;
-      if (this.currentTextIndex < this.texts.length) {
-        this.loadNextText();
-      } else {
-        this.endc1Reached = true;
+      if (elapsed > this.autoDelay) {
+        this.currentTextIndex++;
+        if (this.currentTextIndex < this.texts.length) {
+          this.loadNextText();
+        } else {
+          this.endc1Reached = true;
+        }
+        this.autoAdvanceTime = null;
       }
-      this.autoAdvanceTime = null;
     }
   }
-}
 
   loadNextText() {
-
     if (this.currentTextIndex >= this.texts.length) return;
     let obj = this.texts[this.currentTextIndex];
     this.fullText = obj.text;
@@ -250,11 +249,11 @@ drawJaneMonster() {
   mousePressed() {
     if (this.phase !== 1) return;
 
-     // 범위 보호
-  if (this.currentTextIndex >= this.texts.length) return;
-
-    let currentObj = this.texts[this.currentTextIndex];
-    if (currentObj.lockInput) return;
+    // 범위 보호
+    if (this.currentTextIndex >= this.texts.length) return;
+    
+      let currentObj = this.texts[this.currentTextIndex];
+      if (currentObj.lockInput) return;
 
     if (this.isTyping) {
       this.displayedText = this.fullText;
@@ -263,13 +262,14 @@ drawJaneMonster() {
       this.clickReady = true;
     } else if (this.clickReady) {
       this.currentTextIndex ++;
-      if (this.currentTextIndex < this.texts.length) {
-        this.loadNextText();
-      } else {
-        this.endc1Reached = true;
-        stage ++;
-        return;
-      }
+    }
+
+    if (this.currentTextIndex < this.texts.length) {
+      this.loadNextText();
+    } else {
+      this.endc1Reached = true;
+      stage ++;
+      return;
     }
   }
 }
