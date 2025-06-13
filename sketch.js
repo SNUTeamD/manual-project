@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm
 
 // 시작 스테이지 설정
-let stage = 26;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -284,8 +284,7 @@ function draw() {
       break;
 
     case 1:
-      nameInput.value(''); 
-      //bgm
+      // bgm
       if (!beforeDay1bgm.isPlaying()) {
                 stopAllbgm();
                 beforeDay1bgm.loop(); // 자동 반복
@@ -303,6 +302,7 @@ function draw() {
       rect(0, height - height / 4, width, height / 4);
 
       fill(0);
+      textSize(30);
       typeText([
         [" 드디어 오늘이 왔다! "],
         /*["오늘부터 내가 근무할 제약회사에서는 인간의 감염병을 치료하는 백신을 중점적으로 연구한다고 들었다."], 
@@ -329,9 +329,11 @@ function draw() {
       rect(width / 20 + 235, height - 195, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
+      textSize(30);
       text("김철수", width / 20 + 235, height - 200);
     
       fill(0);
+      textSize(30);
       typeText([
         [playerName + " 씨 맞으신가요?"],
         /*["저는 연구 부서의 김철수 연구원이라고 합니다."],
@@ -362,9 +364,11 @@ function draw() {
       rect(width / 20 + 235, height - 195, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
+      textSize(30);
       text("김철수", width / 20 + 235, height - 200);
     
       fill(0);
+      textSize(30);
       typeText([
         ["따라주셔야 할 매뉴얼을 드리겠습니다."],
         ["매뉴얼을 따르지 않아 발생하는 문제는 회사에서 책임지지 않으므로,", "업무를 수행하면서 이를 반드시 지켜주시기 바랍니다."]
@@ -392,9 +396,11 @@ function draw() {
       rect(width / 20 + 235, height - 195, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
+      textSize(30);
       text("김철수", width / 20 + 235, height - 200);
 
       fill(255, 0, 0);
+      textSize(30);
       typeText([
         [".. 반드시 매뉴얼을 따라주셔야 합니다."]
       ]);
@@ -412,7 +418,8 @@ function draw() {
       fill(120);
       rect(0, height - height / 4, width, height / 4);
 
-      fill(45);
+      fill(50);
+      textSize(30);
       typeText([
         ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
       ]);
@@ -683,6 +690,7 @@ function draw() {
       rect(0, height - height / 4, width, height / 4);
 
       fill(0);
+      textSize(30);
       typeText([
         ["휴... 오늘은 힘든 하루였어 ..."],
         ["고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?"],
@@ -795,25 +803,25 @@ function draw() {
       break;
 
     case 20: // 바탕화면 3
-      afterDay1Started = false;   //앞의 스크립트 초기화 함수
-          fill(150, 150, 255);
-        rect(width - 450, 50, 400, 200);
-        fill(0);
-        textSize(30);
-        text("오늘의 할 일", width - 250, 85);
-        text("1. 파일 정리", width - 250, 125);
-        text("2. 정크 데이터 처리", width - 250, 165);
-        text("3. 코드 해석", width - 250, 205);
-        
-        stroke(0);
-        strokeWeight(3);
-        line(width - 350, 130, width - 150, 130);
-        line(width - 400, 170, width - 100, 170);
-        noStroke();
+      afterDay1Started = false; // 앞의 스크립트 초기화 함수
+      fill(150, 150, 255);
+      rect(width - 450, 50, 400, 200);
+      fill(0);
+      textSize(30);
+      text("오늘의 할 일", width - 250, 85);
+      text("1. 파일 정리", width - 250, 125);
+      text("2. 정크 데이터 처리", width - 250, 165);
+      text("3. 코드 해석", width - 250, 205);
+      
+      stroke(0);
+      strokeWeight(3);
+      line(width - 350, 130, width - 150, 130);
+      line(width - 400, 170, width - 100, 170);
+      noStroke();
 
-        drawIcons();
+      drawIcons();
 
-        break;
+      break;
     
     case 21:
       // 업무 3 모스부호 해석
@@ -856,7 +864,8 @@ function draw() {
         resultMessage = ""
         codeInitialized = false;
       }
-       // 틀릴 때 이미지
+      
+      // 틀릴 때 이미지
       if (showImage) {
         let elapsed = millis() - imageStartTime;
       if (elapsed < showDuration) {
@@ -871,8 +880,8 @@ function draw() {
 
       } else {
       showImage = false; // 시간 지나면 안 보이게
+      }
     }
-  }
 
       break;
 
@@ -888,18 +897,18 @@ function draw() {
       break;
 
     case 23: // Day 3로 전환
-    afterDay2Started = false;//앞의 스크립트 초기화 함수
-    stopAllbgm();
-    fill(255);
-    textSize(70)
-    text("Day 3", width / 2, height / 2 - 50);
-    textSize(30);
-    text("Click to continue ···", width / 2, height / 2 + 50);
+      afterDay2Started = false;//앞의 스크립트 초기화 함수
+      stopAllbgm();
+      fill(255);
+      textSize(70)
+      text("Day 3", width / 2, height / 2 - 50);
+      textSize(30);
+      text("Click to continue ···", width / 2, height / 2 + 50);
     
       break;
     
     case 24: // 바탕화면 1
-    //bgm
+      // bgm
       if (!day3bgm.isPlaying()) {
                 stopAllbgm();
                 day3bgm.loop(); // 자동 반복
@@ -951,49 +960,50 @@ function draw() {
       break;
 
     case 27:
-  if (draw.prevStage !== 27) {
-    // stage가 다시 27로 돌아왔을 때 초기화됨
-    draw.errorIndex = 0;
-    draw.lastErrorTime = millis();
-    draw.interval = 200;
-    draw.errorTexts = [
-      "7. 도망쳐.",
-      "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
-      "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
-      "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
-      "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
-      "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
-      "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
-    ];
-    errors = []; // error 창도 초기화
-  }
+      if (draw.prevStage !== 27) {
+        // stage가 다시 27로 돌아왔을 때 초기화됨
+        draw.errorIndex = 0;
+        draw.lastErrorTime = millis();
+        draw.interval = 200;
+        draw.errorTexts = [
+          "7. 도망쳐.",
+          "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
+          "5. 이제 어느 곳도 안전하지 않아./이걸본사람이있다면제발-/[알수없는 오류입니다][알수없는 오류입니다]-/[알수없는 오류입니다][알수없는 오류입니다]-",
+          "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]./표시하는데 오류가 발생했습니다-",
+          "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj./지침서를 유심히 봐주세요.",
+          "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
+          "1. :( PC에 문제가 발생하여 다시 시작해야 합니다./일부 오류 정보를 수집하고 있습니다-/그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료-"
+        ];
+        errors = []; // error 창도 초기화
+      }
 
-  // 에러창 생성
-  if (draw.errorIndex < draw.errorTexts.length && millis() - draw.lastErrorTime > draw.interval) {
-    let relW = 0.4;
-    let relH = relW * (imgError_2.height / imgError_2.width);
-    let relX = random(0, 1 - relW);
-    let relY = random(0, 1 - relH);
+      // 에러창 생성
+      if (draw.errorIndex < draw.errorTexts.length && millis() - draw.lastErrorTime > draw.interval) {
+        let relW = 0.4;
+        let relH = relW * (imgError_2.height / imgError_2.width);
+        let relX = random(0, 1 - relW);
+        let relY = random(0, 1 - relH);
 
-    let msg = draw.errorTexts[draw.errorIndex];
-    errors.push(new ErrorWindow(imgError_2, relX, relY, relW, msg));
+        let msg = draw.errorTexts[draw.errorIndex];
+        errors.push(new ErrorWindow(imgError_2, relX, relY, relW, msg));
 
-    draw.errorIndex++;
-    draw.lastErrorTime = millis();
-  }
+        draw.errorIndex++;
+        draw.lastErrorTime = millis();
+      }
 
-  for (let e of errors) {
-    e.display();
-  }
+      for (let e of errors) {
+        e.display();
+      }
 
-  // 마지막에 현재 스테이지 저장
-  draw.prevStage = stage;
+      // 마지막에 현재 스테이지 저장
+      draw.prevStage = stage;
 
-  break;
+      break;
 
     case 28: 
-    //위 에러 등장 초기화
-    draw.prevStage = stage;
+      // 위 에러 등장 초기화
+      draw.prevStage = stage;
+
       // Day 3 - 업무 2: 정크 데이터 처리
       fill(255);
       rect(50, 30, width - 100, height);
@@ -1105,8 +1115,8 @@ function draw() {
 
       } else {
       showImage = false; // 시간 지나면 안 보이게
+      }
     }
-  }
 
       break;
 
@@ -1201,7 +1211,7 @@ function draw() {
       isResetTriggered = false;
       resultMessage = "";
     }
-    //초기화일 때: 엔딩 D // 임시 코드 + 꼭 바꾸세요!!
+    // "도재인"일 때: 엔딩 D // 임시 코드 + 꼭 바꾸세요!!
     if(anotherResetTriggered && millis()- resetTriggeredTime > 1500){
       stage = 600;
       anotherResetTriggere = false;
@@ -1210,9 +1220,9 @@ function draw() {
 
       break;
 
-    case 300:
+    case 300: // 엔딩 A
       codeInput.value(''); // 모스부호 입력창 초기화
-        // 엔딩 A
+      
       if (!endingAStarted) {
         endingA = new EndingA(playerName);
         endingA.start();
@@ -1222,11 +1232,11 @@ function draw() {
       if (endingA) {
         endingA.update(); // 매 프레임마다 update()는 호출되어야 함
       }
+
       break;
     
-    case 400:
-        // 엔딩 B
-      //bgm
+    case 400: // 엔딩 B
+      // bgm
       if (!endingBbgm.isPlaying()) {
         stopAllbgm();
         endingBbgm.loop(); // 자동 반복
@@ -1235,17 +1245,17 @@ function draw() {
         endingB.update();
       break;
 
-    case 500:
+    case 500: // 엔딩 C
       codeInput.value(''); // 모스부호 입력창 초기화
-        // 엔딩 C
-      //bgm
+      
+      // bgm
       if (!endingCbgm.isPlaying()) {
         stopAllbgm();
         endingCbgm.loop(); // 자동 반복
         endingCbgm.setVolume(0.2);
       }
 
-      //엔딩 C 초기화 코드
+      // 엔딩 C 초기화 코드
       if (!endingCStarted) {
         endingC = new EndingC();
         endingC.preload();
@@ -1256,19 +1266,19 @@ function draw() {
       if (endingC) {
         endingC.update(); // 매 프레임마다 update()는 호출되어야 함
       }
-        // endingC.update();
+
       break;
 
-    case 600:
+    case 600: // 엔딩 D
       codeInput.value(''); // 모스부호 입력창 초기화
-        // 엔딩 D
-      //bgm
+  
+      // bgm
       if (!endingDbgm.isPlaying()) {
         stopAllbgm();
         endingDbgm.loop(); // 자동 반복
         endingDbgm.setVolume(0.2);
       }
-      //엔딩 D 초기화 코드
+      // 엔딩 D 초기화 코드
       if (!endingD1Started) {
         endingD1 = new EndingD1();
         endingD1.start();
@@ -1278,11 +1288,10 @@ function draw() {
       if (endingD1) {
         endingD1.update(); // 매 프레임마다 update()는 호출되어야 함
       }
-        //endingD1.update();
+
       break;
 
-    case 601:
-       // 엔딩 D 연결
+    case 601: // 엔딩 D 연결
        if (!endingD2Started) {
         endingD2 = new EndingD2(playerName);
         endingD2.preload();
@@ -1293,10 +1302,9 @@ function draw() {
       if (endingD2) {
         endingD2.update(); // 매 프레임마다 update()는 호출되어야 함
       }
-       //endingD2.update();
-       break;
-       
-  }
+
+      break;
+    }
   updateCursor();
   drawManual(); // 매뉴얼 표시
 }
