@@ -1,5 +1,6 @@
 class EndingA {
   constructor(playerName) {
+    this.playerName = playerName; //이름 뜨게 하기 위해서 코드 변경
     this.lines = [
       "업무가 모두 완료되었습니다.",
       "에너지 변환 수준 미달.",
@@ -11,7 +12,6 @@ class EndingA {
       "환영합니다. 연구부서로의 이동이 승인되었습니다."
     ];
 
-    this.playerName = playerName;
     this.currentTextIndex = 0;
     this.fullText = "";
     this.currentLineText = "";
@@ -60,6 +60,7 @@ class EndingA {
         textSize(20);
         text("Click to Restart", width / 2, height / 2 + 30);
         text("에러창과 보고서를 잘 들여다보면 무언가 있을지도...?", width / 2, height / 2 + 60);
+        nameInput.value(''); //시작화면 이름 초기화
       }
 
       return;
