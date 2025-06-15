@@ -94,6 +94,7 @@ class EndingC {
       if (this.canRestart) {
         textSize(20);
         text("Click to Restart", width / 2, height / 2 + 30);
+        nameInput.value(''); //시작화면 이름 초기화
       }
 
       return;
