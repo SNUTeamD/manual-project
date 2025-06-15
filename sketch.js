@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 30;
+let stage = 21;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -197,6 +197,21 @@ function setup() {
   background(0);
 
   setupInputs();
+
+  // 커서 안에 마우스가 있어도 엔터 치면 다음 스테이지 가능하게
+  nameInput.elt.addEventListener("keydown", (e) => {
+    if (stage === 0 && e.key === "Enter" && nameInput.value() !== "") {
+      playerName = nameInput.value();
+      stage = 1;
+    }
+  }); // 이름 입력창에서 엔터칠때
+
+  codeInput.elt.addEventListener("keydown", (e) => {
+    if ((stage === 12 || stage === 21 || stage === 30) && e.key === "Enter") {
+      checkMorseAnswer();
+    }
+  }); //모스부호 엔터 칠때
+
   
   // 에러 1 유형의 텍스트 지정
   error1 = new Error1(
@@ -1758,7 +1773,20 @@ function keyPressed() {
   if (stage >= 5 && key === 'm') {
     showManual = !showManual;
   }
-}
+  //엔터치면 넘어가는 함수였는데 위로 이동해서 각주처리
+//   if(stage == 0 && nameInput.value !==""){
+//     if (keyCode === ENTER) {
+//       playerName = nameInput.value();
+//       stage = 1; // 다음 스테이지로 이동
+//     }
+//   }
+//   if(stage === 12 || stage === 21||stage === 30){
+
+//     if(keyCode === ENTER){
+//       checkMorseAnswer();
+//     }
+//   }
+ }
 
 // 배경화면 아이콘 처리 관련 함수 1
 function getIconLayout() {
