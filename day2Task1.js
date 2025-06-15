@@ -117,8 +117,11 @@ class Day2Task1 {
 
   mouseReleased() {
     if (this.missionEnded) return;
+
+    let wrongCalled = false;
     
     for (let doc of this.docs) {
+      if (doc.removed) continue;
       doc.stopDragging();
       doc.inBasket = null; // 드래그 후 폴더에 넣지 않은 경우 초기화
       
@@ -129,6 +132,7 @@ class Day2Task1 {
           if (!this.isCorrect(doc)) {
             this.mistakeMade = true; // 실수 여부 설정
             wrongAction();
+            wrongCalled = true;
           } else {
             doc.removed = true;
             this.mistakeMade = false;  // ✔ 실수 상태 초기화
