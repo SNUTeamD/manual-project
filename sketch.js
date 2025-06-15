@@ -275,6 +275,9 @@ function draw() {
       textSize(30);
       textAlign(CENTER, CENTER);
       text('확인', width / 2 + 170, height / 2 + 24);
+      fill(255,0,0);
+      textSize(20);
+      text('공포 요소가 있어요. 심약자 분들은 주의해 주세요!', width / 2, height / 2 + 90);
       
       //엔딩 보고 처음으로 돌아오면 start 초기화
       endingAStarted = false;
