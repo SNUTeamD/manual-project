@@ -89,7 +89,7 @@ class AfterDay1 {
     // 👾 괴인 이미지 잠깐 등장
   if (this.showJaneMonster) {
     let elapsed = millis() - this.janeMonsterStartTime;
-    if (elapsed < 300) {
+    if (elapsed < 500) {
       this.drawJaneMonster();
     } else {
       this.showJaneMonster = false;
