@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 10;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -513,35 +513,31 @@ function draw() {
       fill(0);
       textSize(20);
       textAlign(LEFT, TOP);
-      text("흐름에 맞지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
+      text("보고서에 적합하지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
       text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
 
       if (sentenceObjs.length === 0) { 
         let firstLines = [
           "Day 1 데이터 정리",
           "내부 연구 보고서",
-          "문서번호: IR-401-1",
           "작성일자: [2025-06-20]",
-          "작성부서: 인지응답실험팀 (현재 비활성화 상태)",
           "작성자: 김철수 선임연구원",
           "보안등급: 내부기밀 (Confidential; for Internal Use Only)",
           "",
           "1. 보고서 개요",
           "본 문서는 당사 연구소 내 인지응답실험팀에서 수행한 초기 탐색적 연구 결과를 정리한 것이다.",
-          "해당 연구는 특정 약물 후보물질(Candidate Compound X)이 인지기능에 미치는 영향을 평가하기 위한 사전 실험으로, 약물 투여 후 피험자의 반응 속도, 정확성, 선택적 주의력 변화 등을 측정하였다.",
-          "현재 본 팀은 운영이 일시 중단된 상태이나, 실험 결과의 과학적 의의와 향후 임상 적용 가능성을 고려하여 연구 기록 보존 및 부서 간 공유를 목적으로 본 보고서를 작성하였다.",
+          "해당 연구는 약물 투여 후 피험자의 반응 속도, 정확성, 선택적 주의력 변화 등을 측정하였다.",
+          "향후 임상 적용 가능성을 고려하여 연구 기록 보존 및 부서 간 공유를 목적으로 본 보고서를 작성하였다.",
           "",
           // 흐름에 맞지 않는 내용
-          "한 해를 마무리하는 특별 할인! 겨울의 마법이 시작됩니다. 따뜻한 순간을 선물하세요.",
-          "크리스마스의 기적, 마음에 닿기를",
+          "★★★한 해를 마무리하는 특별 할인! 겨울의 마법이 시작됩니다. 따뜻한 순간을 선물하세요.",
+          "크리스마스의 기적, 신상! 공포맛 케이크 출시!★★★",
           "",
-          "2. 연구 배경 및 목적",
           "인지 기능은 다양한 신경정신계 질환뿐만 아니라, 통증 완화, 수면 조절 등 다양한 치료영역과 밀접한 관련이 있다.",
-          "최근 개발 중인 Candidate Compound X는 중추신경계에 선택적으로 작용하는 것으로 보고되었으며, 동물모델에서 인지 능력 개선 가능성을 보인 바 있다.",
-          "이에 따라 본 연구에서는 해당 물질이 건강한 성인에게서 인지적 자극에 대한 반응성에 어떤 영향을 미치는지를 사전적으로 검토하고자 하였다.",
+          "최근 개발 중인 Compound X는 중추신경계에 선택적으로 작용하는 것으로 보고되었으며, 특히 공포 감각을 극대화하는 것으로 보인다.",
           "",
-          "3. 실험 설계",
-          "3.1 실험 대상자",
+          "2. 실험 설계",
+          "2.1 실험 대상자",
           "모집 대상: 건강한 성인 남녀, 20~35세",
           "최종 참여자 수: 총 20명 (남성 10명, 여성 10명)",
           "선정 기준: 신경학적 질환 이력 없음, 약물 복용 이력 없음, 정상 범위 내 인지능력 보유",
@@ -915,7 +911,7 @@ function draw() {
       if (!day3bgm.isPlaying()) {
                 stopAllbgm();
                 day3bgm.loop(); // 자동 반복
-                day3bgm.setVolume(0.2);
+                day3bgm.setVolume(0.8);
       }
 
       fill(150, 150, 255);
@@ -964,6 +960,9 @@ function draw() {
       break;
 
     case 27:
+
+    stopAllbgm()
+
       if (draw.prevStage !== 27) {
         // stage가 다시 27로 돌아왔을 때 초기화됨
         draw.errorIndex = 0;
@@ -1006,6 +1005,13 @@ function draw() {
       break;
 
     case 28: 
+      // bgm
+      if (!day3bgm.isPlaying()) {
+                stopAllbgm();
+                day3bgm.loop(); // 자동 반복
+                day3bgm.setVolume(0.8);
+      }
+
       // 위 에러 등장 초기화
       draw.prevStage = stage;
 
@@ -1019,7 +1025,7 @@ function draw() {
       fill(0);
       textSize(20);
       textAlign(LEFT, TOP);
-      text("흐름에 맞지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
+      text("보고서에 적합하지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
       text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
 
       if (!dragInitialized) {
@@ -1030,24 +1036,21 @@ function draw() {
       if (sentenceObjs.length === 0) { 
         let secondLines = [
           "내부 기밀 보고서 제403-2",
-          "문서 번호: ME-403-∞",
           "작성일자: [2025-06.22]",
           "작성 부서: 조직행동 관찰국 - 인지추출실",
-          "작성자: 17번 계약직 ■%$632#",
           "보안 등급: 🔴 최상위",
           "",
           "1. 보고 목적",
           "본 보고서는 신입 직원 #A1127(이하 “대상”)의 일상적 업무 수행 반응을 통해 정서 자극 민감도,",
-          "인지 왜곡 내성, 감정 수율 등을 분석하고 ner%^&ㅣ5지추$#frㅇㄹ3로서의 적합성 여부를 평가하기 위해 작성되었다.",
+          "인지 왜곡 내성, 감정 수율 등을 분석하고 ner%^rㅇㄹ3로서의 적합성 여부를 평가하기 위해 작성되었다.",
           "",
           "2. 업무 평가 개요",
           "업무 관찰 코드명: 〈일상 과업 기반 적합성 판별 실험>",
-          "대상의 3일 동안의 파일 분류, 데이터 정리, 부호 해석 업무를 관찰하면서",
-          "업무 반복성에 따른 감정 관찰, 업무 성실도, 업무 태도를 평가",
+          "대상의 3일 동안의 파일 분류, 데이터 정리, 부호 해석 업무를 관찰",
           "",
-          "ㅓ햐거fdfdghg5ㅑ35ㅏ하래2ㅏㅣ2자ㅣㅏ저라우핤6ㅣ4dfgfwrerdt5ㅏㅐ9이거5;ㄴw읽지마",
-          "시스템 관리자에게 전달 사항: 시스템에 치명적 오류 발생 시 초기화 방법.",
-          "키보드에서 /입력 후 초기화코드456827입력 시 시스템 재부팅이 가능합니다.",
+          "살고싶fdfㅏ다면2ㅏㅣ2자ㅣㅏ제발 이걸읽어",
+          "업무를 진행할수록 이상함이 느껴진다. 그것들은 인간이 아니야. 다행히 도망칠 수 있는-방법을 알아내 그 방법을 남긴다.",
+          "키보드에 초기화코드'/456827'을 입력하면 문제를 고치는 동안 시선을 피할 수 있을 거다. 무사히 돌아갈 수 있기를... ",
           "",
           "3. 종합 분석",
           "“그만둘까?” 발언 3회 기록 → 감정 단백질 분해 시작, 무기력 에너지 추출 가능성 확인",
@@ -1060,7 +1063,7 @@ function draw() {
           let isWrong = false;
 
           // 이상한 문장 판별 기준
-          if (line.includes("읽지마") || line.includes("오류")||line.includes("재부팅")) {
+          if (line.includes("읽어") || line.includes("도망")||line.includes("초기화코드")) {
             isWrong = true;
           }
 
@@ -1246,20 +1249,20 @@ function draw() {
       if (!endingBbgm.isPlaying()) {
         stopAllbgm();
         endingBbgm.loop(); // 자동 반복
-        endingBbgm.setVolume(0.2);
+        endingBbgm.setVolume(0.8);
       }
         endingB.update();
       break;
 
     case 500: // 엔딩 C
-      codeInput.value(''); // 모스부호 입력창 초기화
-      
       // bgm
       if (!endingCbgm.isPlaying()) {
         stopAllbgm();
         endingCbgm.loop(); // 자동 반복
-        endingCbgm.setVolume(0.2);
+        endingCbgm.setVolume(1.0);
       }
+
+      codeInput.value(''); // 모스부호 입력창 초기화
 
       // 엔딩 C 초기화 코드
       if (!endingCStarted) {
@@ -1276,14 +1279,14 @@ function draw() {
       break;
 
     case 600: // 엔딩 D
-      codeInput.value(''); // 모스부호 입력창 초기화
-  
       // bgm
       if (!endingDbgm.isPlaying()) {
         stopAllbgm();
         endingDbgm.loop(); // 자동 반복
-        endingDbgm.setVolume(0.2);
+        endingDbgm.setVolume(0.9);
       }
+
+      codeInput.value(''); // 모스부호 입력창 초기화
       // 엔딩 D 초기화 코드
       if (!endingD1Started) {
         endingD1 = new EndingD1();
