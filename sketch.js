@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 10;
+let stage = 3;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -96,6 +96,10 @@ let showDuration = 2000;
 let wrongImage;
 let warningPositions = []; // "틀리지마" 위치들 저장할 배열
 let warningCount = 10; // 몇 개 표시할지
+
+//매뉴얼 토글 변수
+let mToggleCount = 0;
+let lastShowManual = false;
 
 function preload() {
   // 폰트 불러오기
@@ -376,7 +380,9 @@ function draw() {
       textSize(30);
       typeText([
         ["따라주셔야 할 매뉴얼을 드리겠습니다."],
-        ["매뉴얼을 따르지 않아 발생하는 문제는 회사에서 책임지지 않으므로,", "업무를 수행하면서 이를 반드시 지켜주시기 바랍니다."]
+        ["매뉴얼을 따르지 않아 발생하는 문제는 회사에서 책임지지 않으므로,", "업무를 수행하면서 이를 반드시 지켜주시기 바랍니다."],
+        ["업무 전, 매뉴얼을 숙지해야 하니 한번 매뉴얼을 읽어보세요."],
+        ["매뉴얼을 다 읽고 난 다음, 매뉴얼을 닫으시면 바로 업무를 시작할 수 있을겁니다."]
       ]);
 
       if (finishText) {
@@ -407,7 +413,7 @@ function draw() {
       fill(255, 0, 0);
       textSize(30);
       typeText([
-        [".. 반드시 매뉴얼을 따라주셔야 합니다."]
+        [".. 반드시 매뉴얼을 따라주셔야 합니다."],
       ]);
 
       if (finishText) {
@@ -426,13 +432,19 @@ function draw() {
       fill(55);
       textSize(30);
       typeText([
-        ["이제부터 [m]키를 눌러 매뉴얼을 확인할 수 있습니다."],
+        ["이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울수 있습니다."],
+        ["매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다."]
       ]);
 
-      if (finishText) {
+        if (showManual !== lastShowManual) {
+        mToggleCount++;
+        lastShowManual = showManual;
+
+    if (finishText && mToggleCount >= 2) {
         stage ++;
         resetTyping();
       }
+    }
       
       break;
 
