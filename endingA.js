@@ -59,7 +59,7 @@ class EndingA {
       if (this.canRestart) {
         textSize(20);
         text("Click to Restart", width / 2, height / 2 + 30);
-        text("에러창과 보고서를 잘 들여다보면 무언가 있을지도...?", width / 2, height / 2 + 60);
+        text("Tip) 매뉴얼의 붉은 글씨에 유의", width / 2, height / 2 + 60);
         nameInput.value(''); //시작화면 이름 초기화
       }
 

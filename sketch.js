@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 14;
+let stage = 24;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -71,6 +71,9 @@ let imgError_4; // 힌트 이미지
 let errors = [];
 const NUM_ERRORS = 7;
 let errorDisplay =false; // 에러 창 보이게 하는 변수
+let error1Triggered = false;
+let error2Triggered = false;
+let error3Triggered = false;
 
 // 마지막 날 엔딩 A, C, D 전환 관련 변수
 let isResetTriggered = false;
@@ -544,7 +547,7 @@ function draw() {
       textSize(20);
       textAlign(LEFT, TOP);
       text("보고서에 적합하지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
-      text("드래그 박스 안에 문단이 '정확히' 포함되어야 합니다.", width - 610, 102);
+      text("드래그 박스 안에 문단 전체가 '정확히' 포함되어야 합니다.", width - 610, 102);
 
       if (sentenceObjs.length === 0) { 
         let firstLines = [
@@ -624,11 +627,15 @@ function draw() {
       }
 
       if (stage === 10) {
-        if (!error1.isVisible) {
-          error1.start();
-        }
-        error1.display();
+      if (!error1Triggered) {
+      error1.start();
+      error1Triggered = true;
       }
+      error1.display();
+      } else {
+      error1Triggered = false; // 다른 스테이지에서 다시 초기화
+    }
+
 
       break;
 
@@ -764,12 +771,18 @@ function draw() {
       
       // 아이콘 표시: 파일 아이콘만 활성화
       drawIcons();
+
+      //에러 등장 코드
       if (stage === 15) {
-      if (!error2.isVisible) {
+      if (!error2Triggered) {
       error2.start();
-       }
-      error2.display();
+      error2Triggered = true;
       }
+      error2.display();
+      } else {
+      error2Triggered = false; // 다른 스테이지에서 다시 초기화
+    }
+
       doctaskDay2 = new Day2Task1(); 
       doctaskDay2.start();
       break;
@@ -954,12 +967,17 @@ function draw() {
       text("3. 코드 해석", width - 250, 205);
 
       drawIcons();
+
       if (stage === 24) {
-      if (!error3.isVisible) {
+      if (!error3Triggered) {
       error3.start();
-       }
-      error3.display();
+      error3Triggered = true;
       }
+      error3.display();
+      } else {
+      error3Triggered = false; // 다른 스테이지에서 다시 초기화
+    }
+
       doctaskDay3 = new Day3Task1(); 
       doctaskDay3.start();
 
@@ -1056,7 +1074,7 @@ function draw() {
       textSize(20);
       textAlign(LEFT, TOP);
       text("보고서에 적합하지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
-      text("드래그 박스 안에 문단이 '정확히' 포함되어야 합니다.", width - 610, 102);
+      text("드래그 박스 안에 문단 전체가 '정확히' 포함되어야 합니다.", width - 610, 102);
 
       if (!dragInitialized) {
         sentenceObjs = [];
