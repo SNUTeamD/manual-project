@@ -92,7 +92,7 @@ let endingD2Started = false;
 
 
 // 틀린 횟수 세기
-let wrongCount =0;
+let wrongCount = 0;
 let showImage = false;
 let imageStartTime = 0;
 let showDuration = 2000;
@@ -317,7 +317,7 @@ function draw() {
       }
 
       // 회사 배경과 함께 도입 문구 출력
-      let companyW = 1000;
+      let companyW = 1200;
       let companyH = imgCompany.height * (companyW / imgCompany.width);
       image(imgCompany, (width - companyW) / 2, 0, companyW, companyH);
 
@@ -330,11 +330,10 @@ function draw() {
       textSize(30);
       typeText([
         [" 드디어 오늘이 왔다! "],
-        ["오늘부터 나는 이 제약회사에서 인간의 감염병을 치료하는 백신을 중점적으로 연구하는 프로젝트에 참여하게 되었다."], 
+        ["오늘부터 나는 이 제약회사에서 인간의 감염병을 치료하는", "백신을 중점적으로 연구하는 프로젝트에 참여하게 되었다."], 
         ["신입이니까 초반 며칠은 자잘한 서류 처리 작업을 맡겠지만,", "프로젝트를 진행하다보면 중대한 업무도 맡게 될 거라 믿는다."], 
         ["질병의 치료라는 중대한 사명을 가지고 있는 만큼","'절대로 매뉴얼을 따라야 한다’는 선배의 말을 반드시 명심해야겠다."], 
         ["후 ... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을거다. 할 수 있다!!"],
-        ["Click to continue ···"]
       ]);
   
       break;
@@ -368,11 +367,6 @@ function draw() {
         ["순서대로 업무를 수행해주시면 됩니다."],
       ]);
 
-      if (finishText) {
-        stage ++;
-        resetTyping();
-      }
-
       break;
 
     case 3:
@@ -402,14 +396,9 @@ function draw() {
       typeText([
         ["따라주셔야 할 매뉴얼을 드리겠습니다."],
         ["매뉴얼을 따르지 않아 발생하는 문제는 회사에서 책임지지 않으므로,", "업무를 수행하면서 이를 반드시 지켜주시기 바랍니다."],
-        ["업무 전, 매뉴얼을 숙지해야 하니 한번 매뉴얼을 읽어보세요."],
-        ["매뉴얼을 다 읽고 난 다음, 매뉴얼을 닫으시면 바로 업무를 시작할 수 있을겁니다."]
+        ["업무 전, 매뉴얼을 숙지해야 하니 한 번 매뉴얼을 읽어보세요."],
+        ["매뉴얼을 다 읽고 난 다음, 매뉴얼을 닫으시면 바로 업무를 시작할 수 있을 겁니다."]
       ]);
-
-      if (finishText) {
-        stage ++;
-        resetTyping();
-      }
 
       break;
 
@@ -437,11 +426,6 @@ function draw() {
         [".. 반드시 매뉴얼을 따라주셔야 합니다."],
       ]);
 
-      if (finishText) {
-        stage ++;
-        resetTyping();
-      }
-
       break;
 
     case 5:
@@ -453,20 +437,20 @@ function draw() {
       fill(55);
       textSize(30);
       typeText([
-        ["이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울수 있습니다."],
+        ["이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울 수 있습니다."],
         ["매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다."]
       ]);
 
-        if (showManual !== lastShowManual) {
+      if (showManual !== lastShowManual) {
         mToggleCount++;
         lastShowManual = showManual;
+      }
 
-    if (finishText && mToggleCount >= 2) {
+      if (finishText && mToggleCount >= 2) {
         stage ++;
         resetTyping();
       }
-    }
-      
+
       break;
 
     case 6:
@@ -734,11 +718,6 @@ function draw() {
         ["내일 하루도 힘내보자! 어떻게든 되겠지~"]
       ]);
       
-      if (finishText) {
-        stage ++;
-        resetTyping();
-      }
-
       break;
       
     case 14: // Day 2로 전환
@@ -1416,9 +1395,15 @@ function updateCursor() {
     }
   }
 
-  // 3. case 1: 텍스트 다 나오고 클릭 대기 중
-  if (stage === 1 && finishText) {
-    isHand = true;
+  // 3. 텍스트 다 나오고 클릭 대기 중
+  if ([1, 2, 3, 4].includes(stage) && isWaiting) {
+  isHand = true;
+  }
+
+  if (stage === 5) {
+    if (isWaiting && part === 0) {
+      isHand = true;
+    }
   }
 
   // 4. Day 전환 화면
@@ -1444,9 +1429,16 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 1 || stage === 4) {
-    if (finishText) {
-      stage ++;
+  if ([1, 2, 3, 4, 5, 13].includes(stage)) {
+    if (isWaiting && !finishText) {
+      part++;
+      linePart = 0;
+      letterCount = 0;
+      isWaiting = false;
+      lastTime = millis();
+    }
+    else if (finishText && stage !== 5) {
+      stage++;
       resetTyping();
     }
   }
@@ -1572,7 +1564,7 @@ function checkButton(x, y, w, h) {
 }
 
 function mousePressed() {
-  if (stage === 8){
+  if (stage === 8) {
     doctaskDay1.mousePressed();
   }
   // 드래그 업무 쓰는 스테이지
@@ -1709,7 +1701,7 @@ function typeText(texts) {
   let startY = boxTop + (height / 4 - totalTextHeight) / 2 + 15;
 
   // 줄별 출력: 이전 줄은 전체, 현재 줄은 일부, 다음 줄은 빈 문자열
-  for (let i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lines.length; i ++) {
     let txtToShow;
     if (i < linePart) {
       txtToShow = lines[i];  // 이미 타자 완료한 줄
@@ -1723,11 +1715,11 @@ function typeText(texts) {
 
   if (!isWaiting && millis() - lastTime > typingSpeed) {
     if (letterCount < lines[linePart].length) {
-      letterCount++;
+      letterCount ++;
       lastTime = millis();
     } else {
       // 현재 줄 타자 끝 → 다음 줄로
-      linePart++;
+      linePart ++;
       letterCount = 0;
       lastTime = millis();
 
@@ -1738,16 +1730,9 @@ function typeText(texts) {
     }
   }
 
-  // 문장 전체 출력 후 잠시 기다렸다 다음 파트로 이동
-  if (isWaiting && millis() - lastTime > waitTime) {
-    if (part < texts.length - 1) {
-      part++;
-      linePart = 0;
-      letterCount = 0;
-      isWaiting = false;
-      lastTime = millis();
-      } else {
-        finishText = true;
+  if (isWaiting) {
+    if (part >= texts.length - 1) {
+      finishText = true;
     }
   }
 }
@@ -1917,7 +1902,7 @@ function checkMorseAnswer() {
 }
 
 function wrongAction() {
-  wrongCount++;
+  wrongCount ++;
   console.log(wrongCount);
 
   if (wrongCount === 3) {
@@ -1926,7 +1911,7 @@ function wrongAction() {
     wrongCount =0;
 
     warningPositions = [];
-    for (let i = 0; i < warningCount; i++) {
+    for (let i = 0; i < warningCount; i ++) {
       let x = random(100, width - 100);
       let y = random(100, height - 100);
       warningPositions.push({ x: x, y: y });
