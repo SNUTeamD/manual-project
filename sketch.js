@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 23;
+let stage = 14;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -544,7 +544,7 @@ function draw() {
       textSize(20);
       textAlign(LEFT, TOP);
       text("보고서에 적합하지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
-      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
+      text("드래그 박스 안에 문단이 '정확히' 포함되어야 합니다.", width - 610, 102);
 
       if (sentenceObjs.length === 0) { 
         let firstLines = [
@@ -1056,7 +1056,7 @@ function draw() {
       textSize(20);
       textAlign(LEFT, TOP);
       text("보고서에 적합하지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
-      text("드래그 박스 안에 문장이 '정확히' 포함되어야 합니다.", width - 610, 102);
+      text("드래그 박스 안에 문단이 '정확히' 포함되어야 합니다.", width - 610, 102);
 
       if (!dragInitialized) {
         sentenceObjs = [];

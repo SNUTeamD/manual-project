@@ -6,13 +6,13 @@ class Day2Task1 {
     this.docs = [];
     this.docNames = ["소장", "촉수", "뇌", "흡수체", "눈알", "다리", "폐"];
     this.answerMap = {
-      "소장": "동물",
-      "촉수": "식물",
-      "뇌": "동물",
-      "흡수체": "식물",
-      "눈알": "동물",
-      "다리": "동물",
-      "폐": "동물"
+      "소장": "인간",
+      "촉수": "비인간",
+      "뇌": "인간",
+      "흡수체": "비인간",
+      "눈알": "인간",
+      "다리": "인간",
+      "폐": "인간"
     };
 
     this.isInitialized = false;
@@ -34,12 +34,12 @@ class Day2Task1 {
     fill(255);
     textSize(16);
     textAlign(CENTER, TOP);
-    text("문서를 마우스로 클릭해 선택하세요. 인간이 존재하는 이름을 가진 문서는 ‘동물’ 폴더에, \n인간이 없는 이름을 가진 문서는 ‘식물’ 폴더에 넣어주세요. \n분류에 맞게 문서를 옮기면, 자동으로 업무가 완료됩니다.", width / 2, 40);
+    text("문서를 마우스로 클릭해 선택하세요. 인간에게 존재하는 이름을 가진 문서는 ‘인간’ 폴더에, \n인간에게 없는 이름을 가진 문서는 ‘비인간’ 폴더에 넣어주세요. \n분류에 맞게 문서를 옮기면, 자동으로 업무가 완료됩니다.", width / 2, 40);
 
     if (!this.isInitialized) {
       // 폴더 위치 설정
-      this.folders.push(new MyFolder(width / 3, 200, 100, 60, "동물"));
-      this.folders.push(new MyFolder(2 * width / 3, 200, 100, 60, "식물"));
+      this.folders.push(new MyFolder(width / 3, 200, 100, 60, "인간"));
+      this.folders.push(new MyFolder(2 * width / 3, 200, 100, 60, "비인간"));
 
       // 문서들 배치
       let cols = 4;
