@@ -169,7 +169,7 @@ class EndingB {
     // 대사 관련
     this.texts = [
       { speaker: "PLAYER", text: "헉, 잠깐 졸았나 .. ?" },
-      { speaker: "김철수", text: "첫 날부터 주무시는 거예요? 이제 일하셔야죠." },
+      { speaker: "김철수", text: "업무중인데 주무시는 거예요? 이제 일하셔야죠." },
       { speaker: "PLAYER", text: "아, 네 ... 죄송합니다." },
     ];
 
