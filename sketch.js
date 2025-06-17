@@ -438,15 +438,18 @@ function draw() {
       textSize(30);
       typeText([
         ["이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울 수 있습니다."],
-        ["매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다."]
+        ["매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다."],
       ]);
 
-      if (showManual !== lastShowManual) {
-        mToggleCount++;
-        lastShowManual = showManual;
+      // 매뉴얼 닫힘 감지
+      if (showManual === false && lastShowManual === true) {
+        if (part >= 1) {  // 두 번째 파트가 시작된 이후부터 카운트 시작
+          mToggleCount ++;
+        }
       }
+      lastShowManual = showManual;
 
-      if (finishText && mToggleCount >= 2) {
+      if (finishText && mToggleCount >= 1) {  // ✅ 이 부분도 수정
         stage ++;
         resetTyping();
       }
@@ -530,7 +533,7 @@ function draw() {
       fill(0);
       textSize(20);
       textAlign(LEFT, TOP);
-      text("보고서에 적합하지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
+      text("흐름에 맞지 않는 문단을 드래그하여 선택하세요.", width - 610, 77);
       text("드래그 박스 안에 문단이 '정확히' 포함되어야 합니다.", width - 610, 102);
 
       if (sentenceObjs.length === 0) { 
@@ -1076,7 +1079,7 @@ function draw() {
       fill(0);
       textSize(20);
       textAlign(LEFT, TOP);
-      text("보고서에 적합하지 않는 부분을 드래그하여 선택하세요.", width - 610, 77);
+      text("흐름에 맞지 않는 문단을 드래그하여 선택하세요.", width - 610, 77);
       text("드래그 박스 안에 문단이 '정확히' 포함되어야 합니다.", width - 610, 102);
 
       if (!dragInitialized) {
@@ -1455,14 +1458,14 @@ function mouseClicked() {
 
   if ([1, 2, 3, 4, 5, 13].includes(stage)) {
     if (isWaiting && !finishText) {
-      part++;
+      part ++;
       linePart = 0;
       letterCount = 0;
       isWaiting = false;
       lastTime = millis();
     }
     else if (finishText && stage !== 5) {
-      stage++;
+      stage ++;
       resetTyping();
     }
   }
