@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 30;
+let stage = 24;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -44,6 +44,7 @@ let dragStartX, dragStartY, dragEndX, dragEndY;
 let resultMessage = "";
 let lineHeight = 25;
 let dragInitialized = false;
+let isLocked = false; //입력 불가 함수
 
 // 업무 3 관련 변수
 let morseCorrect = false;
@@ -1597,6 +1598,7 @@ function checkButton(x, y, w, h) {
 }
 
 function mousePressed() {
+  if (isLocked) return; //데이터 정리 업무 입력 조정 함수
   if (stage === 8) {
     doctaskDay1.mousePressed();
   }
@@ -1658,10 +1660,11 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
+  if (isLocked) return; // 🔐 성공 후 클릭 막기
   if (stage === 8){
     doctaskDay1.mouseReleased();
   }
-    // 드래그 쓰는 스테이지
+
   if (stage === 10 || stage === 28) {
     dragEndX = mouseX;
     dragEndY = mouseY;
@@ -1703,10 +1706,12 @@ function mouseReleased() {
     if (allCorrect) {
       fill(0, 100, 255);
       resultMessage = "성공입니다.";
+      isLocked = true; // 🔒 입력 잠금
       setTimeout(() => {
         stage ++;
         resultMessage = "";
         sentenceObjs = [];  // 필요하면 리셋
+        isLocked = false; // 🔓 다시 입력 가능
       }, 1500);
     } else {
       fill(255, 50, 50);
