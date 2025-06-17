@@ -1420,7 +1420,7 @@ function updateCursor() {
   }
 
   // 3. 텍스트 다 나오고 클릭 대기 중
-  if ([1, 2, 3, 4].includes(stage) && isWaiting) {
+  if ([1, 2, 3, 4, 13].includes(stage) && isWaiting) {
   isHand = true;
   }
 
