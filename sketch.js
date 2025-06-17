@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 30;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -300,6 +300,9 @@ function draw() {
       fill(255,0,0);
       textSize(20);
       text('공포 요소가 있어요. 심약자 분들은 주의해 주세요!', width / 2, height / 2 + 90);
+      fill(255,100);
+      textSize(18);
+      text('※ 전체 화면으로 플레이 하는 것을 권장합니다 ※', width / 2, height - 70);
       
       //엔딩 보고 처음으로 돌아오면 start 초기화
       endingAStarted = false;
