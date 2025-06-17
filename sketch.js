@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 600;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -694,6 +694,18 @@ function draw() {
         morseCorrect = false;
         resultMessage = "";
       }
+      if (isResetTriggered && millis() - resetTriggeredTime > 1500) {
+      stage = 500;
+      isResetTriggered = false;
+      resultMessage = "";
+    }
+    // "도재인"일 때: 엔딩 D // 임시 코드 + 꼭 바꾸세요!!
+    if(anotherResetTriggered && millis()- resetTriggeredTime > 1500){
+      stage = 600;
+      anotherResetTriggere = false;
+      resultMessage ="";
+    }
+
 
       break;
       
@@ -885,6 +897,18 @@ function draw() {
         resultMessage = ""
         codeInitialized = false;
       }
+      if (isResetTriggered && millis() - resetTriggeredTime > 1500) {
+      stage = 500;
+      isResetTriggered = false;
+      resultMessage = "";
+    }
+    // "도재인"일 때: 엔딩 D // 임시 코드 + 꼭 바꾸세요!!
+    if(anotherResetTriggered && millis()- resetTriggeredTime > 1500){
+      stage = 600;
+      anotherResetTriggere = false;
+      resultMessage ="";
+    }
+
       
       // 틀릴 때 이미지
       if (showImage) {
@@ -1881,13 +1905,13 @@ function checkMorseAnswer() {
     resultMessage = "성공입니다.";
     morseCorrect = true;
     morseCheckTime = millis();  
-  } else if (stage === 30 && codeCheck === "/456827") {
+  } else if ((stage === 12 || stage ===21 || stage === 30 )&& codeCheck === "/456827") {
     resultMessage = "시스템 초기화 중 ...";
     isResetTriggered = true;
     resetTriggeredTime = millis();
     morseCorrect = false;
     codeInput.value(''); 
-  } else if (stage === 30 && codeCheck === "도재인") { 
+  } else if ((stage === 12 || stage ===21 || stage === 30 ) && codeCheck === "도재인") { 
     resultMessage = "매뉴얼 무효화 시스템 가동 중 ...";
     anotherResetTriggered = true;
     resetTriggeredTime = millis();
