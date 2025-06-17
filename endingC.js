@@ -81,7 +81,7 @@ class EndingC {
       textSize(36);
       textAlign(CENTER, CENTER);
       textFont("Courier New");
-      text("#End C: Fusion Ending", width / 2, height / 2);
+      text("#End B: Fusion Ending", width / 2, height / 2);
      
       if (this.endingShownTime === null) {
         this.endingShownTime = millis();

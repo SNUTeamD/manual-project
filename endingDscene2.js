@@ -83,7 +83,7 @@ class EndingD2 {
       textSize(36);
       textAlign(CENTER, CENTER);
       textFont("Courier New");
-      text("#End D: New MANUAL Ending", width / 2, height / 2);
+      text("#End C: New MANUAL Ending", width / 2, height / 2);
 
       if (this.endingShownTime === null) {
         this.endingShownTime = millis();
