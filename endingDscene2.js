@@ -74,7 +74,8 @@ class EndingD2 {
     this.JainNormImg = loadImage('assets/도재인(생기있음).png');
     this.JainGlitImg = loadImage('assets/도재인(생기없음).png');
     this.myFont = loadFont('assets/DungGeunMo.ttf');
-    this.saveBg = loadImage('assets/구원 뒷 배경.png')
+    this.saveBg = loadImage('assets/구원 뒷 배경.png');
+    this.janeMonster = loadImage('assets/도재인 괴인.png');
   }
 
   start() {
@@ -110,7 +111,7 @@ class EndingD2 {
 
     let scale = 0.5; // 이미지 80% 크기로 줄이기
     imageMode(CENTER);
-    if (this.currentTextIndex === 17 ||(this.currentTextIndex >= 24 && this.currentTextIndex<=25)){
+    if (this.currentTextIndex >= 24 && this.currentTextIndex<=25){
         let imgW = this.endingD1Bg.width * scale;
         let imgH = this.endingD1Bg.height * scale;
         image(this.endingD1Bg, width / 2, height / 2, imgW, imgH);
@@ -275,7 +276,16 @@ class EndingD2 {
       const y = height;
       imageMode(CENTER);  
       image(this.JainGlitImg, x, y, w, h);
-    } else if (this.currentTextIndex === 22) {
+    }else if( this.currentTextIndex ===17){
+      imageMode(CORNER);
+      const w = 550;
+      const h = this.JainGlitImg.height * (w / this.JainGlitImg.width);
+      const x = 20;
+      const y = height - height / 4 - h + 200;
+       
+      image(this.JainGlitImg, x, y, w, h);
+    }
+     else if (this.currentTextIndex === 22) {
   // 글리치 시작 시점 저장
   if (this.glitchStartTime === null) {
     this.glitchStartTime = millis();
@@ -286,14 +296,14 @@ class EndingD2 {
 
   imageMode(CORNER);
   const w = 550;
-  const h = this.JainGlitImg.height * (w / this.JainGlitImg.width);
+  const h = this.janeMonster.height * (w / this.janeMonster.width);
   const x = 20;
   const y = height - height / 4 - h + 200;
 
   if (elapsed < this.glitchDuration) {
     // 3초 동안만 글리치 효과
     tint(255, random(50, 150)); // 깜박이는 효과
-    image(this.JainGlitImg, x, y, w, h);
+    image(this.janeMonster, x, y, w, h);
     noTint();
 
     for (let i = 0; i < 3; i++) {
@@ -305,7 +315,7 @@ class EndingD2 {
       else tintColor = [255, 255, 255];         // 흰색
 
       tint(...tintColor, 160); // 반투명 컬러 채널
-      image(this.JainGlitImg, x + offsetX, y + offsetY, w, h);
+      image(this.janeMonster, x + offsetX, y + offsetY, w, h);
     }
     noTint();
   } else {
