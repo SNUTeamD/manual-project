@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 9;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -313,7 +313,7 @@ function draw() {
       if (!beforeDay1bgm.isPlaying()) {
                 stopAllbgm();
                 beforeDay1bgm.loop(); // 자동 반복
-                beforeDay1bgm.setVolume(0.3);
+                beforeDay1bgm.setVolume(0.7);
       }
 
       // 회사 배경과 함께 도입 문구 출력
@@ -468,7 +468,7 @@ function draw() {
       if (!day1bgm.isPlaying()) {
                 stopAllbgm();
                 day1bgm.loop(); // 자동 반복
-                day1bgm.setVolume(0.2);
+                day1bgm.setVolume(0.7);
       }
 
       // 업무 리스트
@@ -497,6 +497,12 @@ function draw() {
 
     
     case 9: // 바탕화면 2
+      // bgm
+      if (!day1bgm.isPlaying()) {
+                stopAllbgm();
+                day1bgm.loop(); // 자동 반복
+                day1bgm.setVolume(0.7);
+      }
       // 업무 리스트
       fill(150, 150, 255);
       rect(width - 450, 50, 400, 200);
@@ -748,7 +754,7 @@ function draw() {
       if (!day2bgm.isPlaying()) {
                 stopAllbgm();
                 day2bgm.loop(); // 자동 반복
-                day2bgm.setVolume(0.2);
+                day2bgm.setVolume(0.7);
       }
 
       fill(150, 150, 255);
