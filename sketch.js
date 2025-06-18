@@ -36,6 +36,7 @@ let doctaskDay1;
 let doctaskDay2;
 let doctaskDay3;
 let folderIcon, folderDoc;
+let insertSound;
 
 // 업무 2 관련 변수
 let sentenceObjs = [];
@@ -494,6 +495,7 @@ function draw() {
       // 다음 업무 미리 로드
       doctaskDay1 = new Day1Task1();
       doctaskDay1.start();
+      doctaskDay1.preload();
       break;
     
     case 8:

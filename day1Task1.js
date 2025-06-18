@@ -21,6 +21,9 @@ class Day1Task1 {
     this.mistakeMade = false; // 실수 여부
   }
 
+  preload(){
+    insertSound = loadSound('audio/파일 넣는 소리.mp3');
+  }
   start() {
     this.isInitialized = false;
     this.missionEnded = false;
@@ -112,7 +115,12 @@ class Day1Task1 {
           } else {
             doc.removed = true;
             this.mistakeMade = false;  // ✔ 실수 상태 초기화
+            // ✔ 효과음 재생
+            if (insertSound && !insertSound.isPlaying()) {
+            insertSound.play();
+            }
           }
+          
         }
       }
     }
