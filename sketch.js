@@ -10,18 +10,69 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 9;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
-// 텍스트 타자 효과 관련 변수
-let part = 0;
-let linePart = 0;
-let letterCount = 0;
-let lastTime = 0;
-let typingSpeed = 100;
-let waitTime = 1500;
-let isWaiting = false;
-let finishText = false;
+// // 텍스트 타자 효과 관련 변수
+// let part = 0;
+// let linePart = 0;
+// let letterCount = 0;
+// let lastTime = 0;
+// let typingSpeed = 100;
+// let waitTime = 1500;
+// let isWaiting = false;
+// let finishText = false;
+//마우스 클릭 변수
+//let startTime =0;
+let stageClear = -1; // stage가 바뀌었는지 확인하는 변수
+let currentTextIndex = 0;
+let fullText = "";
+let displayedText = "";
+let charIndex = 0;
+let lastUpdateTime = 0;
+let delay = 85;
+let isTyping = false;
+let clickReady = false;
+let texts = null;
+let case1texts = [
+  { speaker: "PLAYER", text: "드디어 오늘이 왔다!" },
+  { speaker: "PLAYER", text: "오늘부터 나는 이 제약회사에서 인간의 감염병을 치료하는 백신을 중점적으로 연구하는 프로젝트에 참여하게 되었다." },
+  { speaker: "PLAYER", text: "신입이니까 초반 며칠은 자잘한 서류 처리 작업을 맡겠지만, 프로젝트를 진행하다보면 중대한 업무도 맡게 될 거라 믿는다." },
+  { speaker: "PLAYER", text: "질병의 치료라는 중대한 사명을 가지고 있는 만큼 '절대로 매뉴얼을 따라야 한다’는 선배의 말을 반드시 명심해야겠다." },
+  { speaker: "PLAYER", text: "후 ... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을 거다. 할 수 있다!!" },
+];
+
+let case2texts = [
+  // { speaker: "PLAYER", text: playerName + " 씨 맞으신가요?" },
+  { speaker: "김철수", text: "저는 연구 부서의 김철수 연구원이라고 합니다." },
+  { speaker: "김철수", text: "해야 할 업무를 설명해 드리겠습니다." },
+  { speaker: "김철수", text: "이전에 안내드린 바와 같이, 업무는 간단합니다." },
+  { speaker: "김철수", text: "컴퓨터 화면에 그날 해야 할 업무 리스트가 제시되어 있을 겁니다." },
+  { speaker: "김철수", text: "순서대로 업무를 수행해주시면 됩니다." },
+];
+
+let case3texts = [
+  { speaker: "김철수", text: "따라주셔야 할 매뉴얼을 드리겠습니다." },
+  { speaker: "김철수", text: "매뉴얼을 따르지 않아 발생하는 문제는 회사에서 책임지지 않으므로, 업무를 수행하면서 이를 반드시 지켜주시기 바랍니다." }
+  // // { speaker: "김철수", text: "업무 전, 매뉴얼을 숙지해야 하니 한 번 매뉴얼을 읽어보세요." },
+  // { speaker: "김철수", text: "매뉴얼을 다 읽고 난 다음, 매뉴얼을 닫으시면 바로 업무를 시작할 수 있을 겁니다." },
+];
+let case4texts = [
+  { speaker: "김철수", text: ".. 반드시 매뉴얼을 따라주셔야 합니다." }];
+let case5texts = [
+  { speaker: "김철수", text: "업무를 시작하기 전에, 매뉴얼을 읽어보세요." },
+  { speaker: "김철수", text: "매뉴얼을 다 읽고 난 다음, 매뉴얼을 닫으시면 바로 업무를 시작할 수 있을 겁니다." },
+  { speaker: "김철수", text: "이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울 수 있습니다." },
+  { speaker: "김철수", text: "매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다." },
+]; 
+let case13texts = [
+  { speaker: "PLAYER", text: "휴 ... 오늘은 힘든 하루였어 ..." },
+  { speaker: "PLAYER", text: "고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?" },
+  { speaker: "PLAYER", text: "아냐 .. 그래도 어떻게 입사했는데 ... 열심히 일 해야지 ...." },
+  { speaker: "PLAYER", text: "내일 하루도 힘내보자! 어떻게든 되겠지~" }
+];
+
+
 
 let showManual = false; // 매뉴얼 보여줄지 여부
 
@@ -265,7 +316,6 @@ function draw() {
   textSize(35);
   textAlign(CENTER, CENTER);
 
-
   // 입력창 보여줄 stage 설정
   if (stage === 0) {
     nameInput.show();
@@ -325,17 +375,25 @@ function draw() {
       noStroke();
       fill(120);
       rect(0, height - height / 4, width, height / 4);
-
+      
       fill(0);
       textSize(30);
-      typeText([
-        [" 드디어 오늘이 왔다! "],
-      //  ["오늘부터 나는 이 제약회사에서 인간의 감염병을 치료하는", "백신을 중점적으로 연구하는 프로젝트에 참여하게 되었다."], 
-      //  ["신입이니까 초반 며칠은 자잘한 서류 처리 작업을 맡겠지만,", "프로젝트를 진행하다보면 중대한 업무도 맡게 될 거라 믿는다."], 
-      //  ["질병의 치료라는 중대한 사명을 가지고 있는 만큼","'절대로 매뉴얼을 따라야 한다’는 선배의 말을 반드시 명심해야겠다."], 
-      //  ["후 ... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을거다. 할 수 있다!!"],
-      ]);
-  
+      // typeText([
+      //   [" 드디어 오늘이 왔다! "],
+      // //  ["오늘부터 나는 이 제약회사에서 인간의 감염병을 치료하는", "백신을 중점적으로 연구하는 프로젝트에 참여하게 되었다."], 
+      // //  ["신입이니까 초반 며칠은 자잘한 서류 처리 작업을 맡겠지만,", "프로젝트를 진행하다보면 중대한 업무도 맡게 될 거라 믿는다."], 
+      // //  ["질병의 치료라는 중대한 사명을 가지고 있는 만큼","'절대로 매뉴얼을 따라야 한다’는 선배의 말을 반드시 명심해야겠다."], 
+      // //  ["후 ... 부담감과 기대감에 떨려오지만, 잘 적응해낼 수 있을거다. 할 수 있다!!"],
+      // ]);
+      texts = case1texts; 
+      if (stageClear !== stage) {
+        resetTextState();
+        loadNextText();
+        stageClear = stage;
+      }
+      drawTextbox();
+      drawTyping();
+
       break;
 
     case 2:
@@ -358,15 +416,22 @@ function draw() {
     
       fill(0);
       textSize(30);
-      typeText([
-        [playerName + " 씨 맞으신가요?"],
-      //  ["저는 연구 부서의 김철수 연구원이라고 합니다."],
-      //  ["해야 할 업무를 설명해 드리겠습니다."],
-      //  ["이전에 안내드린 바와 같이, 업무는 간단합니다."],
-      //  ["컴퓨터 화면에 그날 해야 할 업무 리스트가 제시되어 있을 겁니다."],
-      //  ["순서대로 업무를 수행해주시면 됩니다."],
-      ]);
-
+      // typeText([
+      //   [playerName + " 씨 맞으신가요?"],
+      // //  ["저는 연구 부서의 김철수 연구원이라고 합니다."],
+      // //  ["해야 할 업무를 설명해 드리겠습니다."],
+      // //  ["이전에 안내드린 바와 같이, 업무는 간단합니다."],
+      // //  ["컴퓨터 화면에 그날 해야 할 업무 리스트가 제시되어 있을 겁니다."],
+      // //  ["순서대로 업무를 수행해주시면 됩니다."],
+      // ]);
+      texts = case2texts;
+      if (stageClear !== stage) {
+        resetTextState();
+        loadNextText();
+        stageClear = stage;
+      }
+      drawTextbox();
+      drawTyping();
       break;
 
     case 3:
@@ -377,29 +442,36 @@ function draw() {
       }
       manualPic();
 
-      // 화면 아래 회색 박스
-      fill(120);
-      rect(0, height - height / 4, width, height / 4);
+      // // 화면 아래 회색 박스
+      // fill(120);
+      // rect(0, height - height / 4, width, height / 4);
 
-      // 연구원 이름 표시 박스
-      fill(60, 215);
-      rectMode(CENTER);
-      noStroke();
-      rect(width / 20 + 235, height - 195, 200, 50, 10);
-      rectMode(CORNER);
-      fill(255);
-      textSize(30);
-      text("김철수", width / 20 + 235, height - 200);
+      // // 연구원 이름 표시 박스
+      // fill(60, 215);
+      // rectMode(CENTER);
+      // noStroke();
+      // rect(width / 20 + 235, height - 195, 200, 50, 10);
+      // rectMode(CORNER);
+      // fill(255);
+      // textSize(30);
+      // text("김철수", width / 20 + 235, height - 200);
     
       fill(0);
       textSize(30);
-      typeText([
-        ["따라주셔야 할 매뉴얼을 드리겠습니다."],
-      //  ["매뉴얼을 따르지 않아 발생하는 문제는 회사에서 책임지지 않으므로,", "업무를 수행하면서 이를 반드시 지켜주시기 바랍니다."],
-      //  ["업무 전, 매뉴얼을 숙지해야 하니 한 번 매뉴얼을 읽어보세요."],
-      //  ["매뉴얼을 다 읽고 난 다음, 매뉴얼을 닫으시면 바로 업무를 시작할 수 있을 겁니다."]
-      ]);
-
+      // typeText([
+      //   ["따라주셔야 할 매뉴얼을 드리겠습니다."],
+      // //  ["매뉴얼을 따르지 않아 발생하는 문제는 회사에서 책임지지 않으므로,", "업무를 수행하면서 이를 반드시 지켜주시기 바랍니다."],
+      // //  ["업무 전, 매뉴얼을 숙지해야 하니 한 번 매뉴얼을 읽어보세요."],
+      // //  ["매뉴얼을 다 읽고 난 다음, 매뉴얼을 닫으시면 바로 업무를 시작할 수 있을 겁니다."]
+      // ]);
+      texts = case3texts;
+      if (stageClear !== stage) {
+        resetTextState();
+        loadNextText();
+        stageClear = stage;
+      }
+      drawTextbox();
+      drawTyping();
       break;
 
     case 4:
@@ -407,25 +479,32 @@ function draw() {
       manualPic();
 
       // 화면 아래 회색 박스
-      fill(120);
-      rect(0, height - height / 4, width, height / 4);
+      // fill(120);
+      // rect(0, height - height / 4, width, height / 4);
 
-      // 연구원 이름 표시 박스
-      fill(60, 215);
-      rectMode(CENTER);
-      noStroke();
-      rect(width / 20 + 235, height - 195, 200, 50, 10);
-      rectMode(CORNER);
-      fill(255);
-      textSize(30);
-      text("김철수", width / 20 + 235, height - 200);
+      // // 연구원 이름 표시 박스
+      // fill(60, 215);
+      // rectMode(CENTER);
+      // noStroke();
+      // rect(width / 20 + 235, height - 195, 200, 50, 10);
+      // rectMode(CORNER);
+      // fill(255);
+      // textSize(30);
+      // text("김철수", width / 20 + 235, height - 200);
 
       fill(255, 0, 0);
       textSize(30);
-      typeText([
-        [".. 반드시 매뉴얼을 따라주셔야 합니다."],
-      ]);
-
+      // typeText([
+      //   [".. 반드시 매뉴얼을 따라주셔야 합니다."],
+      // ]);
+      texts = case4texts;
+      if (stageClear !== stage) {
+        resetTextState();
+        loadNextText();
+        stageClear = stage;
+      }
+      drawTextbox();
+      drawTyping();
       break;
 
     case 5:
@@ -436,20 +515,29 @@ function draw() {
 
       fill(55);
       textSize(30);
-      typeText([
-        ["이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울 수 있습니다."],
-        ["매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다."]
-      ]);
-
+      // typeText([
+      //   ["이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울 수 있습니다."],
+      //   ["매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다."]
+      // ]);
       if (showManual !== lastShowManual) {
         mToggleCount++;
         lastShowManual = showManual;
       }
-
-      if (finishText && mToggleCount >= 2) {
-        stage ++;
-        resetTyping();
+      texts = case5texts;
+      if (stageClear !== stage) {
+        resetTextState();
+        loadNextText();
+        stageClear = stage;
       }
+      drawTextbox();
+      drawTyping();
+
+      
+
+      // if (currentTextIndex >=   texts.length && mToggleCount >= 2) {
+      //   stage ++;
+      //   resetTyping();
+      // }
 
       break;
 
@@ -460,7 +548,6 @@ function draw() {
       text("Day 1", width / 2, height / 2 - 50);
       textSize(30);
       text("Click to continue ···", width / 2, height / 2 + 50);
-
       break;
 
     case 7: // 바탕화면 1
@@ -717,7 +804,7 @@ function draw() {
       
     case 13: // Day 1 마무리 파트
       codeInput.value(''); // 모스부호 입력창 초기화
-      finishText = false;
+      //finishText = false;
       let deskW = 1000;
       let deskH = myDesk.height * (deskW / myDesk.width);
       image(myDesk, (width - deskW) / 2, 0, deskW, deskH);
@@ -729,12 +816,15 @@ function draw() {
 
       fill(0);
       textSize(30);
-      typeText([
-        ["휴 ... 오늘은 힘든 하루였어 ..."],
-        ["고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?"],
-        ["아냐 .. 그래도 어떻게 입사했는데 ... 열심히 일 해야지 ...."],
-        ["내일 하루도 힘내보자! 어떻게든 되겠지~"]
-      ]);
+      // typeText([
+      //   ["휴 ... 오늘은 힘든 하루였어 ..."],
+      //   ["고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?"],
+      //   ["아냐 .. 그래도 어떻게 입사했는데 ... 열심히 일 해야지 ...."],
+      //   ["내일 하루도 힘내보자! 어떻게든 되겠지~"]
+      // ]);
+      texts = case13texts;
+      drawTextbox();
+      drawTyping();
       
       break;
       
@@ -1424,17 +1514,18 @@ function updateCursor() {
       isHand = true;
     }
   }
+//   //isWaiting->isWaitingClick로 변경
+//   // 3. 텍스트 다 나오고 클릭 대기 중
+//   if ([1, 2, 3, 4, 13].includes(stage) && clickReady) {
+//   isHand = true;
+//   }
 
-  // 3. 텍스트 다 나오고 클릭 대기 중
-  if ([1, 2, 3, 4, 13].includes(stage) && isWaiting) {
-  isHand = true;
-  }
-
-  if (stage === 5) {
-    if (isWaiting && part === 0) {
-      isHand = true;
-    }
-  }
+// //isWaiting->isWaitingClick로 변경
+//   if (stage === 5) {
+//     if (isWaiting && part === 0) {
+//       isHand = true;
+//     }
+//   }
 
   // 4. Day 전환 화면
   if ([6, 14, 23].includes(stage)) {
@@ -1459,23 +1550,22 @@ function mouseClicked() {
     }
   }
 
-  if ([1, 2, 3, 4, 5, 13].includes(stage)) {
-    if (isWaiting && !finishText) {
-      part++;
-      linePart = 0;
-      letterCount = 0;
-      isWaiting = false;
-      lastTime = millis();
-    }
-    else if (finishText && stage !== 5) {
-      stage++;
-      resetTyping();
-    }
-  }
+  // if ([1, 2, 3, 4, 5, 13].includes(stage)) {
+  //   if (isWaiting && !finishText) {
+  //     part++;
+  //     linePart = 0;
+  //     letterCount = 0;
+  //     isWaiting = false;
+  //     lastTime = millis();
+  //   }
+  //   else if (finishText && stage !== 5) {
+  //     stage++;
+  //     resetTyping();
+  //   }
+  // }
+  
 
-  if (stage === 6 || stage === 14) {
-    stage ++;
-  }
+  
 // stage 23에서 stage 24를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
 // 2번 눌러야 다음으로 진행됩니다
   if (stage === 23) {
@@ -1594,6 +1684,20 @@ function checkButton(x, y, w, h) {
 }
 
 function mousePressed() {
+  if (stage === 1 || stage === 2 || stage === 3 ||  stage === 4 || stage === 5|| stage === 13) {
+    if (isTyping) {
+      displayedText = fullText;
+      charIndex = fullText.length;
+      isTyping = false;
+      clickReady = true;
+    } else if (clickReady) {
+      currentTextIndex++;
+      loadNextText();
+    }
+  }
+  if (stage === 6 || stage === 14) {   
+    stage ++;
+  }
   if (stage === 8) {
     doctaskDay1.mousePressed();
   }
@@ -1720,62 +1824,105 @@ function mouseReleased() {
   }
 }
 
-// 텍스트 타자 효과 함수
-function typeText(texts) {
+//텍스트 타자 효과 함수
+// function typeText(texts) {
 
-  let lines = texts[part];
+//   let lines = texts[part];
 
-  let boxTop = height - height / 4;
-  let lineHeight = 45;
-  let totalTextHeight = lines.length * lineHeight;
-  let startY = boxTop + (height / 4 - totalTextHeight) / 2 + 15;
+//   let boxTop = height - height / 4;
+//   let lineHeight = 45;
+//   let totalTextHeight = lines.length * lineHeight;
+//   let startY = boxTop + (height / 4 - totalTextHeight) / 2 + 15;
 
-  // 줄별 출력: 이전 줄은 전체, 현재 줄은 일부, 다음 줄은 빈 문자열
-  for (let i = 0; i < lines.length; i ++) {
-    let txtToShow;
-    if (i < linePart) {
-      txtToShow = lines[i];  // 이미 타자 완료한 줄
-    } else if (i === linePart) {
-      txtToShow = lines[i].substring(0, letterCount);  // 타자 진행 중인 줄
-    } else {
-      txtToShow = "";  // 아직 타자 시작 안 한 줄
-    }
-    text(txtToShow, width / 2, startY + i * lineHeight);
-  }
+//   // 줄별 출력: 이전 줄은 전체, 현재 줄은 일부, 다음 줄은 빈 문자열
+//   for (let i = 0; i < lines.length; i ++) {
+//     let txtToShow;
+//     if (i < linePart) {
+//       txtToShow = lines[i];  // 이미 타자 완료한 줄
+//     } else if (i === linePart) {
+//       txtToShow = lines[i].substring(0, letterCount);  // 타자 진행 중인 줄
+//     } else {
+//       txtToShow = "";  // 아직 타자 시작 안 한 줄
+//     }
+//     text(txtToShow, width / 2, startY + i * lineHeight);
+//   }
 
-  if (!isWaiting && millis() - lastTime > typingSpeed) {
-    if (letterCount < lines[linePart].length) {
-      letterCount ++;
-      lastTime = millis();
-    } else {
-      // 현재 줄 타자 끝 → 다음 줄로
-      linePart ++;
-      letterCount = 0;
-      lastTime = millis();
+//   if (!isWaiting && millis() - lastTime > typingSpeed) {
+//     if (letterCount < lines[linePart].length) {
+//       letterCount ++;
+//       lastTime = millis();
+//     } else {
+//       // 현재 줄 타자 끝 → 다음 줄로
+//       linePart ++;
+//       letterCount = 0;
+//       lastTime = millis();
 
-      if (linePart >= lines.length) {
-        // 모든 줄 타자 끝 → 대기 시작
-        isWaiting = true;
-      }
-    }
-  }
+//       if (linePart >= lines.length) {
+//         // 모든 줄 타자 끝 → 대기 시작
+//         isWaiting = true;
+//       }
+//     }
+//   }
 
-  if (isWaiting) {
-    if (part >= texts.length - 1) {
-      finishText = true;
-    }
-  }
-}
+//   if (isWaiting) {
+//     if (part >= texts.length - 1) {
+//       finishText = true;
+//     }
+//   }
+// }
+// function typeText(texts) {
+//   if (!texts[part]) return;
+//   let lines = texts[part];
 
-// 텍스트 타자 효과 초기화 함수
-function resetTyping() {
-  part = 0;
-  linePart = 0;
-  letterCount = 0;
-  isWaiting = false;
-  finishText = false;
-  lastTime = millis();
-}
+//   let boxTop = height - height / 4;
+//   let lineHeight = 45;
+//   let totalTextHeight = lines.length * lineHeight;
+//   let startY = boxTop + (height / 4 - totalTextHeight) / 2 + 15;
+
+//   for (let i = 0; i < lines.length; i++) {
+//     let txtToShow;
+//     if (i < linePart) {
+//       txtToShow = lines[i];
+//     } else if (i === linePart) {
+//       txtToShow = lines[i].substring(0, letterCount);
+//     } else {
+//       txtToShow = "";
+//     }
+//     text(txtToShow, width / 2, startY + i * lineHeight);
+//   }
+
+//   if (isTyping && millis() - lastTime > typingSpeed) {
+//     if (letterCount < lines[linePart].length) {
+//       letterCount++;
+//       lastTime = millis();
+//     } else {
+//       linePart++;
+//       letterCount = 0;
+//       lastTime = millis();
+
+//       if (linePart >= lines.length) {
+//         isTyping = false;
+//         isWaitingClick = true;
+//       }
+//     }
+//   }
+
+//   if (!isTyping && isWaitingClick && part >= texts.length - 1) {
+//     finishText = true;
+//   }
+// }
+
+
+
+// // 텍스트 타자 효과 초기화 함수
+// function resetTyping() {
+//   part = 0;
+//   linePart = 0;
+//   letterCount = 0;
+//   isWaiting = false;
+//   finishText = false;
+//   lastTime = millis();
+// }
 
 // 연구원 이미지 비율 유지하면서 표시하는 함수
 function drawResearcher() {
@@ -1959,4 +2106,92 @@ function stopAllbgm() {
   endingCbgm.stop();
   endingDbgm.stop();
   manualbgm.stop();
+}
+
+
+function drawTextbox() {
+    let boxW = width * 0.9;
+    let boxH = 160;
+    let boxX = width / 2 - boxW / 2;
+    let boxY = height - boxH - 50;
+
+    noStroke();
+    fill(120);
+    rect(0, height - height / 4, width, height / 4);
+
+    let speaker = texts[currentTextIndex]?.speaker;
+
+    if (speaker === "김철수") {
+      noStroke();
+      fill(60);
+      rectMode(CENTER);
+      rect(boxX + 230, boxY + 15, 200, 50, 10);
+      rectMode(CORNER);
+      fill(255);
+      textSize(30);
+      textAlign(CENTER, CENTER);
+      text("김철수", boxX + 230, boxY + 10);
+    }
+
+    fill(0);
+    textSize(30);
+    text(displayedText, width / 2, 7 / 8 * height);
+  }
+
+
+function drawTyping() {
+    if (  isTyping &&   charIndex <   fullText.length) {
+      if (millis() -   lastUpdateTime >   delay) {
+          displayedText +=   fullText.charAt(  charIndex);
+          charIndex++;
+          lastUpdateTime = millis();
+      }
+    } else {
+        isTyping = false;
+        clickReady = true;
+    }
+  }
+
+
+function loadNextText() {
+    if (currentTextIndex >= texts.length) {
+    if (stage === 5) {
+      if (mToggleCount >= 2) {
+        fullText = "";
+        displayedText = "";
+        clickReady = false;
+        stage++;
+        stageClear = -1;
+        resetTextState();
+      }
+      // ❗ 조건 미충족이면 그냥 대기 (return만)
+      return;
+    }
+
+    // 일반 스테이지는 바로 진행
+    fullText = "";
+    displayedText = "";
+    clickReady = false;
+    stage++;
+    resetTextState();
+    return;
+    }
+
+    let obj =texts[currentTextIndex];
+      fullText = obj.text;
+      displayedText = "";
+      charIndex = 0;
+      lastUpdateTime = millis();
+      isTyping = true;
+      clickReady = false;
+  }
+
+function resetTextState() {
+  currentTextIndex = 0;
+  fullText = "";
+  displayedText = "";
+  charIndex = 0;
+  lastUpdateTime = 0;
+  isTyping = false;
+  clickReady = false;
 }
