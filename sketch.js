@@ -146,6 +146,8 @@ function preload() {
   manualbgm = loadSound('audio/매뉴얼 브금.mp3');
   successEffect = loadSound('audio/성공 효과음.mp3');
   failEffect = loadSound('audio/실패 효과음.mp3');
+  resetEffect =loadSound('audio/초기화 효과음.mp3');
+  janeEffect =loadSound('audio/도재인 엔딩 효과음.mp3');
   
   // 엔딩 객체 불러오기
   // 엔딩 A
@@ -1947,12 +1949,18 @@ function checkMorseAnswer() {
     resetTriggeredTime = millis();
     morseCorrect = false;
     codeInput.value(''); 
+    if (resetEffect && !resetEffect.isPlaying()) {
+      resetEffect.play();
+    }
   } else if ((stage === 12 || stage ===21 || stage === 30 ) && codeCheck === "도재인") { 
     resultMessage = "매뉴얼 무효화 시스템 가동 중 ...";
     anotherResetTriggered = true;
     resetTriggeredTime = millis();
     morseCorrect = false;
     codeInput.value(''); 
+    if (janeEffect && !janeEffect.isPlaying()) {
+      janeEffect.play();
+    }
   } else {
     resultMessage = "실패입니다. 다시 시도하세요.";
     morseCorrect = false;
