@@ -44,6 +44,7 @@ let dragStartX, dragStartY, dragEndX, dragEndY;
 let resultMessage = "";
 let lineHeight = 25;
 let dragInitialized = false;
+let isLocked = false; //입력 불가 함수
 
 // 업무 3 관련 변수
 let morseCorrect = false;
@@ -300,6 +301,9 @@ function draw() {
       fill(255,0,0);
       textSize(20);
       text('공포 요소가 있어요. 심약자 분들은 주의해 주세요!', width / 2, height / 2 + 90);
+      fill(255,100);
+      textSize(18);
+      text('※ 전체 화면으로 플레이 하는 것을 권장합니다 ※', width / 2, height - 70);
       
       //엔딩 보고 처음으로 돌아오면 start 초기화
       endingAStarted = false;
@@ -669,7 +673,7 @@ function draw() {
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
       fill(255);
-      text("-ㆍ- / ㆍㆍ / ㆍ-ㆍㆍ", width / 2, height * 0.15); // 제약->약으로 바꿈
+      text("-·- / ·· / ·-··", width / 2, height * 0.15); // 제약->약으로 바꿈
 
       let btnX11 = width / 2 + 210;
       let btnY11 = height - 81;
@@ -879,7 +883,7 @@ function draw() {
       fill(255);
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      text("--ㆍ/ --ㆍ-/ -ㆍ-/ --/ ㆍㆍㆍ/ -ㆍ-" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
+      text("--· / --·- / -·- / -- / ··· / -·-" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
 
       let btnX20 = width / 2 + 210;
       let btnY20 = height - 81;
@@ -1223,8 +1227,8 @@ function draw() {
       fill(255);
       textSize(windowWidth * 0.03);
       text("모스부호를 해독해서 적절한 글을 입력하시오", width / 2, height * 0.06 - 15);
-      text("--ㆍ/ ㆍ/ ㆍㆍㆍ-/ ㆍㆍㆍ-/ ㆍㆍㆍ/ ㆍ--ㆍ/ ㆍㆍㆍㆍ/ -" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답: 살려줘
-
+      text("--· / · / ···- / ···- / ··· / ·--· / ···· / -" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답: 살려줘
+      // ·­
       let btnX28 = width / 2 + 210;
       let btnY28 = height - 81;
       let btnW28 = 80;
@@ -1597,6 +1601,7 @@ function checkButton(x, y, w, h) {
 }
 
 function mousePressed() {
+  if (isLocked) return; //데이터 정리 업무 입력 조정 함수
   if (stage === 8) {
     doctaskDay1.mousePressed();
   }
@@ -1658,10 +1663,11 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
+  if (isLocked) return; // 🔐 성공 후 클릭 막기
   if (stage === 8){
     doctaskDay1.mouseReleased();
   }
-    // 드래그 쓰는 스테이지
+
   if (stage === 10 || stage === 28) {
     dragEndX = mouseX;
     dragEndY = mouseY;
@@ -1703,10 +1709,12 @@ function mouseReleased() {
     if (allCorrect) {
       fill(0, 100, 255);
       resultMessage = "성공입니다.";
+      isLocked = true; // 🔒 입력 잠금
       setTimeout(() => {
         stage ++;
         resultMessage = "";
         sentenceObjs = [];  // 필요하면 리셋
+        isLocked = false; // 🔓 다시 입력 가능
       }, 1500);
     } else {
       fill(255, 50, 50);
