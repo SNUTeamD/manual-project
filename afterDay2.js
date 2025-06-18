@@ -138,22 +138,22 @@ if (this.currentTextIndex === 5 && !this.chulSuMonsterShown && !this.showChulSuM
       noStroke();
       rectMode(CENTER);
 
-      rect(boxX + 235, boxY + 15, 200, 50, 10);
+      rect(boxX + 235, boxY + 5, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("김철수", boxX + 235, boxY + 10);
+      text("김철수", boxX + 235, boxY);
     }else if (speaker ==="???") {
       fill(60, 215);
       noStroke();
       rectMode(CENTER);
-      rect(boxX + 235, boxY + 15, 200, 50, 10);
+      rect(boxX + 235, boxY + 5, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("???", boxX + 235, boxY + 10); 
+      text("???", boxX + 235, boxY); 
     }
     fill(0);
     textAlign(CENTER, CENTER);

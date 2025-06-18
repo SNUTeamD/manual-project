@@ -140,22 +140,22 @@ class AfterDay1 {
       fill(60, 215);
       noStroke();
       rectMode(CENTER);
-      rect(boxX + 215, boxY + 15, 200, 50, 10);
+      rect(boxX + 215, boxY + 5, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("도재인", boxX + 215, boxY + 10);
+      text("도재인", boxX + 215, boxY);
     }else if (speaker ==="???") {
       fill(60, 215);
       noStroke();
       rectMode(CENTER);
-      rect(boxX + 215, boxY + 15, 200, 50, 10);
+      rect(boxX + 215, boxY + 5, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("???", boxX + 215, boxY + 10); 
+      text("???", boxX + 215, boxY); 
     }
     fill(0);
     textAlign(CENTER, CENTER);

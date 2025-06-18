@@ -333,6 +333,7 @@ function draw() {
       let companyX = width / 2 - companyW / 2;
       let companyY = 0;
       image(imgCompany, companyX, companyY, companyW, companyH);
+
       
       // 화면 아래 회색 박스
       noStroke();
@@ -363,11 +364,11 @@ function draw() {
       fill(60, 215);
       rectMode(CENTER);
       noStroke();
-      rect(width / 20 + 235, height - 195, 200, 50, 10);
+      rect(width / 20 + 235, height - 205, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
-      text("김철수", width / 20 + 235, height - 200);
+      text("김철수", width / 20 + 235, height - 210);
     
       fill(0);
       textSize(30);
@@ -398,11 +399,11 @@ function draw() {
       fill(60, 215);
       rectMode(CENTER);
       noStroke();
-      rect(width / 20 + 235, height - 195, 200, 50, 10);
+      rect(width / 20 + 235, height - 205, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
-      text("김철수", width / 20 + 235, height - 200);
+      text("김철수", width / 20 + 235, height - 210);
     
       fill(0);
       textSize(30);
@@ -427,11 +428,11 @@ function draw() {
       fill(60, 215);
       rectMode(CENTER);
       noStroke();
-      rect(width / 20 + 235, height - 195, 200, 50, 10);
+      rect(width / 20 + 235, height - 205, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
-      text("김철수", width / 20 + 235, height - 200);
+      text("김철수", width / 20 + 235, height - 210);
 
       fill(255, 0, 0);
       textSize(30);
@@ -1836,19 +1837,19 @@ function drawResearcher() {
 
 // 매뉴얼 주는 장면 배경 표시 함수
 function manualPic() {
-  let manualPicW = 1000;
-  let manualPicH = thisIsManual.height * (manualPicW / thisIsManual.width);
+  let manualPicH = height * 0.85;  // 높이를 기준으로
+  let manualPicW = thisIsManual.width * (manualPicH / thisIsManual.height);  // 비율에 맞는 너비 계산
   image(thisIsManual, (width - manualPicW) / 2, 0, manualPicW, manualPicH);
 }
 
 // 매뉴얼 띄우는 함수
 function drawManual() {
   if (!showManual) return;
-  manualPicH = height * 0.8;
-  manualPicW = manualPicH * (imgManual.width / imgManual.height);
-  manualX = width / 2 - manualPicW / 2;
+  manualH = height * 0.8;
+  manualW = manualH * (imgManual.width / imgManual.height);
+  manualX = width / 2 - manualW / 2;
   manualY = height * 0.05;
-  image(imgManual, manualX, manualY, manualPicW, manualPicH);
+  image(imgManual, manualX, manualY, manualW, manualH);
 }
 
 function keyPressed() {

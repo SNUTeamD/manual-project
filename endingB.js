@@ -270,12 +270,12 @@ class EndingB {
       noStroke();
       fill(60, 215);
       rectMode(CENTER);
-      rect(boxX + 230, boxY + 15, 200, 50, 10);
+      rect(boxX + 230, boxY + 5, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("김철수", boxX + 230, boxY + 10);
+      text("김철수", boxX + 230, boxY);
     }
     fill(0);
     textSize(30);
