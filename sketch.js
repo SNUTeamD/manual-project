@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 7;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -284,6 +284,7 @@ function draw() {
 
   switch (stage) {
     case 0:
+      stopAllbgm();
       // 초기 화면: 이름 입력창 + 확인 버튼
       fill(255);
       textSize(120);
