@@ -1512,12 +1512,10 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 6 ) {
-    stage ++;
-  }
+
 // stage 23에서 stage 24를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
 // 2번 눌러야 다음으로 진행됩니다
-  if (stage === 14 || stage === 23) {
+  if (stage === 6|| stage === 14 || stage === 23) {
   if (stageHandled < 1) {
     stageHandled++
   } else if(stageHandled == 1){
