@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 9;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -317,7 +317,7 @@ function draw() {
       }
 
       // 회사 배경과 함께 도입 문구 출력
-      let companyW = 1200;
+      let companyW = 1250;
       let companyH = imgCompany.height * (companyW / imgCompany.width);
       image(imgCompany, (width - companyW) / 2, 0, companyW, companyH);
 
