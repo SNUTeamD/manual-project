@@ -148,6 +148,7 @@ function preload() {
   failEffect = loadSound('audio/실패 효과음.mp3');
   resetEffect =loadSound('audio/초기화 효과음.mp3');
   janeEffect =loadSound('audio/도재인 엔딩 효과음.mp3');
+  wrongDataEffect = loadSound('audio/백색소음 브금.mp3');
   
   // 엔딩 객체 불러오기
   // 엔딩 A
@@ -827,6 +828,11 @@ function draw() {
       break;
 
     case 18:
+      if (!wrongDataEffect.isPlaying()) {
+                stopAllbgm();
+                wrongDataEffect.play();
+      }
+
         if (startTime === 0) {
           startTime = millis();
           console.log("Stage 18 시작 시간 기록:", startTime);
@@ -849,6 +855,11 @@ function draw() {
         break;
     
     case 19:
+      if (!day2bgm.isPlaying()) {
+                stopAllbgm();
+                day2bgm.loop(); // 자동 반복
+                day2bgm.setVolume(0.7);
+      }
       if (!afterDay1Started) {
         afterDay1.start();
         afterDay1Started = true;
@@ -1036,7 +1047,11 @@ function draw() {
 
     case 27:
 
-    stopAllbgm()
+    if (!wrongDataEffect.isPlaying()) {
+                stopAllbgm();
+                wrongDataEffect.play();
+      }
+
 
       if (draw.prevStage !== 27) {
         // stage가 다시 27로 돌아왔을 때 초기화됨
@@ -1304,6 +1319,10 @@ function draw() {
       break;
 
     case 300: // 엔딩 A
+    if (!wrongDataEffect.isPlaying()) {
+                stopAllbgm();
+                wrongDataEffect.play();
+      }
       codeInput.value(''); // 모스부호 입력창 초기화
       
       if (!endingAStarted) {
@@ -1999,4 +2018,5 @@ function stopAllbgm() {
   endingCbgm.stop();
   endingDbgm.stop();
   manualbgm.stop();
+  wrongDataEffect.stop();
 }
