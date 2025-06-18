@@ -1,14 +1,15 @@
 class ErrorWindow {
-constructor(img, relX, relY, relW, text) {
-    this.img = img;
-    this.relX = relX;
-    this.relY = relY;
-    this.relW = relW;
-    this.text = text; // 저장
-    this.alpha = 0;         // ✨ 초기 투명도
-    this.fadeSpeed = 30;    // ✨ 한 프레임당 증가량
-    this.resize();
-  }
+constructor(img, relX, relY, relW, text, highlightChars = []) {
+  this.img = img;
+  this.relX = relX;
+  this.relY = relY;
+  this.relW = relW;
+  this.text = text;
+  this.highlightChars = highlightChars;  // 🔴 강조할 문자들
+  this.alpha = 0;
+  this.fadeSpeed = 30;
+  this.resize();
+}
 
   resize() {
     this.w = width * this.relW;
@@ -57,23 +58,26 @@ for (let i = 0; i < lines.length; i++) {
   let line = lines[i];
   if (line.length === 0) continue;
 
-  let lastChar = line.charAt(line.length - 1);
-  let before = line.slice(0, -1);
-  let fullLine = before + lastChar;
-
-  let lineWidth = textWidth(fullLine);
-  let startX = centerX - lineWidth / 2;
+  let centerX = this.x + this.w / 2;
   let yOffset = i * this.w * 0.06;
+  let startX = centerX - textWidth(line) / 2;
+  let x = startX;
 
-  // 검정: 앞부분
-  fill(0, this.alpha);
-  text(before, startX, centerY + yOffset);
+  for (let j = 0; j < line.length; j++) {
+    let ch = line[j];
+    let w = textWidth(ch);
 
-  // 빨강: 마지막 글자
-  let beforeWidth = textWidth(before);
-  fill(255, 0, 0, this.alpha);
-  text(lastChar, startX + beforeWidth, centerY + yOffset);
+    // 🔴 강조할 문자일 경우 빨간색
+    if (this.highlightChars.includes(ch)) {
+      fill(255, 0, 0, this.alpha);
+    } else {
+      fill(0, this.alpha);
+    }
+
+    text(ch, x, centerY + yOffset);
+    x += w;
   }
+}
   pop();
 
 

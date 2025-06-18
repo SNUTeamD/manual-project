@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 27;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -1059,32 +1059,62 @@ function draw() {
         draw.errorIndex = 0;
         draw.lastErrorTime = millis();
         draw.interval = 200;
-        draw.errorTexts = [ 
-          "7. 얼른./도./망-/가.",
-          "6. [알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다]-",
-          "5. 이제 어느 곳도 안전하지 않아-/이걸본사람이있다면제발./[알수없는 오류입니다][알수없는 오류입니다]-",
-          "4. 여기에는 인간이 아닌 누군가가 느껴져-/[system error]-/표시하는데 오류가 발생했습니다./표시하는데 오류가 발생했습니다.",
-          "3. 컴퓨터에서 Event Log를 시작하지 못했습니다./오류 확인을 위해 자세히보기를 눌러주세요-/오류ehdhkwnj-/지침서를 유심히 봐주세요.",
-          "2. 업무가 정상적으로 처리되지 않았습니다./컴퓨터를 종료하지 마세요-",
-          "1. :( PC에 문제가 발생하여 다시 시작해야 합니다-/일부 오류 정보를 수집하고 있습니다./그런 다음 자동으로 다시 시작합니다./ 현재 15% 완료."
+        draw.errorData = [
+  {
+    text: "7. 도망칠수있는방법은없어",
+  },
+  {
+    text: "6. ※주의※ 에러발생![알수없는 오류입니다]./[알수없는 오류입니다][알수없는 오류입니다].",
+    highlights: ["에"]
+  },
+  {
+    text: "5. 이제 어느 곳도 안전하지 않아/이걸본사람이있다면제발/모스부호는거짓말이야/[알수없는 오류입니다]",
+    highlights: ["모","스","부","호"]
+  },
+  {
+    text: "4. 여기에는 인간이 아닌 누군가가 느껴져/[system error]/표시하는데 오류가 발생했습니다/표시하는데 오류가 발생했습니다",
+        highlights: ["인"]
+  },  
+    {
+    text: "3. 컴퓨터에서 Event Log도 시작하지 못했습니다/오류 확인을 위해 자세히보기를 눌러주세요/재시작ehdhkwnj/지침서를 유심히 봐주세요",
+        highlights: ["도", "재"]
+  },
+    {
+    text: "2. 업무가 정상적으로 처리되지 않았습니다/컴퓨터를 종료하지 마세요",
+        highlights: ["하", "세","요"]
+  },  
+    {
+    text: "1. :( PC에 문제가 발생하여 다시 시작해야 합니다/오류 정보를 입력해주세요/그런 다음 자동으로 다시 시작합니다/ 현재 15% 완료",
+        highlights: ["입","력"]
+  },
         ];
         errors = []; // error 창도 초기화
         //-.../ .-/ .--./--.-/-.-/..-/..-.
       }
 
       // 에러창 생성
-      if (draw.errorIndex < draw.errorTexts.length && millis() - draw.lastErrorTime > draw.interval) {
-        let relW = 0.4;
-        let relH = relW * (imgError_2.height / imgError_2.width);
-        let relX = random(0, 1 - relW);
-        let relY = random(0, 1 - relH);
+      if (draw.errorIndex < draw.errorData.length && millis() - draw.lastErrorTime > draw.interval) {
+      let relW = 0.4;
+      let relH = relW * (imgError_2.height / imgError_2.width);
+      let step = 0.05;  // 한 단계당 이동 정도 (비율 단위)
+      let baseX = 0.1;
+      let baseY = 0.1;
 
-        let msg = draw.errorTexts[draw.errorIndex];
-        errors.push(new ErrorWindow(imgError_2, relX, relY, relW, msg));
+      let relX = baseX + draw.errorIndex * step;
+      let relY = baseY + draw.errorIndex * step;
 
-        draw.errorIndex++;
-        draw.lastErrorTime = millis();
+      // 화면 밖으로 나가지 않도록 보정
+      relX = constrain(relX, 0, 1 - relW);
+      relY = constrain(relY, 0, 1 - relH);
+
+
+      let entry = draw.errorData[draw.errorIndex];
+      errors.push(new ErrorWindow(imgError_2, relX, relY, relW, entry.text, entry.highlights));
+
+      draw.errorIndex++;
+      draw.lastErrorTime = millis();
       }
+
 
       for (let e of errors) {
         e.display();

@@ -69,12 +69,12 @@ class Error1 {
     let boxX = this.x + this.w * 0.05;
     let boxY = this.y + this.h * 0.2;
 
-    fill(elapsed > 10000 ? 'red' : 0);
+    fill(elapsed > 15000 ? 'red' : 0);
     textAlign(LEFT, TOP);
     textSize(fontSize);
     textLeading(fontSize * lineSpacing);
 
-    let displayText = (elapsed > 10000) ? this.textAfter30s : this.textBefore30s;
+    let displayText = (elapsed > 15000) ? this.textAfter30s : this.textBefore30s;
     text(displayText, boxX + 10, boxY + 10, boxWidth - 20, boxHeight - 20);
 
     pop();
