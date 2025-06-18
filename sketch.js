@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 27;
+let stage = 0;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -76,6 +76,7 @@ let errorDisplay =false; // 에러 창 보이게 하는 변수
 let error1Triggered = false;
 let error2Triggered = false;
 let error3Triggered = false;
+let errorSound;
 
 // 마지막 날 엔딩 A, C, D 전환 관련 변수
 let isResetTriggered = false;
@@ -149,6 +150,7 @@ function preload() {
   resetEffect =loadSound('audio/초기화 효과음.mp3');
   janeEffect =loadSound('audio/도재인 엔딩 효과음.mp3');
   wrongDataEffect = loadSound('audio/백색소음 브금.mp3');
+  errorSound = loadSound('audio/경고음.mp3');
   
   // 엔딩 객체 불러오기
   // 엔딩 A

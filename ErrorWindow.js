@@ -1,14 +1,25 @@
 class ErrorWindow {
-constructor(img, relX, relY, relW, text, highlightChars = []) {
-  this.img = img;
-  this.relX = relX;
-  this.relY = relY;
-  this.relW = relW;
-  this.text = text;
-  this.highlightChars = highlightChars;  // 🔴 강조할 문자들
-  this.alpha = 0;
-  this.fadeSpeed = 30;
-  this.resize();
+  constructor(img, relX, relY, relW, text, highlightChars = []) {
+    this.img = img;
+    this.relX = relX;
+    this.relY = relY;
+    this.relW = relW;
+    this.text = text;
+    this.highlightChars = highlightChars;
+    this.alpha = 0;
+    this.fadeSpeed = 30;
+    this.playedSound = false; // ✅ 사운드 재생 여부 체크
+    this.resize();
+    
+    this.playSoundOnce(); // ✅ 생성 시 사운드 재생
+  }
+
+playSoundOnce() {
+  if (!this.playedSound && errorSound && errorSound.isLoaded()) {
+    errorSound.setVolume(1);  // 원하는 크기로 조절 
+    errorSound.play();
+    this.playedSound = true;
+  }
 }
 
   resize() {
@@ -32,6 +43,10 @@ constructor(img, relX, relY, relW, text, highlightChars = []) {
   }
 
   display() {
+
+    //효과음
+    this.playSoundOnce();
+
     // ✨ 페이드 인 효과
     if (this.alpha < 255) {
       this.alpha += this.fadeSpeed;
