@@ -322,10 +322,12 @@ function draw() {
       }
 
       // 회사 배경과 함께 도입 문구 출력
-      let companyW = 1200;
-      let companyH = imgCompany.height * (companyW / imgCompany.width);
-      image(imgCompany, (width - companyW) / 2, 0, companyW, companyH);
-
+      let companyH = height * 0.75;
+      let companyW = companyH * (imgCompany.width / imgCompany.height);
+      let companyX = width / 2 - companyW / 2;
+      let companyY = 0;
+      image(imgCompany, companyX, companyY, companyW, companyH);
+      
       // 화면 아래 회색 박스
       noStroke();
       fill(120);
