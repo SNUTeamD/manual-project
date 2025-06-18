@@ -10,7 +10,7 @@ let activeSatIcon, inactiveSatIcon;
 let beforeDay1bgm, day1bgm, day2bgm, day3bgm, endingBbgm, endingCbgm, endingDbgm, manualbgm;
 
 // 시작 스테이지 설정
-let stage = 0;
+let stage = 7;
 let returnStage = null; // 이전 스테이지로 돌아갈 때 사용
 
 // 텍스트 타자 효과 관련 변수
@@ -136,14 +136,16 @@ function preload() {
   imgError_4 = loadImage('assets/에러창-예.png');
 
   // bgm 불러오기
-  beforeDay1bgm = loadSound('audio/업무시작전브금.mp3')
-  day1bgm = loadSound('audio/1일차 브금.mp3')
-  day2bgm = loadSound('audio/2일차브금_믹스다운.mp3')
-  day3bgm = loadSound('audio/3일차브금_믹스다운.mp3')
-  endingBbgm = loadSound('audio/엔딩B사무실.mp3')
-  endingCbgm = loadSound('audio/엔딩c브금_믹스다운.mp3')
-  endingDbgm = loadSound('audio/엔딩D.mp3')
-  manualbgm = loadSound('audio/매뉴얼 브금.mp3')
+  beforeDay1bgm = loadSound('audio/업무시작전브금.mp3');
+  day1bgm = loadSound('audio/1일차 브금.mp3');
+  day2bgm = loadSound('audio/2일차브금_믹스다운.mp3');
+  day3bgm = loadSound('audio/3일차브금_믹스다운.mp3');
+  endingBbgm = loadSound('audio/엔딩B사무실.mp3');
+  endingCbgm = loadSound('audio/엔딩c브금_믹스다운.mp3');
+  endingDbgm = loadSound('audio/엔딩D.mp3');
+  manualbgm = loadSound('audio/매뉴얼 브금.mp3');
+  successEffect = loadSound('audio/성공 효과음.mp3');
+  failEffect = loadSound('audio/실패 효과음.mp3');
   
   // 엔딩 객체 불러오기
   // 엔딩 A
@@ -1718,6 +1720,9 @@ function mouseReleased() {
       fill(0, 100, 255);
       resultMessage = "성공입니다.";
       isLocked = true; // 🔒 입력 잠금
+       if (successEffect && !successEffect.isPlaying()) {
+      successEffect.play();
+    }
       setTimeout(() => {
         stage ++;
         resultMessage = "";
@@ -1727,6 +1732,8 @@ function mouseReleased() {
     } else {
       fill(255, 50, 50);
       resultMessage = "실패입니다. 다시 시도하세요.";
+      if (failEffect && !failEffect.isPlaying()) {
+      failEffect.play();}
       //틀린 횟수 세기
       wrongAction();
     }
@@ -1929,7 +1936,10 @@ function checkMorseAnswer() {
   ) {
     resultMessage = "성공입니다.";
     morseCorrect = true;
-    morseCheckTime = millis();  
+    morseCheckTime = millis(); 
+    if (successEffect && !successEffect.isPlaying()) {
+      successEffect.play();
+    }
   } else if ((stage === 12 || stage ===21 || stage === 30 )&& codeCheck === "/456827") {
     resultMessage = "시스템 초기화 중 ...";
     isResetTriggered = true;
@@ -1946,6 +1956,8 @@ function checkMorseAnswer() {
     resultMessage = "실패입니다. 다시 시도하세요.";
     morseCorrect = false;
     morseCheckTime = 0;
+    if (failEffect && !failEffect.isPlaying()) {
+      failEffect.play();}
     wrongAction();
   }
 }
