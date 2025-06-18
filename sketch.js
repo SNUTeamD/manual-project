@@ -65,12 +65,7 @@ let case5texts = [
   { speaker: "김철수", text: "매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다." },
 ]; 
 let lastTextIndex = case5texts.length - 1;
-let case13texts = [
-  { speaker: "PLAYER", text: "휴 ... 오늘은 힘든 하루였어 ..." },
-  { speaker: "PLAYER", text: "고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?" },
-  { speaker: "PLAYER", text: "아냐 .. 그래도 어떻게 입사했는데 ... 열심히 일 해야지 ...." },
-  { speaker: "PLAYER", text: "내일 하루도 힘내보자! 어떻게든 되겠지~" }
-];
+let case13texts;
 
 let showManual = false; // 매뉴얼 보여줄지 여부
 
@@ -837,6 +832,12 @@ function draw() {
       break;
       
     case 13: // Day 1 마무리 파트
+    case13texts= [
+  { speaker: "PLAYER", text: "휴 ... 오늘은 힘든 하루였어 ..." },
+  { speaker: "PLAYER", text: "고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?" },
+  { speaker: "PLAYER", text: "아냐 .. 그래도 어떻게 입사했는데 ... 열심히 일 해야지 ...." },
+  { speaker: "PLAYER", text: "내일 하루도 힘내보자! 어떻게든 되겠지~" }
+];
       codeInput.value(''); // 모스부호 입력창 초기화
       //finishText = false;
       let deskW = 1000;
