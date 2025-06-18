@@ -22,7 +22,7 @@ class Day1Task1 {
   }
 
   preload(){
-    insertSound = loadSound('audio/파일 넣는 소리.mp3');
+    insertSound = loadSound('audio/파일 넣는 소리 수정.mp3');
   }
   start() {
     this.isInitialized = false;
@@ -109,7 +109,6 @@ class Day1Task1 {
       for (let f of this.folders) {
         if (f.contains(doc)) {
           doc.inBasket = f.name;
-
           if (!this.isCorrect(doc)) {
             this.mistakeMade = true; // 실수 여부 설정
           } else {

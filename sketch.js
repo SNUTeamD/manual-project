@@ -793,6 +793,7 @@ function draw() {
 
       doctaskDay2 = new Day2Task1(); 
       doctaskDay2.start();
+      doctaskDay2.preload();
       break;
 
     case 16:
@@ -1000,6 +1001,7 @@ function draw() {
 
       doctaskDay3 = new Day3Task1(); 
       doctaskDay3.start();
+      doctaskDay3.preload();
 
       break;
     
@@ -1456,6 +1458,7 @@ function updateCursor() {
 }
 
 function mouseClicked() {
+  console.log(stage);
   if (stage === 0) {
     // 확인 버튼 클릭 시 다음 stage로
     if (
@@ -1484,12 +1487,12 @@ function mouseClicked() {
     }
   }
 
-  if (stage === 6 || stage === 14) {
+  if (stage === 6 ) {
     stage ++;
   }
 // stage 23에서 stage 24를 mousePressed와 mouseClicked가 중복 적용되어서 빨리 넘어가는 바람에 쓰는 제한 코드
 // 2번 눌러야 다음으로 진행됩니다
-  if (stage === 23) {
+  if (stage === 14 || stage === 23) {
   if (stageHandled < 1) {
     stageHandled++
   } else if(stageHandled == 1){
@@ -1605,6 +1608,7 @@ function checkButton(x, y, w, h) {
 }
 
 function mousePressed() {
+  console.log("mousePressed"+stage);
   if (isLocked) return; //데이터 정리 업무 입력 조정 함수
   if (stage === 8) {
     doctaskDay1.mousePressed();
@@ -1950,7 +1954,7 @@ function wrongAction() {
   wrongCount ++;
   console.log(wrongCount);
 
-  if (wrongCount === 3) {
+  if (wrongCount === 2) {
     showImage = true;
     imageStartTime = millis();
     wrongCount =0;
