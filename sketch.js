@@ -343,9 +343,6 @@ function draw() {
 
   switch (stage) {
     case 0:
-      console.log(error1Triggered);
-      console.log(error2Triggered);
-      console.log(error3Triggered);
       error1Triggered = false;
       error2Triggered = false;
       error3Triggered = false;
@@ -746,7 +743,6 @@ function draw() {
       error1Triggered = false; // 다른 스테이지에서 다시 초기화
     }
 
-console.log(error1Triggered);
       break;
 
     case 11: // 바탕화면 3
@@ -949,7 +945,6 @@ if (resultMessage !== "") {
 
         if (startTime === 0) {
           startTime = millis();
-          console.log("Stage 18 시작 시간 기록:", startTime);
         }
 
         let elapsed = millis() - startTime;
@@ -964,7 +959,6 @@ if (resultMessage !== "") {
         if (elapsed > 2000) {
           stage++;
           startTime = 0; // 다음 스테이지에서 새 타이머 시작
-          console.log("5초 경과. 다음 스테이지로:", stage);
         }
         break;
     
@@ -1641,7 +1635,6 @@ function updateCursor() {
 }
 
 function mouseClicked() {
-  console.log(stage);
   if (stage === 0) {
     // 확인 버튼 클릭 시 다음 stage로
     if (
@@ -1800,7 +1793,6 @@ function mousePressed() {
       loadNextText();
     }
   }
-  console.log("mousePressed"+stage);
   if (isLocked) return; //데이터 정리 업무 입력 조정 함수
   if (stage === 8) {
     doctaskDay1.mousePressed();
@@ -2167,7 +2159,6 @@ function checkMorseAnswer() {
 
 function wrongAction() {
   wrongCount ++;
-  console.log(wrongCount);
 
   if (wrongCount === 2) {
     showImage = true;
@@ -2250,11 +2241,9 @@ function drawTyping() {
 
 
 function loadNextText() {
-   console.log("📘 loadNextText 호출됨 | currentTextIndex:", currentTextIndex, "/", texts.length);
     if (currentTextIndex >= texts.length) {
     if (stage === 5) {
       if (mToggleCount >= 1) {
-        console.log("✅ 다음 스테이지로 이동");
         fullText = "";
         displayedText = "";
         clickReady = false;
