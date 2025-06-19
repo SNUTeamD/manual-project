@@ -1042,6 +1042,10 @@ if (resultMessage !== "") {
         } else {
           fill(255, 50, 50);  // 그 외 오답: 빨강
         }
+
+        rect(width / 2 - 260, height / 2, 520, 100);
+        fill(255);
+        text(resultMessage, width / 2, height / 2 + 48);
       }
 
       if (morseCorrect && millis() - morseCheckTime > 1500) {
