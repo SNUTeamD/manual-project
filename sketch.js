@@ -63,7 +63,7 @@ let case3texts = [
   let case5texts = [
   { speaker: "김철수", text: "업무를 시작하기 전에, 매뉴얼을 읽어보세요." },
   { speaker: "SYSTEM", text: "이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울 수 있습니다." },
-  { speaker: "SYSTEM", text: "매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다.[m]키" },
+  { speaker: "SYSTEM", text: "매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다.\n[m]키" },
 ]; 
 
 let lastTextIndex = case5texts.length - 1;
@@ -801,12 +801,15 @@ console.log(error1Triggered);
       textSize(30);
       text("확인", width / 2 + 250, height - 72);
 
-      // 정답 여부 판단 후 결과 메시지 띄우기
-      if (resultMessage !== "") {
+if (resultMessage !== "") {
         if (morseCorrect) {
-          fill(0, 100, 255);
+          fill(0, 100, 255);  // 정답: 파랑
+        } else if (isResetTriggered) {
+          fill(60, 215);      // 초기화 코드: 회색
+        } else if (anotherResetTriggered) {
+          fill(0, 215);            // ✅ 도재인 입력 시: 검정
         } else {
-          fill(255, 50, 50);
+          fill(255, 50, 50);  // 그 외 오답: 빨강
         }
 
         rect(width / 2 - 250, height / 2, 500, 100);
@@ -1030,10 +1033,15 @@ console.log(error1Triggered);
       text("확인", width / 2 + 250, height - 72);
 
       if (resultMessage !== "") {
-        fill(morseCorrect ? color(0, 100, 255) : color(255, 50, 50));
-        rect(width / 2 - 250, height / 2, 500, 100);
-        fill(255);
-        text(resultMessage, width / 2, height / 2 + 48);
+        if (morseCorrect) {
+          fill(0, 100, 255);  // 정답: 파랑
+        } else if (isResetTriggered) {
+          fill(60, 215);      // 초기화 코드: 회색
+        } else if (anotherResetTriggered) {
+          fill(0, 215);            // ✅ 도재인 입력 시: 검정
+        } else {
+          fill(255, 50, 50);  // 그 외 오답: 빨강
+        }
       }
 
       if (morseCorrect && millis() - morseCheckTime > 1500) {
@@ -1050,7 +1058,7 @@ console.log(error1Triggered);
     // "도재인"일 때: 엔딩 D // 임시 코드 + 꼭 바꾸세요!!
     if(anotherResetTriggered && millis()- resetTriggeredTime > 1500){
       stage = 600;
-      anotherResetTriggere = false;
+      anotherResetTriggered = false;
       resultMessage ="";
     }
 
@@ -1459,7 +1467,7 @@ console.log(error1Triggered);
     // "도재인"일 때: 엔딩 D // 임시 코드 + 꼭 바꾸세요!!
     if(anotherResetTriggered && millis()- resetTriggeredTime > 1500){
       stage = 600;
-      anotherResetTriggere = false;
+      anotherResetTriggered = false;
       resultMessage ="";
     }
 
