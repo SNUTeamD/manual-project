@@ -343,6 +343,12 @@ function draw() {
 
   switch (stage) {
     case 0:
+      console.log(error1Triggered);
+      console.log(error2Triggered);
+      console.log(error3Triggered);
+      error1Triggered = false;
+      error2Triggered = false;
+      error3Triggered = false;
       stopAllbgm();
       // 초기 화면: 이름 입력창 + 확인 버튼
       fill(255);
@@ -740,7 +746,7 @@ function draw() {
       error1Triggered = false; // 다른 스테이지에서 다시 초기화
     }
 
-
+console.log(error1Triggered);
       break;
 
     case 11: // 바탕화면 3
