@@ -19,7 +19,7 @@ class AfterDay1 {
   { speaker: "도재인", text: "제가 작업해야 하는 보고서인데, 실수로 이쪽으로 넘겨졌나 봐요." },
   { speaker: "도재인", text: "오늘은 데이터 처리를 안 하셔도 됩니다."},
   { speaker: "도재인", text: "좋은 하루 되세요." },
-  { speaker: "PLAYER", text: "갑자기 나타나더니 일을 뺏어갔다." },
+  { speaker: "PLAYER", text: "갑자기 나타나더니 내 일을 뺏어갔다." },
   { speaker: "PLAYER", text: "그만두고 싶다는 생각이 다시 들기 시작했다." },
   { speaker: "PLAYER", text: "뭐 그래도 해야할 일이 줄은 거니까 .. 좋은 건가?" }
 ];

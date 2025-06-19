@@ -56,15 +56,18 @@ let case3texts = [
   // // { speaker: "김철수", text: "업무 전, 매뉴얼을 숙지해야 하니 한 번 매뉴얼을 읽어보세요." },
   // { speaker: "김철수", text: "매뉴얼을 다 읽고 난 다음, 매뉴얼을 닫으시면 바로 업무를 시작할 수 있을 겁니다." },
 ];
-let case4texts = [
+
+ case4texts = [
   { speaker: "김철수", text: ".. 반드시 매뉴얼을 따라주셔야 합니다." }];
-let case5texts = [
+
+  let case5texts = [
   { speaker: "김철수", text: "업무를 시작하기 전에, 매뉴얼을 읽어보세요." },
-  { speaker: "김철수", text: "매뉴얼을 다 읽고 난 다음, 매뉴얼을 닫으시면 바로 업무를 시작할 수 있을 겁니다." },
-  { speaker: "김철수", text: "이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울 수 있습니다." },
-  { speaker: "김철수", text: "매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다." },
+  { speaker: "SYSTEM", text: "이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울 수 있습니다." },
+  { speaker: "SYSTEM", text: "매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다." },
 ]; 
+
 let lastTextIndex = case5texts.length - 1;
+
 let case13texts = [
   { speaker: "PLAYER", text: "휴 ... 오늘은 힘든 하루였어 ..." },
   { speaker: "PLAYER", text: "고연봉이라서 지원한 프로젝트인데 .. 그냥 그만둘까?" },
@@ -233,7 +236,7 @@ function setupInputs() {
   // 업무 3 모스부호 정답 입력창
   codeInput = createInput();
   codeInput.size(500, 60);
-  codeInput.position(width / 2 - 310, height - 80);
+  codeInput.position(width / 2 - 310, height - 100);
   styleInput(codeInput, '정답을 입력하세요', '30px', 'red');
   codeInput.mousePressed(() => {
   resultMessage = "";
@@ -269,7 +272,7 @@ function setup() {
       playerName = nameInput.value();
       stage = 1;
     }
-  }); // 이름 입력창에서 엔터칠때
+  }); // 이름 입력창에서 엔터 칠 때
 
   codeInput.elt.addEventListener("keydown", (e) => {
     if ((stage === 12 || stage === 21 || stage === 30) && e.key === "Enter") {
@@ -365,7 +368,7 @@ function draw() {
       textSize(18);
       text('※ 전체 화면으로 플레이 하는 것을 권장합니다 ※', width / 2, height - 70);
       
-      //엔딩 보고 처음으로 돌아오면 start 초기화
+      // 엔딩 보고 처음으로 돌아오면 start 초기화
       endingAStarted = false;
       endingCStarted = false;
       endingD1Started = false;
@@ -416,7 +419,7 @@ function draw() {
       // 연구원 등장, 이름 기반 환영 멘트
       drawResearcher();
       case2texts = [
-    { speaker: "PLAYER", text: playerName + " 씨 맞으신가요?" },
+    { speaker: "김철수", text: playerName + " 씨 맞으신가요?" },
     { speaker: "김철수", text: "저는 연구 부서의 김철수 연구원이라고 합니다." },
     { speaker: "김철수", text: "해야 할 업무를 설명해 드리겠습니다." },
     { speaker: "김철수", text: "이전에 안내드린 바와 같이, 업무는 간단합니다." },
@@ -427,16 +430,6 @@ function draw() {
       // 화면 아래 회색 박스
       fill(120);
       rect(0, height - height / 4, width, height / 4);
-
-      // 연구원 이름 표시 박스
-      fill(60, 215);
-      rectMode(CENTER);
-      noStroke();
-      rect(width / 20 + 235, height - 205, 200, 50, 10);
-      rectMode(CORNER);
-      fill(255);
-      textSize(30);
-      text("김철수", width / 20 + 235, height - 210);
     
       fill(0);
       textSize(30);
@@ -558,7 +551,7 @@ function draw() {
 
   // 매뉴얼 닫힌 횟수가 2 이상이면 다음 스테이지로 넘어감
   if (mToggleCount >= 1) {
-    stage++;
+    stage ++;
     resetTextState();
     loadNextText();
     mToggleCount=0
@@ -698,15 +691,15 @@ function draw() {
 
           sentenceObjs.push({
             text: line,
-            x: 70,
-            y: 50 + i * lineHeight,
+            x: 85,
+            y: 70 + i * lineHeight,
             isWrong: isWrong,
             state: "default"
           });
         }
       }
 
-      textSize(15);
+      textSize(20);
       textAlign(LEFT, TOP);
 
       for (let s of sentenceObjs) {
@@ -790,7 +783,7 @@ function draw() {
       text("-·- / ·· / ·-··", width / 2, height * 0.15); // 제약->약으로 바꿈
 
       let btnX11 = width / 2 + 210;
-      let btnY11 = height - 81;
+      let btnY11 = height - 101;
       let btnW11 = 80;
       let btnH11 = 62;
 
@@ -800,7 +793,7 @@ function draw() {
 
       fill(255);
       textSize(30);
-      text("확인", width / 2 + 250, height - 52);
+      text("확인", width / 2 + 250, height - 72);
 
       // 정답 여부 판단 후 결과 메시지 띄우기
       if (resultMessage !== "") {
@@ -1019,7 +1012,7 @@ function draw() {
       text("--· / --·- / -·- / -- / ··· / -·-" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 일단 지금은 '생명' 넣어두었습니다
 
       let btnX20 = width / 2 + 210;
-      let btnY20 = height - 81;
+      let btnY20 = height - 101;
       let btnW20 = 80;
       let btnH20 = 62;
 
@@ -1028,7 +1021,7 @@ function draw() {
 
       fill(255);
       textSize(30);
-      text("확인", width / 2 + 250, height - 52);
+      text("확인", width / 2 + 250, height - 72);
 
       if (resultMessage !== "") {
         fill(morseCorrect ? color(0, 100, 255) : color(255, 50, 50));
@@ -1270,7 +1263,7 @@ function draw() {
           "내부 기밀 보고서 제403-2",
           "작성일자: [2025-06.22]",
           "작성 부서: 조직행동 관찰국 - 인지추출실",
-          "보안 등급: 🔴 최상위",
+          "보안 등급: *** 최상위 ***",
           "",
           "1. 보고 목적",
           "본 보고서는 신입 직원 #A1127(이하 “대상”)의 일상적 업무 수행 반응을 통해 정서 자극 민감도,",
@@ -1280,9 +1273,9 @@ function draw() {
           "업무 관찰 코드명: 〈일상 과업 기반 적합성 판별 실험>",
           "대상의 3일 동안의 파일 분류, 데이터 정리, 부호 해석 업무를 관찰",
           "",
-          "※살고싶fdfㅏ다면2ㅏㅣ2자ㅣㅏ제발 이걸읽어※",
+          "※살고싶fdfㅏ다면2ㅏㅣ제발2Aㅏ@#sㅣ이걸rndwjs$읽어※",
           "그것들은 인간이 아니야. 퇴사를 하려고 시도한 사람은 다 실종됐다. 다행히 도망칠 수 있는-방법을 알아내 그 방법을 남긴다.",
-          "모스부호에 초기화코드'/456827'을 입력하면 문제를 고치는 동안 시선을 피할 수 있을 거다. 무사히 돌아갈 수 있기를... ",
+          "모스부호에 초기화코드'/456827'을 입력하면 문제를 고치는 동안 시선을 피할 수 있을 거다. 무사히 돌아갈 수 있기를 ... ",
           "",
           "3. 종합 분석",
           "“그만둘까?” 발언 3회 기록 → 감정 단백질 분해 시작, 무기력 에너지 추출 가능성 확인",
@@ -1301,7 +1294,7 @@ function draw() {
 
           sentenceObjs.push({
             text: line,
-            x: 80,
+            x: 85,
             y: 70 + i * lineHeight,
             isWrong: isWrong,
             state: "default"
@@ -1309,7 +1302,7 @@ function draw() {
         }
       }
 
-      textSize(15);
+      textSize(20);
       textAlign(LEFT, TOP);
 
       for (let s of sentenceObjs) {
@@ -1398,7 +1391,7 @@ function draw() {
       text("--· / · / ···- / ···- / ··· / ·--· / ···· / -" /* ← 원하는 모스부호 */, width / 2, height * 0.15); // 정답: 살려줘
       // ·­
       let btnX28 = width / 2 + 210;
-      let btnY28 = height - 81;
+      let btnY28 = height - 101;
       let btnW28 = 80;
       let btnH28 = 62;
 
@@ -1408,18 +1401,24 @@ function draw() {
 
       fill(255);
       textSize(30);
-      text("확인", width / 2 + 250, height - 52);
+      text("확인", width / 2 + 250, height - 72);
 
       if (resultMessage !== "") {
-        if(morseCorrect) {
-          fill(0, 100, 255);
-        } else if(isResetTriggered) {
-          fill(60, 215);
-        } else fill(255, 50, 50);
-        rect(width / 2 - 250, height / 2, 500, 100);
+        if (morseCorrect) {
+          fill(0, 100, 255);  // 정답: 파랑
+        } else if (isResetTriggered) {
+          fill(60, 215);      // 초기화 코드: 회색
+        } else if (anotherResetTriggered) {
+          fill(0, 215);            // ✅ 도재인 입력 시: 검정
+        } else {
+          fill(255, 50, 50);  // 그 외 오답: 빨강
+        }
+
+        rect(width / 2 - 260, height / 2, 520, 100);
         fill(255);
         text(resultMessage, width / 2, height / 2 + 48);
       }
+
       
       // 틀릴 때 이미지
       if (showImage) {
@@ -2120,7 +2119,7 @@ function checkMorseAnswer() {
     if (successEffect && !successEffect.isPlaying()) {
       successEffect.play();
     }
-  } else if ((stage === 12 || stage ===21 || stage === 30 )&& codeCheck === "/456827") {
+  } else if ((stage === 12 || stage === 21 || stage === 30) && codeCheck === "/456827") {
     resultMessage = "시스템 초기화 중 ...";
     isResetTriggered = true;
     resetTriggeredTime = millis();
@@ -2129,7 +2128,7 @@ function checkMorseAnswer() {
     if (resetEffect && !resetEffect.isPlaying()) {
       resetEffect.play();
     }
-  } else if ((stage === 12 || stage ===21 || stage === 30 ) && codeCheck === "도재인") { 
+  } else if ((stage === 12 || stage === 21 || stage === 30) && codeCheck === "도재인") { 
     resultMessage = "매뉴얼 무효화 시스템 가동 중 ...";
     anotherResetTriggered = true;
     resetTriggeredTime = millis();
@@ -2178,6 +2177,7 @@ function stopAllbgm() {
   manualbgm.stop();
   wrongDataEffect.stop();
 }
+
 function drawTextbox() {
     let boxW = width * 0.9;
     let boxH = 160;
@@ -2189,21 +2189,30 @@ function drawTextbox() {
     rect(0, height - height / 4, width, height / 4);
 
     let speaker = texts[currentTextIndex]?.speaker;
+    if (speaker === undefined) speaker = "SYSTEM";  // ✅ 기본값을 SYSTEM으로 처리!
 
     if (speaker === "김철수") {
       noStroke();
-      fill(60);
+      fill(60, 215);
       rectMode(CENTER);
-      rect(boxX + 230, boxY + 15, 200, 50, 10);
+      rect(boxX + 230, boxY + 5, 200, 50, 10);
       rectMode(CORNER);
       fill(255);
       textSize(30);
       textAlign(CENTER, CENTER);
-      text("김철수", boxX + 230, boxY + 10);
+      text("김철수", boxX + 230, boxY);
     }
 
-    fill(0);
     textSize(30);
+    // ✅ 텍스트 색상 조건
+    if (stage === 4) {
+      fill(255, 0, 0); // 빨강 (case 4 전체)
+    } else if (stage === 5 && (speaker === "SYSTEM" || speaker === "")) {
+      fill(60);        // 회색 (case 5에서 SYSTEM만)
+    } else {
+      fill(0);         // 기본 검정
+    }
+
     text(displayedText, width / 2, 7 / 8 * height);
   }
 
@@ -2241,7 +2250,7 @@ function loadNextText() {
     }
      // 실제 텍스트 넘김 처리
   if (currentTextIndex >= texts.length) {
-    stage++;
+    stage ++;
     resetTextState();
     return;
   }
