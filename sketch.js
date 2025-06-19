@@ -63,7 +63,7 @@ let case3texts = [
   let case5texts = [
   { speaker: "김철수", text: "업무를 시작하기 전에, 매뉴얼을 읽어보세요." },
   { speaker: "SYSTEM", text: "이제부터 [m]키를 눌러 매뉴얼북을 열거나 치울 수 있습니다." },
-  { speaker: "SYSTEM", text: "매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다." },
+  { speaker: "SYSTEM", text: "매뉴얼을 다 읽으신 후 매뉴얼을 닫으면 자동으로 업무가 시작됩니다.[m]키" },
 ]; 
 
 let lastTextIndex = case5texts.length - 1;
@@ -828,7 +828,7 @@ console.log(error1Triggered);
     // "도재인"일 때: 엔딩 D // 임시 코드 + 꼭 바꾸세요!!
     if(anotherResetTriggered && millis()- resetTriggeredTime > 1500){
       stage = 600;
-      anotherResetTriggere = false;
+      anotherResetTriggered = false;
       resultMessage ="";
     }
 
